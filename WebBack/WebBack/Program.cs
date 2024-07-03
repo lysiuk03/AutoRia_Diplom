@@ -1,15 +1,34 @@
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using WebBack.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+//string connectionString = builder.Configuration.GetConnectionString("ConnectionSqlite");
+
+
+//builder.Services.AddDbContext(connection);
+
+
+//builder.Services.AddDbContext<DataContext>(options=>
+//options.UseSqlite("postgresql://ep-yellow-dream-a26ddv09.eu-central-1.aws.neon.tech:5432/global"));
+
+
+builder.Services.AddAuthorization();
+//builder.Services.AddAuthorization().AddCookiePolicy(IdentityConstants.ApplicationScheme);
+
+
+
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
