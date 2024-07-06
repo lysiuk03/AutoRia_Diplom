@@ -6,7 +6,6 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
-
 .vite/
 .idea/
 package-lock.json
@@ -15,6 +14,7 @@ node_modules
 dist
 dist-ssr
 *.local
+*.env
 
 # Editor directories and files
 .vscode/*

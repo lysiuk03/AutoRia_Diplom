@@ -280,3 +280,12 @@ yarn-debug.log*
 yarn-error.log*
 
 package-lock.json
+
+# Development appsettings.json
+/Booking/appsettings.Development.json
+
+# Images data
+/WebPizza/Images/
+
+# Docker volumes
+/volumes/
