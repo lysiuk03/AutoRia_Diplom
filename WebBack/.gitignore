@@ -285,7 +285,7 @@ package-lock.json
 /Booking/appsettings.Development.json
 
 # Images data
-/WebPizza/Images/
+/WebBack/Images/
 
 # Docker volumes
 /volumes/
