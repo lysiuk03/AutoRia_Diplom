@@ -1,0 +1,16 @@
+# IDEs files
+/.vs/
+/.idea/
+
+# Build files
+/WebPizza/bin/
+/WebPizza/obj/ 
+
+# Development appsettings.json
+/WebPizza/appsettings.Development.json
+
+# API data
+/WebPizza/Images/
+
+# Docker volumes
+/volumes/
