@@ -24,7 +24,7 @@ namespace WebBack.Data.Entities
 
         //possible entity 
 
-        public bool Metallic { get; set; } = false!;
-        public bool AccidentParticipation { get; set; } = false!;
+        //public bool Metallic { get; set; } = false!;
+        //public bool AccidentParticipation { get; set; } = false!;
     }
 }
