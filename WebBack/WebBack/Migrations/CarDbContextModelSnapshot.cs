@@ -2,7 +2,6 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using WebBack.Data;
@@ -11,12 +10,10 @@ using WebBack.Data;
 
 namespace WebBack.Migrations
 {
-    [DbContext(typeof(PizzaDbContext))]
-    [Migration("20240702095005_Add identity")]
-    partial class Addidentity
+    [DbContext(typeof(CarDbContext))]
+    partial class CarDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -76,10 +73,12 @@ namespace WebBack.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("text");
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("text");
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("text");
@@ -100,10 +99,12 @@ namespace WebBack.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("text");
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("text");
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)");
 
                     b.Property<string>("Value")
                         .HasColumnType("text");
@@ -113,7 +114,7 @@ namespace WebBack.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("WebBack.Data.Entities.CategoryEntity", b =>
+            modelBuilder.Entity("WebBack.Data.Entities.CarEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -124,22 +125,35 @@ namespace WebBack.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("Image")
+                    b.Property<string>("Description")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)");
+                        .HasMaxLength(2000)
+                        .HasColumnType("character varying(2000)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
+
+                    b.Property<decimal>("Mileage")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)");
 
+                    b.Property<string>("Stage")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<string>("VIN")
+                        .IsRequired()
+                        .HasMaxLength(17)
+                        .HasColumnType("character varying(17)");
+
                     b.HasKey("Id");
 
-                    b.ToTable("tbl_categories");
+                    b.ToTable("tbl_cars");
                 });
 
             modelBuilder.Entity("WebBack.Data.Entities.Identity.RoleEntity", b =>
@@ -265,171 +279,6 @@ namespace WebBack.Migrations
                     b.ToTable("AspNetUserRoles", (string)null);
                 });
 
-            modelBuilder.Entity("WebBack.Data.Entities.IngredientEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Image")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("tbl_ingredients");
-                });
-
-            modelBuilder.Entity("WebBack.Data.Entities.PizzaEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)");
-
-                    b.Property<bool>("IsAvailable")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)");
-
-                    b.Property<double>("Rating")
-                        .HasColumnType("double precision");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
-
-                    b.ToTable("tbl_pizzas");
-                });
-
-            modelBuilder.Entity("WebBack.Data.Entities.PizzaIngredientEntity", b =>
-                {
-                    b.Property<int>("PizzaId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("IngredientId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("PizzaId", "IngredientId");
-
-                    b.HasIndex("IngredientId");
-
-                    b.ToTable("tbl_pizza_ingredients");
-                });
-
-            modelBuilder.Entity("WebBack.Data.Entities.PizzaPhotoEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("PizzaId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Priority")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PizzaId");
-
-                    b.ToTable("tbl_pizza_photos");
-                });
-
-            modelBuilder.Entity("WebBack.Data.Entities.PizzaSizeEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("tbl_sizes");
-                });
-
-            modelBuilder.Entity("WebBack.Data.Entities.PizzaSizePriceEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("DateCreated")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
-
-                    b.Property<int>("PizzaId")
-                        .HasColumnType("integer");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("SizeId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PizzaId");
-
-                    b.HasIndex("SizeId");
-
-                    b.ToTable("tbl_pizza_sizes");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.HasOne("WebBack.Data.Entities.Identity.RoleEntity", null)
@@ -485,71 +334,6 @@ namespace WebBack.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("WebBack.Data.Entities.PizzaEntity", b =>
-                {
-                    b.HasOne("WebBack.Data.Entities.CategoryEntity", "Category")
-                        .WithMany("Pizzas")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
-                });
-
-            modelBuilder.Entity("WebBack.Data.Entities.PizzaIngredientEntity", b =>
-                {
-                    b.HasOne("WebBack.Data.Entities.IngredientEntity", "Ingredient")
-                        .WithMany("Pizzas")
-                        .HasForeignKey("IngredientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebBack.Data.Entities.PizzaEntity", "Pizza")
-                        .WithMany("Ingredients")
-                        .HasForeignKey("PizzaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Ingredient");
-
-                    b.Navigation("Pizza");
-                });
-
-            modelBuilder.Entity("WebBack.Data.Entities.PizzaPhotoEntity", b =>
-                {
-                    b.HasOne("WebBack.Data.Entities.PizzaEntity", "Pizza")
-                        .WithMany("Photos")
-                        .HasForeignKey("PizzaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Pizza");
-                });
-
-            modelBuilder.Entity("WebBack.Data.Entities.PizzaSizePriceEntity", b =>
-                {
-                    b.HasOne("WebBack.Data.Entities.PizzaEntity", "Pizza")
-                        .WithMany("Sizes")
-                        .HasForeignKey("PizzaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebBack.Data.Entities.PizzaSizeEntity", "Size")
-                        .WithMany("PizzaSizePrices")
-                        .HasForeignKey("SizeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Pizza");
-
-                    b.Navigation("Size");
-                });
-
-            modelBuilder.Entity("WebBack.Data.Entities.CategoryEntity", b =>
-                {
-                    b.Navigation("Pizzas");
-                });
-
             modelBuilder.Entity("WebBack.Data.Entities.Identity.RoleEntity", b =>
                 {
                     b.Navigation("UserRoles");
@@ -558,25 +342,6 @@ namespace WebBack.Migrations
             modelBuilder.Entity("WebBack.Data.Entities.Identity.UserEntity", b =>
                 {
                     b.Navigation("UserRoles");
-                });
-
-            modelBuilder.Entity("WebBack.Data.Entities.IngredientEntity", b =>
-                {
-                    b.Navigation("Pizzas");
-                });
-
-            modelBuilder.Entity("WebBack.Data.Entities.PizzaEntity", b =>
-                {
-                    b.Navigation("Ingredients");
-
-                    b.Navigation("Photos");
-
-                    b.Navigation("Sizes");
-                });
-
-            modelBuilder.Entity("WebBack.Data.Entities.PizzaSizeEntity", b =>
-                {
-                    b.Navigation("PizzaSizePrices");
                 });
 #pragma warning restore 612, 618
         }

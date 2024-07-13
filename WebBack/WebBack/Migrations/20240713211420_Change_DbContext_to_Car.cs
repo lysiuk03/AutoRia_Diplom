@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace WebBack.Migrations
 {
     /// <inheritdoc />
-    public partial class Addidentity : Migration
+    public partial class Change_DbContext_to_Car : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -57,6 +57,25 @@ namespace WebBack.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "tbl_cars",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
+                    Description = table.Column<string>(type: "character varying(2000)", maxLength: 2000, nullable: false),
+                    Stage = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    Mileage = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
+                    VIN = table.Column<string>(type: "character varying(17)", maxLength: 17, nullable: false),
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
+                    DateCreated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tbl_cars", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -102,8 +121,8 @@ namespace WebBack.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(type: "text", nullable: false),
-                    ProviderKey = table.Column<string>(type: "text", nullable: false),
+                    LoginProvider = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: false),
+                    ProviderKey = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: false),
                     ProviderDisplayName = table.Column<string>(type: "text", nullable: true),
                     UserId = table.Column<int>(type: "integer", nullable: false)
                 },
@@ -147,8 +166,8 @@ namespace WebBack.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<int>(type: "integer", nullable: false),
-                    LoginProvider = table.Column<string>(type: "text", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false),
+                    LoginProvider = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: false),
+                    Name = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: false),
                     Value = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
@@ -217,6 +236,9 @@ namespace WebBack.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "tbl_cars");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

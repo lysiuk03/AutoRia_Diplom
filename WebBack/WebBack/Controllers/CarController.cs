@@ -9,9 +9,9 @@ namespace WebBack.Controllers
     [ApiController]
     public class CarController : ControllerBase
     {
-        private readonly PizzaDbContext _context;
+        private readonly CarDbContext _context;
 
-        public CarController(PizzaDbContext context)
+        public CarController(CarDbContext context)
         {
             _context = context;
         }
