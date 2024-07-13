@@ -13,7 +13,7 @@ namespace WebBack.Data
                 .GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
                 var context = scope.ServiceProvider.GetRequiredService<CarDbContext>();
-                var imageService = scope.ServiceProvider.GetService<IImageService>();
+                //var imageService = scope.ServiceProvider.GetService<IImageService>();
                 var configuration = scope.ServiceProvider.GetService<IConfiguration>();
                 var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<RoleEntity>>();
                 var userManager = scope.ServiceProvider.GetRequiredService<UserManager<UserEntity>>();
@@ -21,7 +21,14 @@ namespace WebBack.Data
                 using var httpClient = new HttpClient();
 
                 context.Database.Migrate();
+
+                await context.SaveChangesAsync();
             }
         }
+        //private static async Task<string> GetImageAsBase64Async(HttpClient httpClient, string imageUrl)
+        //{
+        //    var imageBytes = await httpClient.GetByteArrayAsync(imageUrl);
+        //    return Convert.ToBase64String(imageBytes);
+        //}
     }
 }

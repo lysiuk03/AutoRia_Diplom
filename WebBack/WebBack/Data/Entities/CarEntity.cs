@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebBack.Data.Entities
 {
+    [Table("tbl_cars")]
     public class CarEntity : BaseEntity
     {
         [StringLength(255), Required]
