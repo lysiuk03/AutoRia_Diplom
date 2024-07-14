@@ -10,7 +10,7 @@ using WebBack.ViewModels.Account;
 namespace WebBack.Services.ControllerServices;
 
 public class AccountsControllerService(
-    PizzaDbContext context,
+    CarDbContext context,
     UserManager<UserEntity> userManager,
     IMapper mapper,
     IImageService imageService

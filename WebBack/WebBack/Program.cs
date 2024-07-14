@@ -10,14 +10,12 @@ using WebBack.Data;
 using WebBack.Data.Entities;
 using WebBack.Data.Entities.Identity;
 using WebBack.Mapper;
-using WebBack.Migrations;
+//using WebBack.Migrations;
 using WebBack.Services;
 using WebBack.Services.ControllerServices;
 using WebBack.Services.ControllerServices.Interfaces;
 using WebBack.Services.Interfaces;
 using WebBack.Services.PaginationServices;
-using WebBack.ViewModels.Category;
-using WebBack.ViewModels.Pizza;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,63 +23,63 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<CarDbContext>(opt =>
     opt.UseNpgsql(builder.Configuration.GetConnectionString("Npgsql")));
 
-//builder.Services
-//    .AddIdentity<UserEntity, RoleEntity>(options =>
-//    {
-//        options.Stores.MaxLengthForKeys = 128;
+builder.Services
+    .AddIdentity<UserEntity, RoleEntity>(options =>
+    {
+        options.Stores.MaxLengthForKeys = 128;
 
-//        options.Password.RequiredLength = 8;
-//        options.Password.RequireDigit = false;
-//        options.Password.RequireNonAlphanumeric = false;
-//        options.Password.RequireUppercase = false;
-//        options.Password.RequireLowercase = false;
-//    })
-//    .AddEntityFrameworkStores<CarDbContext>()
-//    .AddDefaultTokenProviders();
+        options.Password.RequiredLength = 8;
+        options.Password.RequireDigit = false;
+        options.Password.RequireNonAlphanumeric = false;
+        options.Password.RequireUppercase = false;
+        options.Password.RequireLowercase = false;
+    })
+    .AddEntityFrameworkStores<CarDbContext>()
+    .AddDefaultTokenProviders();
 
-//var singinKey = new SymmetricSecurityKey(
-//    Encoding.UTF8.GetBytes(
-//        builder.Configuration["Authentication:Jwt:SecretKey"]
-//            ?? throw new NullReferenceException("Authentication:Jwt:SecretKey")
-//    )
-//);
+var singinKey = new SymmetricSecurityKey(
+    Encoding.UTF8.GetBytes(
+        builder.Configuration["Authentication:Jwt:SecretKey"]
+            ?? throw new NullReferenceException("Authentication:Jwt:SecretKey")
+    )
+);
 
-//builder.Services
-//    .AddAuthentication(options =>
-//    {
-//        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-//        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-//        options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-//    })
-//    .AddJwtBearer(options =>
-//    {
-//        options.SaveToken = true;
-//        options.RequireHttpsMetadata = false;
-//        options.TokenValidationParameters = new TokenValidationParameters()
-//        {
-//            ValidateIssuer = false,
-//            ValidateAudience = false,
-//            IssuerSigningKey = singinKey,
-//            ValidateLifetime = true,
-//            ValidateIssuerSigningKey = true,
-//            ClockSkew = TimeSpan.Zero
-//        };
-//    });
+builder.Services
+    .AddAuthentication(options =>
+    {
+        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+    })
+    .AddJwtBearer(options =>
+    {
+        options.SaveToken = true;
+        options.RequireHttpsMetadata = false;
+        options.TokenValidationParameters = new TokenValidationParameters()
+        {
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            IssuerSigningKey = singinKey,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ClockSkew = TimeSpan.Zero
+        };
+    });
 
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddValidatorsFromAssemblyContaining<Program>();
+//builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 
 builder.Services.AddAutoMapper(typeof(AppMapProfile));
-//builder.Services.AddTransient<IImageService, ImageService>();
+builder.Services.AddTransient<IImageService, ImageService>();
 //builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 //builder.Services.AddTransient<IImageValidator, ImageValidator>();
 //builder.Services.AddTransient<IExistingEntityCheckerService, ExistingEntityCheckerService>();
 
-//builder.Services.AddTransient<IAccountsControllerService, AccountsControllerService>();
+builder.Services.AddTransient<IAccountsControllerService, AccountsControllerService>();
 
 //builder.Services.AddTransient<ICategoryControllerService, CategoryControllerService>();
 //builder.Services.AddTransient<IPaginationService<CategoryVm, CategoryFilterVm>, CategoryPaginationService>();
@@ -94,7 +92,7 @@ builder.Services.AddAutoMapper(typeof(AppMapProfile));
 
 var app = builder.Build();
 
-string imagesDirPath = Path.Combine(Directory.GetCurrentDirectory(),   builder.Configuration["ImagesDir"]);
+string imagesDirPath = Path.Combine(Directory.GetCurrentDirectory(), builder.Configuration["ImagesDir"]);
 
 if (!Directory.Exists(imagesDirPath))
 {
