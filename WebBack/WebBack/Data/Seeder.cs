@@ -5,6 +5,7 @@ using WebBack.Services.Interfaces;
 using Bogus;
 using Bogus.DataSets;
 using WebBack.Data.Entities;
+using WebBack.Services;
 
 namespace WebBack.Data
 {
@@ -16,7 +17,7 @@ namespace WebBack.Data
                 .GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
                 var context = scope.ServiceProvider.GetRequiredService<CarDbContext>();
-                //var imageService = scope.ServiceProvider.GetService<IImageService>();
+                var imageService = scope.ServiceProvider.GetRequiredService<IImageService>();
                 var configuration = scope.ServiceProvider.GetService<IConfiguration>();
                 var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<RoleEntity>>();
                 var userManager = scope.ServiceProvider.GetRequiredService<UserManager<UserEntity>>();
@@ -43,7 +44,21 @@ namespace WebBack.Data
                             .RuleFor(c => c.VIN, f => f.Vehicle.Vin())
                             .RuleFor(c => c.DateCreated, f => DateTime.UtcNow.AddDays(f.Random.Int(-10, -1)));
                 
-                        fakeCars.Add(carFaker.Generate());
+                        var car = carFaker.Generate();
+
+                        int numberOfPhotos = faker.Random.Int(1, 5);
+                        for (int k = 0; k < numberOfPhotos; k++)
+                        {
+                            var imageUrl = faker.Image.LoremFlickrUrl(keywords: "Car", width: 1000, height: 800);
+                            var imageBase64 = await GetImageAsBase64Async(httpClient, imageUrl);
+                        
+                            car.Photos.Add(new CarPhotoEntity
+                            {
+                                Name = await imageService.SaveImageAsync(imageBase64),
+                                Priority = k + 1
+                            });
+                        }
+                        fakeCars.Add(car);
                     }
                 
                     context.Cars.AddRange(fakeCars);
@@ -53,10 +68,10 @@ namespace WebBack.Data
                 await context.SaveChangesAsync();
             }
         }
-        //private static async Task<string> GetImageAsBase64Async(HttpClient httpClient, string imageUrl)
-        //{
-        //    var imageBytes = await httpClient.GetByteArrayAsync(imageUrl);
-        //    return Convert.ToBase64String(imageBytes);
-        //}
+        private static async Task<string> GetImageAsBase64Async(HttpClient httpClient, string imageUrl)
+        {
+            var imageBytes = await httpClient.GetByteArrayAsync(imageUrl);
+            return Convert.ToBase64String(imageBytes);
+        }
     }
 }
