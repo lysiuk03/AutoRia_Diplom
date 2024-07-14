@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using WebBack.Enums;
+
 
 namespace WebBack.Data.Entities
 {
@@ -12,7 +12,7 @@ namespace WebBack.Data.Entities
         public decimal Amount { get; set; }
 
         [Required]
-        public CurrencyTypeEnum Currency { get; set; } = CurrencyTypeEnum.Dollars;
+        public string Currency { get; set; } 
 
         public bool PriceIncludesVAT { get; set; } = false; // Whether the price includes VAT, default to false
 
