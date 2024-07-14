@@ -16,8 +16,6 @@ using WebBack.Services.ControllerServices;
 using WebBack.Services.ControllerServices.Interfaces;
 using WebBack.Services.Interfaces;
 using WebBack.Services.PaginationServices;
-using WebBack.ViewModels.Category;
-using WebBack.ViewModels.Pizza;
 
 var builder = WebApplication.CreateBuilder(args);
 
