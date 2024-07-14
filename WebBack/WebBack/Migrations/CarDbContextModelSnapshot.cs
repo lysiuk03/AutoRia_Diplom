@@ -133,10 +133,15 @@ namespace WebBack.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
+                    b.Property<string>("Manufacturer")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
+
                     b.Property<decimal>("Mileage")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Model")
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)");
