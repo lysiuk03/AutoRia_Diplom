@@ -22,7 +22,7 @@ POSTGRES_PASSWORD=your_password
 POSTGRES_DB=your_database
 ```
 
-Замініть `your_password` та `your_database` на ваші власні значення. За бажанням `postgres` теж може бути іншим
+ - **Примітка:** Замініть `your_password` та `your_database` на ваші власні значення. За бажанням `postgres` теж може бути іншим
 
 ## Запуск за допомогою Docker Compose
 
@@ -57,6 +57,8 @@ POSTGRES_DB=your_database
     ```bash
     docker run --name postgres -d -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=your_password -e POSTGRES_DB=your_database -p 5432:5432 my-postgres-image
     ```
+
+    - **Примітка:** Замініть `your_password` та `your_database` на ваші власні значення. За бажанням `postgres` теж може бути іншим
 
 ## Ініціалізація бази даних
 
