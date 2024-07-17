@@ -1,18 +1,16 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using WebBack.Enums;
+
 
 namespace WebBack.Data.Entities
 {
-
-    
 
     public class PriceEntity : BaseEntity
     {
         [Required]
         public decimal Amount { get; set; }
 
-        [Required]
-        public CurrencyTypeEnum Currency { get; set; } = CurrencyTypeEnum.Dollars;
+        //[Required]
+        //public Currency { get; set; } = ;
 
         public bool PriceIncludesVAT { get; set; } = false; // Whether the price includes VAT, default to false
 
