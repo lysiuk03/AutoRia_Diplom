@@ -1,6 +1,13 @@
 # Гілка Grafana Cluster
 
 Цей проект є модифікацією репозиторію [Cyber1993/grafanaall](https://github.com/Cyber1993/grafanaall.git). Модифікації включають налаштування кластеру для моніторингу з використанням Grafana та Prometheus.
+## Завантаження
+
+Команда для клонування вмісту даної гілки репозиторія та перейдіть до папки
+  ```bash
+  git clone -b postgres https://github.com/lysiuk03/AutoRia_Diplom.git
+  cd AutoRia_Diplom
+  ```
 
 ## Запуск
 
