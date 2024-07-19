@@ -5,7 +5,7 @@
 
 Команда для клонування вмісту даної гілки репозиторія та перейдіть до папки
   ```bash
-  git clone -b postgres https://github.com/lysiuk03/AutoRia_Diplom.git
+  git clone -b grafana-cluster https://github.com/lysiuk03/AutoRia_Diplom.git
   cd AutoRia_Diplom
   ```
 
