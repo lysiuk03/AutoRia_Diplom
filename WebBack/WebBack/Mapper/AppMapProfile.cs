@@ -15,8 +15,8 @@ public class AppMapProfile : Profile
 
         CreateMap<CarEntity, CarVm>();
 
-        // CreateMap<CarCreateVm, CarEntity>()
-        //     .ForMember(c => c.Photos, opt => opt.Ignore());
+        CreateMap<CarCreateVm, CarEntity>()
+            .ForMember(c => c.Photos, opt => opt.Ignore());
 
         CreateMap<CarPhotoEntity, CarPhotoVm>();
 

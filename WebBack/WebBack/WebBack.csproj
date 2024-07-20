@@ -9,6 +9,7 @@
 	<ItemGroup>
 		<PackageReference Include="AutoMapper" Version="13.0.1" />
 		<PackageReference Include="Bogus" Version="35.5.1" />
+		<PackageReference Include="FluentValidation" Version="11.9.2" />
 		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.9.2" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.6" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.6" />
@@ -23,7 +24,6 @@
 
 	<ItemGroup>
 	  <Folder Include="Migrations\" />
-	  <Folder Include="Validators\" />
 	</ItemGroup>
 
 </Project>

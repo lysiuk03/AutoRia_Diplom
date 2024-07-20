@@ -57,6 +57,7 @@ namespace WebBack.Data
                                 Name = await imageService.SaveImageAsync(imageBase64),
                                 Priority = k + 1
                             });
+
                             List<CarPhotoEntity> images = car.Photos.ToList();
                             context.CarPhotos.AddRange(images);
                             await context.SaveChangesAsync();
@@ -64,22 +65,26 @@ namespace WebBack.Data
                         }
                         fakeCars.Add(car);
                     }
+
+
+                    context.Cars.AddRange(fakeCars);
+                    await context.SaveChangesAsync();
+
+                    //context.Cars.AddRange(fakeCars);
+                    //await context.SaveChangesAsync();
                 }
 
-                await context.SaveChangesAsync();
-
-
-            ////SeedModels(context, configuration);
-            //    SeedColors(context, configuration);
-            //     SeedEngineVolumes(context, configuration);
-            //     SeedFuelTypes(context, configuration);
-            //     SeedNumberOfSeats(context, configuration);
-            //     SeedTransmissionTypes(context, configuration);
-            //     SeedTransportTypes(context, configuration);
-
-
-
-            //await context.SaveChangesAsync();
+                //  SeedModels(context, configuration);
+                //  SeedColors(context, configuration);
+                //  SeedEngineVolumes(context, configuration);
+                //  SeedFuelTypes(context, configuration);
+                //  SeedNumberOfSeats(context, configuration);
+                //  SeedTransmissionTypes(context, configuration);
+                //  SeedTransportTypes(context, configuration);
+                //
+                //
+                //
+                // await context.SaveChangesAsync();
             }
         }
 
