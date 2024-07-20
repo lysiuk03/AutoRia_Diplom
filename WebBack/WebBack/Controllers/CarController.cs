@@ -61,8 +61,8 @@ namespace WebBack.Controllers
                 } : null,
                 CarBrand = c.CarModel.CarBrand != null ? new CarBrandDto
                 {
-                    Id = c.CarBrand.Id,
-                    Name = c.CarBrand.Name,
+                    Id = c.CarModel.CarBrand.Id,
+                    Name = c.CarModel.CarBrand.Name,
                 } : null,
                 BodyType = c.BodyType != null ? new BodyTypeDto
                 {
@@ -122,7 +122,7 @@ namespace WebBack.Controllers
         {
             var car = await _context.Cars
                 .Include(c => c.TransportType)
-                .Include(c => c.CarBrand)
+                .Include(c => c.CarModel.CarBrand)
                 .Include(c => c.BodyType)
                 .Include(c => c.TransmissionType)
                 .Include(c => c.NumberOfSeats)
@@ -154,11 +154,11 @@ namespace WebBack.Controllers
                     Id = car.TransportType.Id,
                     Name = car.TransportType.Name
                 } : null,
-                CarBrand = car.CarBrand != null ? new CarBrandDto
+                CarBrand = car.CarModel.CarBrand != null ? new CarBrandDto
                 {
-                    Id = car.CarBrand.Id,
-                    Name = car.CarBrand.Name,
-                    CarModel = car.CarBrand.CarModel
+                    Id = car.CarModel.CarBrand.Id,
+                    Name = car.CarModel.CarBrand.Name,
+                    //CarModels = car.CarModel.ToList()
                 } : null,
                 BodyType = car.BodyType != null ? new BodyTypeDto
                 {
@@ -202,11 +202,11 @@ namespace WebBack.Controllers
                 } : null,
                 Metallic = car.Metallic,
                 AccidentParticipation = car.AccidentParticipation,
-                //Photos = car.Photos.Select(p => new CarPhotoDto
-                //{
-                //    Id = p.Id,
-                //    PhotoUrl = p.PhotoUrl
-                //}).ToList()
+                Photos = car.Photos.Select(p => new CarPhotoDto
+                {
+                    Id = p.Id,
+                    PhotoName = p.Name
+                }).ToList()
             };
 
             return carDto;
@@ -226,7 +226,7 @@ namespace WebBack.Controllers
                 Stage = carDto.Stage,
                 Description = carDto.Description,
                 TransportType = carDto.TransportTypeId.HasValue ? await _context.TransportTypes.FindAsync(carDto.TransportTypeId.Value) : null,
-                CarBrand = carDto.CarBrandId.HasValue ? await _context.Brands.FindAsync(carDto.CarBrandId.Value) : null,
+                //CarBrand = carDto.CarBrandId.HasValue ? await _context.Brands.FindAsync(carDto.CarBrandId.Value) : null,
                 BodyType = carDto.BodyTypeId.HasValue ? await _context.BodyTypes.FindAsync(carDto.BodyTypeId.Value) : null,
                 TransmissionType = carDto.TransmissionTypeId.HasValue ? await _context.TransmissionTypes.FindAsync(carDto.TransmissionTypeId.Value) : null,
                 NumberOfSeats = carDto.NumberOfSeatsId.HasValue ? await _context.numbersOfSeats.FindAsync(carDto.NumberOfSeatsId.Value) : null,

@@ -38,7 +38,7 @@ namespace WebBack.Data.Entities
 
 
 
-        //public ICollection<CarPhotoEntity> Photos { get; set; } = new List<CarPhotoEntity>();
+        public ICollection<CarPhotoEntity> Photos { get; set; } = new List<CarPhotoEntity>();
 
         //Base options
         public TransportTypeEntity ?TransportType { get; set; }

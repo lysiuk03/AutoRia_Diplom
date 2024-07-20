@@ -47,7 +47,7 @@ namespace WebBack.DTOs
 
         public ICollection<CarPhotoDto> Photos { get; set; } = new List<CarPhotoDto>();
 
-        public CarBrandDto CarBrand { get; set; }
+        public CarBrandDto? CarBrand { get; set; }
     }
 
     public class TransportTypeDto
@@ -122,7 +122,7 @@ namespace WebBack.DTOs
     public class CarPhotoDto
     {
         public int Id { get; set; }
-        public string PhotoUrl { get; set; } = null!;
+        public string PhotoName { get; set; } = null!;
     }
 
 
