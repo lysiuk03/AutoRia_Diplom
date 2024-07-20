@@ -74,6 +74,16 @@ namespace WebBack.Data
                     //await context.SaveChangesAsync();
                 }
 
+                 SeedModels(context, configuration);
+                 SeedColors(context, configuration);
+                 SeedEngineVolumes(context, configuration);
+                 SeedFuelTypes(context, configuration);
+                 SeedNumberOfSeats(context, configuration);
+                 SeedTransmissionTypes(context, configuration);
+                 SeedTransportTypes(context, configuration);
+
+
+
                 await context.SaveChangesAsync();
             }
         }
