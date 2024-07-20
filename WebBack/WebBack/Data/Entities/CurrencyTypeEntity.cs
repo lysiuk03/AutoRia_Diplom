@@ -2,6 +2,7 @@
 {
     public class CurrencyTypeEntity:BaseEntity
     {
+        public decimal Amount { get; set; }
 
         public string Name { get; set; } = "Dollar";
         public string CurrencyCode { get; set; } = "USD";

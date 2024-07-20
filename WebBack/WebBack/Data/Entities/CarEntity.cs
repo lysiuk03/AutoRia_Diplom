@@ -6,6 +6,11 @@ namespace WebBack.Data.Entities
     [Table("tbl_cars")]
     public class CarEntity : BaseEntity
     {
+
+        [Required]
+        [Range(1886, 2024)]
+        public int Year { get; set; }
+
         [StringLength(255), Required]
         public string Model { get; set; } = null!;
         
