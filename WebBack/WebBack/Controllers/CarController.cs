@@ -20,7 +20,7 @@ namespace WebBack.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CarEntity>>> GetCars()
         {
-            return await _context.Cars.ToListAsync();
+            return await _context.Cars.ToListAsync();//.Include(x=> x.Photos).ToListAsync();
         }
 
         // GET: api/Car/5

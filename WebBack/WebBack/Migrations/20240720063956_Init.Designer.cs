@@ -12,8 +12,8 @@ using WebBack.Data;
 namespace WebBack.Migrations
 {
     [DbContext(typeof(CarDbContext))]
-    [Migration("20240713211420_Change_DbContext_to_Car")]
-    partial class Change_DbContext_to_Car
+    [Migration("20240720063956_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -136,10 +136,15 @@ namespace WebBack.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
+                    b.Property<string>("Manufacturer")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
+
                     b.Property<decimal>("Mileage")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Model")
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)");
@@ -157,6 +162,37 @@ namespace WebBack.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("tbl_cars");
+                });
+
+            modelBuilder.Entity("WebBack.Data.Entities.CarPhotoEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CarId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("Priority")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CarId");
+
+                    b.ToTable("tbl_car_photos");
                 });
 
             modelBuilder.Entity("WebBack.Data.Entities.Identity.RoleEntity", b =>
@@ -318,6 +354,17 @@ namespace WebBack.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("WebBack.Data.Entities.CarPhotoEntity", b =>
+                {
+                    b.HasOne("WebBack.Data.Entities.CarEntity", "Car")
+                        .WithMany("Photos")
+                        .HasForeignKey("CarId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Car");
+                });
+
             modelBuilder.Entity("WebBack.Data.Entities.Identity.UserRoleEntity", b =>
                 {
                     b.HasOne("WebBack.Data.Entities.Identity.RoleEntity", "Role")
@@ -335,6 +382,11 @@ namespace WebBack.Migrations
                     b.Navigation("Role");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("WebBack.Data.Entities.CarEntity", b =>
+                {
+                    b.Navigation("Photos");
                 });
 
             modelBuilder.Entity("WebBack.Data.Entities.Identity.RoleEntity", b =>
