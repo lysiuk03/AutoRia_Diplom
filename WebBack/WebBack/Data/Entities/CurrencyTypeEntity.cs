@@ -1,13 +1,12 @@
 ﻿namespace WebBack.Data.Entities
 {
-    public class CurrencyTypeEntity:BaseEntity
+    public class CurrencyTypeEntity : BaseEntity
     {
-        public decimal Amount { get; set; }
-
         public string Name { get; set; } = "Dollar";
         public string CurrencyCode { get; set; } = "USD";
         public string CurrencyName { get; set; } = "United States Dollar";
         public string CurrencySymbol { get; set; } = "$";
-        public bool IsBaseCurrency { get; set; } = true;
+
+        public decimal Counter { get; set; } = decimal.One;
     }
 }

@@ -66,8 +66,29 @@ namespace WebBack.Data
                 }
 
                 await context.SaveChangesAsync();
+
+                //context.Cars.AddRange(fakeCars);
+                //await context.SaveChangesAsync();
             }
+
+            //SeedModels(context, configuration);
+            //    SeedColorsAsync(context, configuration);
+            //     SeedEngineVolumesAsync(context, configuration);
+            //     SeedFuelTypesAsync(context, configuration);
+            //     SeedNumberOfSeatsAsync(context, configuration);
+            //     SeedTransmissionTypesAsync(context, configuration);
+            //     SeedTransportTypesAsync(context, configuration);
+
+            //     SeedCurrenciesAsync(context, configuration);
+
+            //await SeedRegionsAsync(context, configuration);
+            //await SeedCitiesAsync(context, configuration);
+
+
+            //await context.SaveChangesAsync();
         }
+
+
         private static async Task<string> GetImageAsBase64Async(HttpClient httpClient, string imageUrl)
         {
             var imageBytes = await httpClient.GetByteArrayAsync(imageUrl);
@@ -169,6 +190,27 @@ namespace WebBack.Data
                     context.TransportTypes.Add(new TransportTypeEntity { Name = transportType });
                 }
                 context.SaveChanges();
+            }
+        }
+
+        public static async Task SeedCurrenciesAsync(CarDbContext context, IConfiguration configuration)
+        {
+            if (!context.CurrencyTypes.Any())
+            {
+                var currencies = configuration.GetSection("DefaultSeedData:Currencies").Get<CurrencyTypeEntity[]>();
+                foreach (var currency in currencies)
+                {
+                    context.CurrencyTypes.Add(new CurrencyTypeEntity
+                    {
+                        Name = currency.Name,
+                        CurrencyCode = currency.CurrencyCode,
+                        CurrencyName = currency.CurrencyName,
+                        CurrencySymbol = currency.CurrencySymbol,
+                        Counter = currency.Counter,
+                        DateCreated = DateTime.Now // Assuming your BaseEntity has DateCreated property
+                    });
+                }
+                await context.SaveChangesAsync();
             }
         }
 

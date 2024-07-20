@@ -9,6 +9,8 @@ namespace WebBack.Data.Entities
         [Required]
         public decimal Amount { get; set; }
 
+        public string BaseCurrency { get; set; } = "Dollar"; //BaseCurrencyCode
+
         //[Required]
         //public Currency { get; set; } = ;
 

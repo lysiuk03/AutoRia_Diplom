@@ -36,7 +36,33 @@ namespace WebBack.Data.Entities
 
         //possible entity 
 
-        //public bool Metallic { get; set; } = false!;
-        //public bool AccidentParticipation { get; set; } = false!;
+
+
+        public ICollection<CarPhotoEntity> Photos { get; set; } = new List<CarPhotoEntity>();
+
+        //Base options
+        public TransportTypeEntity ?TransportType { get; set; }
+        public CarBrandEntity? CarBrand { get; set; }//CarModel inside
+        public BodyTypeEntity ?BodyType { get; set; }
+
+
+        //_______________________________________________________________
+        public TransmissionTypeEntity ?TransmissionType { get; set; }
+        public NumberOfSeatsEntity ?NumberOfSeats { get; set; }
+        public FuelTypesEntity ?FuelTypes { get; set; }
+        public EngineVolumeEntity ?EngineVolume { get; set; }
+
+
+        //Region and parcing
+        public CityEntity? City { get; set; }//Region inside
+        public PriceEntity? Price { get; set; }
+
+
+        //Appearance
+        public ColorEntity ?Color { get; set; }
+        public bool Metallic { get; set; } = false!;
+        public bool AccidentParticipation { get; set; } = false!;
+
+
     }
 }
