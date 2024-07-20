@@ -2,6 +2,6 @@
 {
     public class FuelTypesEntity : BaseEntity
     {
-        public string FuelType { get; set; } = "Petrol";
+        public string Name { get; set; } = "Petrol";
     }
 }

@@ -13,8 +13,15 @@ namespace WebBack.Data
         public CarDbContext(DbContextOptions<CarDbContext> options) : base(options) { }
 
         public DbSet<CarEntity> Cars { get; set; }
-
-
+        public DbSet<BodyTypeEntity> BodyTypes { get; set; }
+        public DbSet<CarBrandEntity> Brands { get; set; }
+        public DbSet<CarModelEntity> Models { get; set; }
+        public DbSet<ColorEntity> Colors { get; set; }
+        public DbSet<EngineVolumeEntity> EngineVolumes { get; set; }
+        public DbSet<FuelTypesEntity> FuelTypes { get; set; }
+        public DbSet<NumberOfSeatsEntity> numbersOfSeats { get; set; }
+        public DbSet<TransmissionTypeEntity> TransmissionTypes { get; set; }
+        public DbSet<TransportTypeEntity> TransportTypes { get; set; }
 
 
 

@@ -2,7 +2,7 @@
 {
     public class EngineVolumeEntity : BaseEntity
     {
-        public decimal EngineVolume { get; set; }
+        public decimal Volume { get; set; }
 
 
     }

@@ -2,6 +2,6 @@
 {
     public class TransmissionTypeEntity : BaseEntity
     {
-        public string TransmissionType { get; set; } = null!;
+        public string Name { get; set; } = null!;
     }
 }
