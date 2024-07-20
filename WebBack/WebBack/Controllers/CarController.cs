@@ -1,7 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using FluentValidation;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebBack.Data.Entities;
 using WebBack.Data;
+using WebBack.Services.Interfaces;
+using WebBack.ViewModels.Car;
 
 namespace WebBack.Controllers
 {
@@ -9,18 +14,23 @@ namespace WebBack.Controllers
     [ApiController]
     public class CarController : ControllerBase
     {
+        private readonly IMapper _mapper;
         private readonly CarDbContext _context;
 
-        public CarController(CarDbContext context)
+        public CarController(IMapper mapper, CarDbContext context)
         {
-            _context = context;
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _context = context ?? throw new ArgumentNullException(nameof(context));
         }
-
+        
         // GET: api/Car
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CarEntity>>> GetCars()
+        public async Task<ActionResult<IEnumerable<CarVm>>> GetCars()
         {
-            return await _context.Cars.ToListAsync();//.Include(x=> x.Photos).ToListAsync();
+            var cars = await _context.Cars
+                .ProjectTo<CarVm>(_mapper.ConfigurationProvider)
+                .ToArrayAsync();
+            return Ok(cars);
         }
 
         // GET: api/Car/5
