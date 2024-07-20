@@ -22,9 +22,7 @@ namespace WebBack.Data
         public DbSet<NumberOfSeatsEntity> numbersOfSeats { get; set; }
         public DbSet<TransmissionTypeEntity> TransmissionTypes { get; set; }
         public DbSet<TransportTypeEntity> TransportTypes { get; set; }
-
-
-
+        public DbSet<CarPhotoEntity> CarPhotos { get; set; } = null!;
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

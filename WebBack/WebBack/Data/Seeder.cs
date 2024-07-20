@@ -68,11 +68,14 @@ namespace WebBack.Data
                 await context.SaveChangesAsync();
             }
         }
+
+
         private static async Task<string> GetImageAsBase64Async(HttpClient httpClient, string imageUrl)
         {
             var imageBytes = await httpClient.GetByteArrayAsync(imageUrl);
             return Convert.ToBase64String(imageBytes);
         }
+
 
         private static void SeedModels(CarDbContext context, IConfiguration configuration)
         {

@@ -38,5 +38,7 @@ namespace WebBack.Data.Entities
 
         //public bool Metallic { get; set; } = false!;
         //public bool AccidentParticipation { get; set; } = false!;
+        
+        public ICollection<CarPhotoEntity> Photos { get; set; } = new List<CarPhotoEntity>();
     }
 }
