@@ -95,6 +95,7 @@ namespace WebBack.Data
             return Convert.ToBase64String(imageBytes);
         }
 
+
         private static void SeedModels(CarDbContext context, IConfiguration configuration)
         {
             if (!context.Models.Any())

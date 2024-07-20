@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using FluentValidation;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -14,11 +17,13 @@ namespace WebBack.Controllers
     [Route("api/[controller]")]
     public class CarController : ControllerBase
     {
+        private readonly IMapper _mapper;
         private readonly CarDbContext _context;
 
-        public CarController(CarDbContext context)
+        public CarController(IMapper mapper, CarDbContext context)
         {
-            _context = context;
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
         // GET: api/car
