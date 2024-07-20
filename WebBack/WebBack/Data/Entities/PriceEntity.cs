@@ -4,15 +4,13 @@
 namespace WebBack.Data.Entities
 {
 
-    
-
     public class PriceEntity : BaseEntity
     {
         [Required]
         public decimal Amount { get; set; }
 
-        [Required]
-        public string Currency { get; set; } 
+        //[Required]
+        //public Currency { get; set; } = ;
 
         public bool PriceIncludesVAT { get; set; } = false; // Whether the price includes VAT, default to false
 

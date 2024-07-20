@@ -75,17 +75,19 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddAutoMapper(typeof(AppMapProfile));
 builder.Services.AddTransient<IImageService, ImageService>();
-//builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
-//builder.Services.AddTransient<IImageValidator, ImageValidator>();
+
+//may be use
+builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
+builder.Services.AddTransient<IImageValidator, ImageValidator>();
 //builder.Services.AddTransient<IExistingEntityCheckerService, ExistingEntityCheckerService>();
 
 builder.Services.AddTransient<IAccountsControllerService, AccountsControllerService>();
 
+
+//delete
 //builder.Services.AddTransient<ICategoryControllerService, CategoryControllerService>();
 //builder.Services.AddTransient<IPaginationService<CategoryVm, CategoryFilterVm>, CategoryPaginationService>();
-
 //builder.Services.AddTransient<IIngredientControllerService, IngredientControllerService>();
-
 //builder.Services.AddTransient<IPizzaControllerService, PizzaControllerService>();
 //builder.Services.AddTransient<IPaginationService<PizzaVm, PizzaFilterVm>, PizzaPaginationService>();
 
