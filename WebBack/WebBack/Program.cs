@@ -5,9 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using WebBack.Controllers;
 using WebBack.Data;
-using WebBack.Data.Entities;
 using WebBack.Data.Entities.Identity;
 using WebBack.Mapper;
 //using WebBack.Migrations;
@@ -15,7 +13,6 @@ using WebBack.Services;
 using WebBack.Services.ControllerServices;
 using WebBack.Services.ControllerServices.Interfaces;
 using WebBack.Services.Interfaces;
-using WebBack.Services.PaginationServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -71,12 +68,12 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-//builder.Services.AddValidatorsFromAssemblyContaining<Program>();
+builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 
 builder.Services.AddAutoMapper(typeof(AppMapProfile));
 builder.Services.AddTransient<IImageService, ImageService>();
 
-//may be use
+
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 builder.Services.AddTransient<IImageValidator, ImageValidator>();
 //builder.Services.AddTransient<IExistingEntityCheckerService, ExistingEntityCheckerService>();
@@ -84,11 +81,8 @@ builder.Services.AddTransient<IImageValidator, ImageValidator>();
 builder.Services.AddTransient<IAccountsControllerService, AccountsControllerService>();
 
 
-//delete
-//builder.Services.AddTransient<ICategoryControllerService, CategoryControllerService>();
-//builder.Services.AddTransient<IPaginationService<CategoryVm, CategoryFilterVm>, CategoryPaginationService>();
-//builder.Services.AddTransient<IIngredientControllerService, IngredientControllerService>();
-//builder.Services.AddTransient<IPizzaControllerService, PizzaControllerService>();
+
+builder.Services.AddTransient<ICarControllerService, CarControllerService>();
 //builder.Services.AddTransient<IPaginationService<PizzaVm, PizzaFilterVm>, PizzaPaginationService>();
 
 
@@ -102,7 +96,7 @@ if (!Directory.Exists(imagesDirPath))
 }
 
 
-// Äëÿ ðåäàãóâàííÿ ôîòî
+// Ã„Ã«Ã¿ Ã°Ã¥Ã¤Ã Ã£Ã³Ã¢Ã Ã­Ã­Ã¿ Ã´Ã®Ã²Ã®
 app.UseCors(
     configuration => configuration
         .AllowAnyOrigin()

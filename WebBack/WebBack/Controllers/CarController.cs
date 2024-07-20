@@ -5,8 +5,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebBack.Data.Entities;
 using WebBack.Data;
+using WebBack.Services.ControllerServices.Interfaces;
 using WebBack.Services.Interfaces;
 using WebBack.ViewModels.Car;
+using WebBack.ViewModels;
 
 namespace WebBack.Controllers
 {
@@ -16,11 +18,19 @@ namespace WebBack.Controllers
     {
         private readonly IMapper _mapper;
         private readonly CarDbContext _context;
+        //private readonly IValidator<CarCreateVm> _createValidator;
+        private readonly ICarControllerService _service;
 
-        public CarController(IMapper mapper, CarDbContext context)
+        public CarController(
+            IMapper mapper,
+            CarDbContext context,
+            //IValidator<CarCreateVm> createValidator,
+            ICarControllerService service)
         {
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _context = context ?? throw new ArgumentNullException(nameof(context));
+            //_createValidator = createValidator ?? throw new ArgumentNullException(nameof(createValidator));
+            _service = service ?? throw new ArgumentNullException(nameof(service));
         }
         
         // GET: api/Car
@@ -49,42 +59,37 @@ namespace WebBack.Controllers
 
         // POST: api/Car
         [HttpPost]
-        public async Task<ActionResult<CarEntity>> PostCar(CarEntity car)
+        public async Task<IActionResult> Create([FromForm] CarCreateVm vm)
         {
-            _context.Cars.Add(car);
-            await _context.SaveChangesAsync();
+            // var validationResult = await _createValidator.ValidateAsync(vm);
+            //
+            // if (!validationResult.IsValid)
+            //     return BadRequest(validationResult.Errors);
 
-            return CreatedAtAction("GetCar", new { id = car.Id }, car);
+            try
+            {
+                await _service.CreateAsync(vm);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
 
         // PUT: api/Car/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCar(int id, CarEntity car)
+        public async Task<IActionResult> Update([FromForm] CarEditVm vm)
         {
-            if (id != car.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(car).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                await _service.UpdateAsync(vm);
+                return Ok();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception ex)
             {
-                if (!CarExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return StatusCode(500, ex.Message);
             }
-
-            return NoContent();
         }
 
         // DELETE: api/Car/5

@@ -78,6 +78,9 @@ namespace WebBack.Data
 
                 await context.SaveChangesAsync();
 
+                    //context.Cars.AddRange(fakeCars);
+                    //await context.SaveChangesAsync();
+                }
 
                 //SeedModels(context, configuration);
                 //    SeedColors(context, configuration);
