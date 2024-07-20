@@ -13,6 +13,8 @@ namespace WebBack.Data
         public CarDbContext(DbContextOptions<CarDbContext> options) : base(options) { }
 
         public DbSet<CarEntity> Cars { get; set; }
+        
+        public DbSet<CarPhotoEntity> CarPhotos { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
