@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using WebBack.Data;
@@ -11,9 +12,11 @@ using WebBack.Data;
 namespace WebBack.Migrations
 {
     [DbContext(typeof(CarDbContext))]
-    partial class CarDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240720112946_upd_car_entity")]
+    partial class upd_car_entity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -173,16 +176,16 @@ namespace WebBack.Migrations
                     b.Property<bool>("AccidentParticipation")
                         .HasColumnType("boolean");
 
-                    b.Property<int?>("BodyTypeId")
+                    b.Property<int>("BodyTypeId")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("CarModelId")
+                    b.Property<int>("CarModelId")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("CityId")
+                    b.Property<int>("CityId")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("ColorId")
+                    b.Property<int>("ColorId")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("DateCreated")
@@ -193,10 +196,10 @@ namespace WebBack.Migrations
                         .HasMaxLength(2000)
                         .HasColumnType("character varying(2000)");
 
-                    b.Property<int?>("EngineVolumeId")
+                    b.Property<int>("EngineVolumeId")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("FuelTypesId")
+                    b.Property<int>("FuelTypesId")
                         .HasColumnType("integer");
 
                     b.Property<bool>("IsDeleted")
@@ -218,7 +221,7 @@ namespace WebBack.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)");
 
-                    b.Property<int?>("NumberOfSeatsId")
+                    b.Property<int>("NumberOfSeatsId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Stage")
@@ -226,10 +229,10 @@ namespace WebBack.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
-                    b.Property<int?>("TransmissionTypeId")
+                    b.Property<int>("TransmissionTypeId")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("TransportTypeId")
+                    b.Property<int>("TransportTypeId")
                         .HasColumnType("integer");
 
                     b.Property<string>("VIN")
@@ -680,39 +683,57 @@ namespace WebBack.Migrations
                 {
                     b.HasOne("WebBack.Data.Entities.BodyTypeEntity", "BodyType")
                         .WithMany()
-                        .HasForeignKey("BodyTypeId");
+                        .HasForeignKey("BodyTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("WebBack.Data.Entities.CarModelEntity", "CarModel")
                         .WithMany()
-                        .HasForeignKey("CarModelId");
+                        .HasForeignKey("CarModelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("WebBack.Data.Entities.CityEntity", "City")
                         .WithMany()
-                        .HasForeignKey("CityId");
+                        .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("WebBack.Data.Entities.ColorEntity", "Color")
                         .WithMany()
-                        .HasForeignKey("ColorId");
+                        .HasForeignKey("ColorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("WebBack.Data.Entities.EngineVolumeEntity", "EngineVolume")
                         .WithMany()
-                        .HasForeignKey("EngineVolumeId");
+                        .HasForeignKey("EngineVolumeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("WebBack.Data.Entities.FuelTypesEntity", "FuelTypes")
                         .WithMany()
-                        .HasForeignKey("FuelTypesId");
+                        .HasForeignKey("FuelTypesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("WebBack.Data.Entities.NumberOfSeatsEntity", "NumberOfSeats")
                         .WithMany()
-                        .HasForeignKey("NumberOfSeatsId");
+                        .HasForeignKey("NumberOfSeatsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("WebBack.Data.Entities.TransmissionTypeEntity", "TransmissionType")
                         .WithMany()
-                        .HasForeignKey("TransmissionTypeId");
+                        .HasForeignKey("TransmissionTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("WebBack.Data.Entities.TransportTypeEntity", "TransportType")
                         .WithMany()
-                        .HasForeignKey("TransportTypeId");
+                        .HasForeignKey("TransportTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("BodyType");
 

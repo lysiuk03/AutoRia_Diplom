@@ -24,6 +24,8 @@ namespace WebBack.Data
         public DbSet<TransportTypeEntity> TransportTypes { get; set; }
         public DbSet<CarPhotoEntity> CarPhotos { get; set; } = null!;
 
+        public DbSet<RegionEntity> Regions { get; set; }
+        public DbSet<CityEntity> Cities { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -42,6 +44,13 @@ namespace WebBack.Data
                     .HasForeignKey(u => u.UserId)
                     .IsRequired();
             });
+
+            //RegionBuilder
+            modelBuilder.Entity<CityEntity>()
+            .HasOne(c => c.Region)
+            .WithMany(r => r.Cities)
+            .HasForeignKey(c => c.RegionId)
+            .OnDelete(DeleteBehavior.Cascade);
         }
     }
 
