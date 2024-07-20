@@ -8,6 +8,7 @@ using WebBack.Data;
 using WebBack.Services.ControllerServices.Interfaces;
 using WebBack.Services.Interfaces;
 using WebBack.ViewModels.Car;
+using WebBack.ViewModels;
 
 namespace WebBack.Controllers
 {
@@ -78,32 +79,17 @@ namespace WebBack.Controllers
 
         // PUT: api/Car/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCar(int id, CarEntity car)
+        public async Task<IActionResult> Update([FromForm] CarEditVm vm)
         {
-            if (id != car.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(car).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                await _service.UpdateAsync(vm);
+                return Ok();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception ex)
             {
-                if (!CarExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return StatusCode(500, ex.Message);
             }
-
-            return NoContent();
         }
 
         // DELETE: api/Car/5

@@ -5,6 +5,7 @@ using WebBack.Data.Entities;
 using WebBack.Services.ControllerServices.Interfaces;
 using WebBack.Services.Interfaces;
 using WebBack.ViewModels.Car;
+using WebBack.ViewModels;
 
 namespace WebBack.Services.ControllerServices
 {
@@ -58,6 +59,29 @@ namespace WebBack.Services.ControllerServices
                 throw new Exception("Error creating car: " + ex.Message);
             }
         }
+        
+        public async Task UpdateAsync(CarEditVm vm)
+        {
+            var car = await _carContext.Cars
+                .Include(x => x.Photos)
+                .FirstOrDefaultAsync(c => c.Id == vm.Id);
+        
+            if (car == null)
+            {
+                throw new Exception("Car not found");
+            }
+        
+            // Update car properties based on vm
+            _mapper.Map(vm, car);
+        
+            if (vm.Photos != null && vm.Photos.Any())
+            {
+                // Handle photo updates (similar to CreateAsync)
+            }
+        
+            _carContext.Cars.Update(car);
+            await _carContext.SaveChangesAsync();
+        }
 
         // Uncomment and complete the following methods as needed
 
@@ -84,27 +108,6 @@ namespace WebBack.Services.ControllerServices
         //     await _carContext.SaveChangesAsync();
         // }
 
-        // public async Task UpdateAsync(CarEditVm vm)
-        // {
-        //     var car = await _carContext.Cars
-        //         .Include(x => x.Photos)
-        //         .FirstOrDefaultAsync(c => c.Id == vm.Id);
-        //
-        //     if (car == null)
-        //     {
-        //         throw new Exception("Car not found");
-        //     }
-        //
-        //     // Update car properties based on vm
-        //     _mapper.Map(vm, car);
-        //
-        //     if (vm.Photos != null && vm.Photos.Any())
-        //     {
-        //         // Handle photo updates (similar to CreateAsync)
-        //     }
-        //
-        //     _carContext.Cars.Update(car);
-        //     await _carContext.SaveChangesAsync();
-        // }
+
     }
 }
