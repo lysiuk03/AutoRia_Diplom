@@ -2,6 +2,7 @@ import React from 'react';
 import './MainContentComponent.css';
 import CarCarousel from "../carCarousel/CarCarousel.tsx";
 import {cars} from "../../data/cars.ts";
+import CarLogoMenu from "../carLogoMenu/CarLogoMenu.tsx";
 const MainContentComponent = () => (
     <div className="main-comp">
         <div className="bg-img">
@@ -14,7 +15,7 @@ const MainContentComponent = () => (
                 <CarCarousel cars={cars} />
         </div>
         <div className="center-width logo-container">
-            <p>Тут будуть лого авто</p>
+            <CarLogoMenu/>
         </div>
         <div className="content-title">
             <h3>АВТОМОБІЛЬНИЙ ДАЙДЖЕСТ</h3>
