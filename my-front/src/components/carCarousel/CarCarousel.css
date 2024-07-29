@@ -1,0 +1,29 @@
+.arrow {
+    position: absolute;
+    top: 1556px;
+}
+
+.left-arrow {
+    left: 200px;
+}
+
+.right-arrow {
+    left: 1699px;
+}
+.cars-container {
+    position: absolute;
+    width: 1436px;
+    top: 1345px;
+    padding: 8px;
+    display: flex;
+    justify-content: space-between;
+}
+.center-width{
+    left: 50%;
+    transform: translateX(-50%);
+}
+.btn-none-styles{
+    background: none;
+    border:none;
+    padding: 0;
+}

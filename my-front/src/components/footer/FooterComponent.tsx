@@ -1,6 +1,6 @@
 import React from 'react';
 import './FooterComponent.css';
-import ContactForm from "../contactform/ContactForm.tsx";
+import ContactForm from "../contactForm/ContactForm.tsx";
 
 
 const FooterComponent: React.FC = () => (

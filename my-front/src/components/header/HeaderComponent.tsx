@@ -1,6 +1,6 @@
 import React from 'react';
 import './HeaderComponent.css';
-import CarSearchForm from "../CarSearchForm/CarSearchForm.tsx";
+import CarSearchForm from "../carSearchForm/CarSearchForm.tsx";
 
 
 const HeaderComponent: React.FC = () => (
