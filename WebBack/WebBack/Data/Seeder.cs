@@ -80,7 +80,7 @@ namespace WebBack.Data
 
                     //context.Cars.AddRange(fakeCars);
                     //await context.SaveChangesAsync();
-                }
+                    //}
 
                 //SeedModels(context, configuration);
                 //    SeedColors(context, configuration);

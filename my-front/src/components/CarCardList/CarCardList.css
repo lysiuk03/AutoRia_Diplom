@@ -1,0 +1,12 @@
+/* CarCardListPage.css */
+.car-card-list-page {
+    padding: 20px;
+    /* background-color: #F0F2F5; /* Background color */
+}
+
+.car-card-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px; /* Space between cards */
+}

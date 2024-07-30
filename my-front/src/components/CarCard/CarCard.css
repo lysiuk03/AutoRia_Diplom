@@ -1,0 +1,51 @@
+/* CarCard.css */
+.car-card {
+    border: 2px solid #8C9BA9;
+    border-radius: 8px;
+    padding: 16px;
+    width: 300px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.car-card-image img {
+    width: 100%;
+    border-radius: 8px;
+}
+
+.car-card-details {
+    padding: 8px 0;
+}
+
+.car-card-details h3 {
+    margin: 8px 0;
+    font-size: 18px;
+    text-align: left;
+    color: #979797;
+;
+}
+
+.car-card-details .car-card-price  {
+    font-size: 20px;
+    font-weight: bold;
+    color: #254083;
+}
+
+.car-card-details p {
+    margin: 4px 0;
+    color: #555;
+}
+
+.car-card-city {
+    /* Add any specific styles for the city if needed */
+}
+
+.car-card-likes {
+    display: flex;
+    align-items: center;
+    margin-top: 8px;
+}
+
+.car-card-likes span {
+    font-size: 16px;
+    color: #000;
+}

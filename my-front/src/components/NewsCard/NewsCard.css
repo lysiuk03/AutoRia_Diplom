@@ -1,0 +1,76 @@
+/* NewsCard.css */
+.news-card {
+
+    border-radius: 18px;
+    overflow: hidden;
+    width: 300px;
+
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: Montserrat, sans-serif;
+    gap: 9px;
+}
+
+.news-card-content .news-card-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border: none;
+    border-radius: 11px;
+    margin-bottom: 16px;
+}
+
+.news-card-content {
+    padding: 16px;
+    background-color: #2e3b4e; /* Assuming a dark background */
+    color: white;
+}
+
+.news-card-date {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    color: #bbb;
+    margin-bottom: 8px;
+}
+
+.news-card-date .calendar-icon {
+    margin-right: 8px;
+}
+
+.news-card-title {
+    font-size: 16px;
+    margin: 0 0 16px;
+    text-align: left;
+}
+
+.news-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.news-card-source {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    color: #bbb;
+}
+
+.news-card-source .source-icon {
+    margin-right: 8px;
+}
+
+.news-card-button {
+    padding: 5.37px 14.32px 5.37px 14.32px;
+    background-color: #fff;
+    color: #2e3b4e;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+
+
+}
+
+.news-card-button:hover {
+    background-color: #ddd;
+}
