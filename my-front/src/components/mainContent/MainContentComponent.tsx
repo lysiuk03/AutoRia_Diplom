@@ -4,6 +4,7 @@ import CarCarousel from "../carCarousel/CarCarousel.tsx";
 import {cars} from "../../data/cars.ts";
 import CarLogoMenu from "../carLogoMenu/CarLogoMenu.tsx";
 import Reviews from "../reviews/Reviews.tsx";
+import Digest from "../digest/Digest.tsx";
 const MainContentComponent = () => (
     <div className="main-comp">
         <div className="bg-img">
@@ -22,7 +23,7 @@ const MainContentComponent = () => (
             <h3>АВТОМОБІЛЬНИЙ ДАЙДЖЕСТ</h3>
         </div>
         <div className="center-width digest-container">
-            <p>Тут буде дайджест</p>
+            <Digest/>
         </div>
         <div className="solid-container">
             <h3>ВІДГУКИ НАШИХ КЛІЄНТІВ</h3>

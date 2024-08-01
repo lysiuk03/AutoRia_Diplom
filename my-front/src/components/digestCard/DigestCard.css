@@ -1,0 +1,56 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;500;700;900&display=swap');
+.digest-card-container{
+    font-family: "Montserrat", sans-serif;
+    width: 400px;
+    height: 400px;
+    padding: 20px 24px 20px 24px;
+    gap: 10px;
+    border-radius: 20px;
+    background: linear-gradient(180deg, #AAB9C8 0%, #3E4851 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.card-container-img{
+    width: 351px;
+    height: 177px;
+    border-radius: 12px;
+}
+.digest-card-container h3{
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 22px;
+    text-align: left;
+    color: #B1BFCD;
+}
+.digest-card-container hr{
+    border: none;
+    height: 1px;
+    background-color: #707070;
+}
+.digest-card-container p{
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 20px;
+    color: #ffffff;
+    margin: 10px 0;
+}
+.p-image {
+    height: 15px;
+    margin-right: 15px;
+}
+.content-down{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.read-btn{
+    padding: 6px 16px 6px 16px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 20px;
+    text-align: center;
+    color: #ffffff;
+    background-color: #B1BFCD;
+}

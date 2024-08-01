@@ -105,3 +105,8 @@
     margin-right:  10px;
 }
 
+.car-details hr{
+    border: none;
+    height: 1px;
+    background-color: #707070;
+}
