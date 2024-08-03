@@ -55,7 +55,7 @@
     flex-direction: column;
 }
 
-.like-circle-1 .like-circle-2 .content {
+.like-circle-2 .content {
     width: 24px;
     height: 34px;
     font-family: 'Karla', sans-serif;
@@ -70,7 +70,7 @@
     justify-content: center;
 }
 
-.like-circle-1 .like-circle-2 .content img {
+.like-circle-2 .content img {
     width: 14px;
     height: 13px;
     margin-bottom: 0;

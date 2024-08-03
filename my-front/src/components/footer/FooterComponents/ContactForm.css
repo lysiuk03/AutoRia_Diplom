@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;500;700;900&display=swap');
+
+
+.contact-form {
+    font-family: "Montserrat", sans-serif;
+    background: linear-gradient(180deg, #8C9BA9 0%, #2E4F76 100%);
+    width: 637px;
+    height: 455px;
+    padding: 30px;
+    display: grid;
+    gap: 10px;
+    grid-template-rows: 1fr 1fr 1fr 4fr 1fr;
+    grid-template-columns: auto;
+    border-radius: 20px;
+    position: absolute;
+    right: 200px;
+    bottom: 99px;
+}
+
+.contact-form h2 {
+    font-size: 32px;
+    font-weight: 800;
+    text-align: left;
+    margin: 0;
+    color: #FFFFFF;
+}
+
+.contact-form input,
+.contact-form textarea {
+    font-size: 20px;
+    font-weight: 400;
+    color: #535353;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    transition: none;
+    padding-left: 10px;
+}
+
+
+.contact-form button {
+    background-color: #2E4F76;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    transition: none;
+    font-size: 20px;
+    font-weight: 700;
+    text-align: center;
+    color: #FFFFFF;
+
+
+}
+
+.contact-form button:focus,
+.contact-form button:active {
+    box-shadow: none;
+    outline: none;
+}

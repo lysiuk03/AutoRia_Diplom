@@ -1,8 +1,12 @@
-
+// Libraries
 import React from 'react';
-import {Car} from "../../interfaces/Car";
 
+// Interfaces
+import { Car } from "../../interfaces/Car";
+
+// Styles
 import './CarCard.css';
+
 const CarCard: React.FC<Car> = ({
                                     year,
                                     model,
@@ -22,7 +26,7 @@ const CarCard: React.FC<Car> = ({
     }
     function formatPrice(price: number | undefined): string {
         if (price == undefined) {
-            return 'Ціна не вказана'; // або будь-яке інше значення за замовчуванням
+            return 'Ціна не вказана';
         }
         return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
     }

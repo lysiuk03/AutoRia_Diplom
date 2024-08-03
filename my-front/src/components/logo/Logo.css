@@ -1,0 +1,8 @@
+.logo-image{
+    position: absolute;
+    width: 170px;
+    height: 48px;
+    top: 54px;
+    left: 262px;
+    z-index: 1;
+}

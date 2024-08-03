@@ -1,0 +1,41 @@
+.menu-container {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    position: absolute;
+    width: 1000px;
+    height: 46px;
+    top: 54px;
+    left: 795px;
+    z-index: 2;
+}
+
+.menu a {
+    margin-right: 36px;
+    color: #ffffff;
+}
+
+.menu a:hover {
+    color: #ffffff;
+}
+
+.user-actions a {
+    margin-right: 32px;
+    color: #ffffff;
+}
+
+.sell-car-btn {
+    border-radius: 5px;
+    background-color: #FFFFFF;
+    font-size: 18px;
+    font-weight: 600;
+    color: #2E4F76 !important;
+    padding: 12px 24px 12px 24px;
+    text-align: center;
+    text-transform: uppercase;
+}

@@ -1,5 +1,9 @@
+// Libraries
 import React from 'react';
+
+// Styles
 import './DigestCard.css';
+
 
 interface CardProps {
     image: string;

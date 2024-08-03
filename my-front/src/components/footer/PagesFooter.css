@@ -1,0 +1,99 @@
+@import url('https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200..800;1,200..800&display=swap');
+
+.box-gray {
+    width: 1919px;
+    height: 449px;
+    margin-top: 99px;
+    border-radius: 11px 11px 0 0;
+    background-color: #8C9BA9;
+}
+
+.footer-sections {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    width: 824px;
+    height: 166px;
+    margin-top: 86px;
+    margin-left: 198px;
+    gap: 82px;
+    position: absolute;
+}
+
+.footer-section {
+    display: flex;
+    flex-direction: column;
+    width: 220px;
+    height: 166px;
+    gap: 20px;
+}
+
+.main-menu {
+    font-family: "Karla", sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    font-style: normal;
+    color: #FFFFFF;
+    margin: 0;
+    line-height: 21px;
+    text-transform: uppercase;
+}
+
+.footer-sections ul {
+    font-family: "Karla", sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    font-style: normal;
+    color: #FFFFFF;
+    list-style-type: none;
+    padding: 0;
+    line-height: 19px;
+    margin: 0 ;
+}
+
+.footer-sections ul li a {
+    text-decoration: none;
+    color: #FFFFFF;
+}
+
+.footer-sections ul li a:hover {
+    color: #FFFFFF;
+}
+
+.phone{
+    font-family: "Karla", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+    color: #FFFFFF;
+    margin: 0;
+    font-size: 28px;
+    line-height: 33px;
+    text-align: left;
+}
+
+.phone-container{
+    width: 270px;
+    height: 33px;
+}
+
+.social-media-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    width: 252px;
+    height: 39px;
+    gap: 35px;
+}
+
+.contacts-container{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 346px;
+    margin-left: 198px;
+    position: absolute;
+    width: 780px;
+}
+
+.social-icon{
+    width: 39px;
+    height: 39px;
+    padding: 3px 3px 3px 3px;
+}

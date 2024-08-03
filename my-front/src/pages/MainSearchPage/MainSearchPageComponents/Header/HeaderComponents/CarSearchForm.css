@@ -1,0 +1,210 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;500;700;900&display=swap');
+
+.search-form {
+    position: absolute;
+    width: 728px;
+    height: auto;
+    top: 260px;
+    left: 262px;
+    z-index: 4;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    text-align: left;
+}
+
+.search-form h2 {
+    color: #ffffff;
+    margin: 0;
+}
+
+.search-form-container {
+    background: linear-gradient(180deg, #526474 0%, #5D6A77 100%);
+    height: 370px;
+    padding: 32px 44px 32px 44px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 5px;
+}
+
+.car-search-options {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.car-search-form-fields {
+    display: flex;
+    justify-content: space-between;
+    flex-grow: 1;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: left;
+}
+
+.car-search-form-fields div {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 300px;
+
+}
+
+.car-search-form-fields select,
+.car-search-form-fields input {
+    height: 40px;
+    padding: 8px;
+    border: none;
+    background-color: #FFFFFF;
+    appearance: none;
+    background-image: url("/images/triangle.png");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+}
+
+.car-search-form-fields input,
+.car-search-form-fields select,
+.car-search-form-fields option[disabled],
+.car-search-form-fields ::placeholder {
+    color: #535353;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: left;
+}
+
+.car-search-form-fields select:focus,
+.car-search-form-fields select:hover,
+.car-search-form-fields input:focus,
+.car-search-form-fields input:hover {
+    outline: none;
+    box-shadow: none;
+}
+
+.car-search-btn {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 31px;
+    margin-top: 32px;
+}
+
+.extended-search-btn{
+    border: 2px solid #FFFFFF;
+    background-color: transparent;
+
+}
+.search-btn{
+    background-color:  #3b454e;
+}
+
+.search-btn,
+.extended-search-btn
+{
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 24px;
+    text-align: center;
+    color: #ffffff;
+}
+.search-btn:hover,
+.search-btn:active,
+.search-btn:focus,
+.extended-search-btn:hover,
+.extended-search-btn:active,
+.extended-search-btn:focus {
+    box-shadow: none;
+    outline: none;
+    transition: none;
+}
+
+.button-group {
+    display: flex;
+    border: 1px solid #ffffff;
+    border-radius: 5px;
+    width: auto;
+    height: 39px;
+}
+
+.radio-button {
+    border-left: 1px solid #ffffff;
+    padding: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border-radius: 0;
+    background-color: transparent;
+    font-size: 18px;
+    font-weight: 400;
+    text-align: left;
+    color: #ffffff;
+    outline: none;
+}
+
+.radio-button.active {
+    outline: none;
+    background-color: #ffffff;
+    color: #2E4F76;
+}
+
+.radio-button:not(.active):hover {
+    background-color: transparent;
+}
+
+.radio-button:hover,
+.radio-button:focus {
+    outline: none;
+    box-shadow: none;
+    border: 1px solid #ffffff;
+}
+
+.vin-check {
+    display: flex;
+    align-items: center;
+    height: 40px;
+}
+
+.vin-check-label {
+    border-radius: 5px;
+    background-color: #2E4F76;
+    font-size: 20px;
+    font-weight: 400;
+    color: #ffffff;
+    justify-content: center;
+    padding: 0 8px;
+    line-height: 40px;
+}
+
+.custom-checkbox {
+    width: 41px;
+    height: 41px;
+    padding: 11px 9px;
+    border-radius: 5px;
+    background: #D9D9D9;
+    position: relative;
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.custom-checkbox input[type="checkbox"] {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    opacity: 0;
+    position: absolute;
+    left: 0;
+    top: 0;
+    cursor: pointer;
+}
+
+.custom-checkbox input[type="checkbox"]:checked + .checkmark {
+    background-color: #2E4F76;
+}
+
+.custom-checkbox .checkmark {
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+    background-color: #D9D9D9;
+    display: block;
+}
