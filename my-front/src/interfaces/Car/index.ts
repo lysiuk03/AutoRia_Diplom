@@ -1,5 +1,9 @@
 
-export interface Car {
+export interface CardDimensions {
+    height?: number;
+    width?: number;
+}
+export interface Car extends CardDimensions{
     year: number;
     model: string;
     manufacturer: string;

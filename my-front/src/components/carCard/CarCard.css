@@ -2,8 +2,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;500;700;900&display=swap');
 
 .car-card {
-    width: 290px;
-    height: 386px;
     padding: 15px 0;
     border-radius: 20px;
     border: 2px solid #8C9BA9;
@@ -14,7 +12,7 @@
     position: relative;
 }
 .car-card .content {
-    width: 230px;
+    width: 90%;
     height: 100%;
     display: flex;
     flex-direction: column;

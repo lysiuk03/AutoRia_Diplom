@@ -2,8 +2,8 @@
     width: 1919px;
     height: auto;
     margin: 0 auto;
-    background-color: #FFFFFF;
     position: relative;
+    background-color: #f1f2f6;
 }
 
 .footer{
@@ -17,7 +17,7 @@
     width: 1919px;
     height: 450px;
     padding: 0;
-    background-color: transparent;
     display: flex;
     align-items: flex-end;
+    background-color: #FFFFFF;
 }

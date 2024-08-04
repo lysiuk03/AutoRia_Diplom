@@ -7,6 +7,7 @@ import { Car } from "../../interfaces/Car";
 // Styles
 import './CarCard.css';
 
+
 const CarCard: React.FC<Car> = ({
                                     year,
                                     model,
@@ -16,6 +17,8 @@ const CarCard: React.FC<Car> = ({
                                     photos,
                                     city,
                                     price,
+                                    height = 386,
+                                    width = 290
                                 }) => {
     function formatMileage(mileage: number): string {
         if (mileage >= 1000) {
@@ -32,7 +35,7 @@ const CarCard: React.FC<Car> = ({
     }
 
     return (
-        <div className="car-card">
+        <div className="car-card" style={{ width: `${width}px`, height: `${height}px` }}>
             <div className="content">
                 <div>
                     <img className="img-car" src={photos[0]} alt={`${manufacturer} ${model} ${year}`}/>
