@@ -1,0 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;500;700;900&display=swap');
+.profile-card {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.profile-image {
+    width: 170px;
+    height: 170px;
+    object-fit: cover;
+    margin-bottom: 16px;
+
+}
+
+.profile-details{
+    font-family: 'Montserrat', sans-serif;
+    height: 100%;
+    color: #3B454E;
+    margin-left: 10px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.profile-details h2 {
+    font-size: 22px;
+    font-weight: 500;
+    line-height: 22px;
+    margin: 0;
+}
+
+.profile-details p {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 22px;
+    margin: 5px  5px 0 0;
+}
+
+.rating {
+    display: flex;
+    flex-direction: row;
+    justify-content:left;
+    align-items: center;
+    margin-top: 30px;
+}

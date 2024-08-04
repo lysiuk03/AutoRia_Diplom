@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;500;700;900&display=swap');
 .menu-container {
     font-family: 'Montserrat', sans-serif;
     font-size: 18px;
@@ -11,21 +12,18 @@
     width: 1000px;
     height: 46px;
     top: 54px;
-    left: 795px;
+    left: 810px;
     z-index: 2;
 }
 
-.menu a {
+.menu a,
+.user-actions a {
     margin-right: 36px;
     color: #ffffff;
+    align-items: center;
 }
 
 .menu a:hover {
-    color: #ffffff;
-}
-
-.user-actions a {
-    margin-right: 32px;
     color: #ffffff;
 }
 
@@ -38,4 +36,25 @@
     padding: 12px 24px 12px 24px;
     text-align: center;
     text-transform: uppercase;
+}
+
+.menu-container.dark-navbar{
+    left: 775px;
+}
+
+.menu-container.dark-navbar .menu a ,
+.menu-container.dark-navbar .user-actions a {
+    color: #3B454E;
+}
+
+.menu-container.dark-navbar .sell-car-btn {
+    background-color: #2E4F76;
+    color: #FFFFFF !important;
+}
+.menu-container.dark-navbar .notif-icon {
+    content: url('/images/notif-dark.png');
+}
+
+.menu-container.dark-navbar .profile-icon {
+    content: url('/images/profile-dark.png');
 }

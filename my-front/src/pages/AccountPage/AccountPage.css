@@ -1,0 +1,23 @@
+.account-layout {
+    width: 1919px;
+    height: auto;
+    margin: 0 auto;
+    background-color: #FFFFFF;
+    position: relative;
+}
+
+.footer{
+    width: 1919px;
+    height: 548px;
+    background-color: transparent;
+    padding: 0;
+}
+
+.account-header{
+    width: 1919px;
+    height: 450px;
+    padding: 0;
+    background-color: transparent;
+    display: flex;
+    align-items: flex-end;
+}
