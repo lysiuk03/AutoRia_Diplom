@@ -3,6 +3,7 @@ import React from 'react';
 
 // Styles
 import './Navbar.css';
+import {Link} from "react-router-dom";
 
 interface NavbarProps {
     additionalClass?: string;
@@ -17,8 +18,7 @@ const Navbar: React.FC<NavbarProps> = ({ additionalClass }) => (
         </div>
         <div className="user-actions">
             <a href="#"><img src="/images/notif.png" alt="Notifications" className="notif-icon"/></a>
-            <a href="#"><img src="/images/profile.png" alt="Profile" className="profile-icon"/></a>
-            <a href="#">Профіль</a>
+            <Link to="/account/ads"><img src="/images/profile.png" alt="Profile" className="profile-icon"/>Профіль</Link>
             <a href="#" className="sell-car-btn">Продати авто</a>
         </div>
     </nav>

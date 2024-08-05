@@ -16,7 +16,7 @@ const App: React.FC = () => {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<MainSearchPage />} />
+                <Route path="/home" element={<MainSearchPage />} />
                 <Route path="/account" element={<AccountPage />}>
                     <Route index element={<MyAds />} />
                     <Route path="ads" element={<MyAds />} />

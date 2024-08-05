@@ -12,20 +12,30 @@
     width: 1000px;
     height: 46px;
     top: 54px;
-    left: 810px;
+    left: 800px;
     z-index: 2;
 }
 
-.menu a,
-.user-actions a {
-    margin-right: 36px;
-    color: #ffffff;
+.menu,
+.user-actions {
+    display: flex;
     align-items: center;
 }
 
-.menu a:hover {
+.menu-container a {
+    display: flex;
+    align-items: center;
+    margin-right: 36px;
+    color: #ffffff;
+    text-decoration: none;
+}
+.menu-container a:hover {
     color: #ffffff;
 }
+.user-actions img {
+    margin-right: 16px;
+}
+
 
 .sell-car-btn {
     border-radius: 5px;
@@ -36,6 +46,8 @@
     padding: 12px 24px 12px 24px;
     text-align: center;
     text-transform: uppercase;
+    height: 46px;
+
 }
 
 .menu-container.dark-navbar{
