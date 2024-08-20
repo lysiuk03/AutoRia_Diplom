@@ -14,7 +14,7 @@ const Logo: React.FC<LogoProps> = ({ dark = false}) => {
     const logoClass = dark ? 'logo-image dark' : 'logo-image';
 
     return (
-        <Link to="/home">
+        <Link to="/">
         <img
             src={logoSrc}
             alt="Logo"
