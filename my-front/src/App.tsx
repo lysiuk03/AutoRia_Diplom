@@ -11,6 +11,7 @@ import Favorites from "./pages/AccountPage/AccountPageComponents/Favorites/Favor
 import AutoCheck from "./pages/AccountPage/AccountPageComponents/AutoCheck/AutoCheck.tsx";
 import Bills from "./pages/AccountPage/AccountPageComponents/Bills/Bills.tsx";
 
+import './App.css';
 
 const App: React.FC = () => {
     return (

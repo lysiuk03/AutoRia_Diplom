@@ -24,7 +24,7 @@ const DigestCard: React.FC<CardProps> = ({ image, date, title, description }) =>
                 <hr/>
                 <div className="content-down">
                     <p><img src="/images/person.png" alt="Person" className="p-image"/>{description}</p>
-                    <button className="read-btn" type="submit">Читати</button>
+                    <button className="read-btn none-line" type="submit">Читати</button>
                 </div>
             </div>
         </div>

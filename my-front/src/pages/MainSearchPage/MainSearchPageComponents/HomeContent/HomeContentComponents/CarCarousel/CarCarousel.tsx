@@ -39,7 +39,7 @@ const CarCarousel: React.FC<CarCarouselProps> = ({ cars }) => {
                     <CarCard key={index} {...car} />
                 ))}
             </div>
-            <button onClick={handleNext} className="arrow right-arrow btn-none-styles" disabled={currentIndex >= cars.length - 4}>
+            <button onClick={handleNext} className="arrow right-arrow btn-none-styles none-line" disabled={currentIndex >= cars.length - 4}>
                 <img src="/images/right.png" alt="Right" />
             </button>
         </>

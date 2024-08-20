@@ -1,4 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;500;700;900&display=swap');
 
 .search-form {
     position: absolute;
@@ -40,7 +39,6 @@
     font-size: 20px;
     font-weight: 400;
     line-height: 24px;
-    text-align: left;
 }
 
 .car-search-form-fields div {
@@ -48,7 +46,6 @@
     flex-direction: column;
     justify-content: space-between;
     width: 300px;
-
 }
 
 .car-search-form-fields select,
@@ -72,15 +69,6 @@
     font-size: 20px;
     font-weight: 400;
     line-height: 24px;
-    text-align: left;
-}
-
-.car-search-form-fields select:focus,
-.car-search-form-fields select:hover,
-.car-search-form-fields input:focus,
-.car-search-form-fields input:hover {
-    outline: none;
-    box-shadow: none;
 }
 
 .car-search-btn {
@@ -93,8 +81,8 @@
 .extended-search-btn{
     border: 2px solid #FFFFFF;
     background-color: transparent;
-
 }
+
 .search-btn{
     background-color:  #3b454e;
 }
@@ -108,16 +96,6 @@
     text-align: center;
     color: #ffffff;
 }
-.search-btn:hover,
-.search-btn:active,
-.search-btn:focus,
-.extended-search-btn:hover,
-.extended-search-btn:active,
-.extended-search-btn:focus {
-    box-shadow: none;
-    outline: none;
-    transition: none;
-}
 
 .button-group {
     display: flex;
@@ -130,33 +108,25 @@
 .radio-button {
     border-left: 1px solid #ffffff;
     padding: 8px;
-    cursor: pointer;
     transition: background-color 0.3s;
     border-radius: 0;
     background-color: transparent;
     font-size: 18px;
     font-weight: 400;
-    text-align: left;
     color: #ffffff;
-    outline: none;
 }
 
 .radio-button.active {
     outline: none;
     background-color: #ffffff;
     color: #2E4F76;
+    text-decoration: none;
 }
 
 .radio-button:not(.active):hover {
     background-color: transparent;
 }
 
-.radio-button:hover,
-.radio-button:focus {
-    outline: none;
-    box-shadow: none;
-    border: 1px solid #ffffff;
-}
 
 .vin-check {
     display: flex;
@@ -196,8 +166,6 @@
     cursor: pointer;
 }
 
-
-
 .custom-checkbox .checkmark {
     width: 100%;
     height: 100%;
@@ -206,7 +174,6 @@
     position: relative;
 }
 
-/* Pseudo-element for the checkmark */
 .custom-checkbox input[type="checkbox"]:checked + .checkmark::after {
     content: '';
     position: absolute;

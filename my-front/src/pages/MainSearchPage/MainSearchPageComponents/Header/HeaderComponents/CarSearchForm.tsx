@@ -86,7 +86,7 @@ const CarSearchForm: React.FC = () => {
                 </div>
                 <div className="car-search-btn">
                     <button className="extended-search-btn" type="button">Розширений пошук</button>
-                    <button className="search-btn" type="submit">Шукати</button>
+                    <button className="search-btn none-line" type="submit">Шукати</button>
                 </div>
             </div>
         </form>
