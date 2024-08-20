@@ -10,31 +10,31 @@
     height: 170px;
     object-fit: cover;
     margin-bottom: 16px;
-
+    border-radius: 11px;
 }
 
 .profile-details{
     font-family: 'Montserrat', sans-serif;
     height: 100%;
-    color: #3B454E;
-    margin-left: 10px;
+    color: #535353;
+    margin-left: 25px;
     display: flex;
-    justify-content: center;
     flex-direction: column;
 }
 
 .profile-details h2 {
-    font-size: 22px;
-    font-weight: 500;
+    font-size: 20px;
+    font-weight: 700;
     line-height: 22px;
     margin: 0;
+    text-transform: uppercase;
 }
 
 .profile-details p {
     font-size: 14px;
     font-weight: 400;
     line-height: 22px;
-    margin: 5px  5px 0 0;
+    margin: 5px  5px 0 10px;
 }
 
 .rating {

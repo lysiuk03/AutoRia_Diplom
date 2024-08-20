@@ -19,7 +19,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ name, id, location, rating, i
         const stars = [];
         for (let i = 1; i <= 5; i++) {
             const isFilled = i <= scaledRating;
-            const starImage = isFilled ? 'yellstar.png' : 'star.png';
+            const starImage = isFilled ? 'bluestar.png' : 'star.png';
             stars.push(
                 <img
                     key={i}
@@ -39,8 +39,8 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ name, id, location, rating, i
                 <h2>{name}</h2>
                 <p>ID: {id} • {location}</p>
                 <div className="rating">
-                    <p >{rating}</p >
                     {renderStars(rating)}
+                    <p>{rating}</p>
                 </div>
             </div>
         </div>

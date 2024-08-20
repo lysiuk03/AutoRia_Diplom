@@ -64,7 +64,7 @@ input[type="number"] {
     border-radius: 5px;
     border: 1px solid #909090;
     color: #909090;
-    background: url('/images/search.png') no-repeat calc(100% - 3px) center;
+    background: url('/images/search.png') no-repeat calc(100% - 3px) center #ffffff;
     max-width: 495px;
 
 }

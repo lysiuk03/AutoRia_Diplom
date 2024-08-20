@@ -32,13 +32,13 @@ const AccountHeader: React.FC = () => {
 
     return (
         <>
-            <Logo dark />
-            <Navbar additionalClass="dark-navbar" />
+            <Logo left/>
+            <Navbar additionalClass="left" />
             <div className="profile-overview-container">
                 <div className="user-info-actions">
                     <ProfileCard {...profileData} />
                     <div className="btn-container">
-                        <button className="chat-button">Чат з покупцями</button>
+                        <button className="chat-button none-line">Чат з покупцями</button>
                         <button className="edit-profile-button">
                             <img src="/images/edit.png" alt="Edit"/>
                             Редагувати профіль

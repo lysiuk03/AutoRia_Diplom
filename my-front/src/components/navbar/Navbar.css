@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;500;700;900&display=swap');
+
 .menu-container {
     font-family: 'Montserrat', sans-serif;
     font-size: 18px;
@@ -14,6 +14,9 @@
     top: 54px;
     left: 800px;
     z-index: 2;
+}
+.menu-container.left{
+    left: 750px;
 }
 
 .menu,
@@ -32,10 +35,10 @@
 .menu-container a:hover {
     color: #ffffff;
 }
+
 .user-actions img {
     margin-right: 16px;
 }
-
 
 .sell-car-btn {
     border-radius: 5px;
