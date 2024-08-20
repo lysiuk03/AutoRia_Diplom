@@ -4,9 +4,6 @@ import React from 'react';
 // Styles
 import './PagesFooter.css';
 
-// Own modules
-import ContactForm from "./FooterComponents/ContactForm.tsx";
-
 
 const PagesFooter: React.FC = () => (
 
@@ -40,19 +37,24 @@ const PagesFooter: React.FC = () => (
                         <h4 className="main-menu">Сервіси</h4>
                         <h4 className="main-menu">Послуги для авто</h4>
                     </div>
+                    <div className="footer-section">
+                        <button className="footer-button">Написати нам</button>
+                        <div className="social-media-container">
+                            <a href="#"><img src="/images/viber.png" alt="Viber" className="social-icon"/></a>
+                            <a href="#"><img src="/images/telegram.png" alt="Telegram" className="social-icon"/></a>
+                            <a href="#"><img src="/images/instagram.png" alt="Instagram" className="social-icon"/></a>
+                            <a href="#"><img src="/images/facebook.png" alt="Facebook" className="social-icon"/></a>
+                        </div>
+                    </div>
                 </div>
                 <div className="contacts-container">
                     <div className="phone-container">
                         <h4 className="phone">+380-98-449-71-31</h4>
                     </div>
-                    <div className="social-media-container">
-                        <a href="#"><img src="/images/viber.png" alt="Viber" className="social-icon"/></a>
-                        <a href="#"><img src="/images/telegram.png" alt="Telegram" className="social-icon"/></a>
-                        <a href="#"><img src="/images/instagram.png" alt="Instagram" className="social-icon"/></a>
-                        <a href="#"><img src="/images/facebook.png" alt="Facebook" className="social-icon"/></a>
+                    <div className="phone-container">
+                        <h4 className="phone">+380-66-446-61-41</h4>
                     </div>
                 </div>
-                <ContactForm/>
             </div>
     )
 ;

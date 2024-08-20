@@ -1,17 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200..800;1,200..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;500;700;900&display=swap');
 
 .box-gray {
     width: 1919px;
-    height: 449px;
-    margin-top: 99px;
+    height: 510px;
     border-radius: 11px 11px 0 0;
     background-color: #8C9BA9;
 }
 
 .footer-sections {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    width: 824px;
+    grid-template-columns: 1fr 1fr 1fr 1.2fr;
+    width: 1200px;
     height: 166px;
     margin-top: 86px;
     margin-left: 198px;
@@ -22,7 +22,6 @@
 .footer-section {
     display: flex;
     flex-direction: column;
-    width: 220px;
     height: 166px;
     gap: 20px;
 }
@@ -80,7 +79,7 @@
     grid-template-columns: repeat(4, 1fr);
     width: 252px;
     height: 39px;
-    gap: 35px;
+    gap: 40px;
 }
 
 .contacts-container{
@@ -89,11 +88,24 @@
     margin-top: 346px;
     margin-left: 198px;
     position: absolute;
-    width: 780px;
+    width: 600px;
 }
 
 .social-icon{
     width: 39px;
     height: 39px;
-    padding: 3px 3px 3px 3px;
+}
+
+.footer-button
+{
+    padding: 13px 28px 13px 28px;
+    border: 2px solid #FFFFFF;
+    color: #ffffff;
+    background-color: transparent;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 22px;
+    text-transform: uppercase;
+    border-radius: 0;
 }
