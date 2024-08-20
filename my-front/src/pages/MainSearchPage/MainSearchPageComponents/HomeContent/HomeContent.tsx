@@ -19,7 +19,7 @@ const HomeContent = () => (
             <img src="/images/vector.png" alt="Vector"/>
         </div>
         <div className="content-title title-1">
-            <h3>АВТОМОБІЛІ, <br/>ЯКІ ШУКАЮТЬ НАЙЧАСТІШЕ</h3>
+            <h3>Автомобілі, <br/>які шукають найчастіше</h3>
         </div>
         <div>
                 <CarCarousel cars={cars} />
@@ -28,13 +28,13 @@ const HomeContent = () => (
             <CarLogoMenu/>
         </div>
         <div className="content-title">
-            <h3>АВТОМОБІЛЬНИЙ ДАЙДЖЕСТ</h3>
+            <h3>Автомобільний дайджуст</h3>
         </div>
         <div className="center-width digest-container">
             <Digest/>
         </div>
         <div className="solid-container">
-            <h3>ВІДГУКИ НАШИХ КЛІЄНТІВ</h3>
+            <h3>Відгуки наших клієнтів</h3>
             <Reviews/>
         </div>
     </div>

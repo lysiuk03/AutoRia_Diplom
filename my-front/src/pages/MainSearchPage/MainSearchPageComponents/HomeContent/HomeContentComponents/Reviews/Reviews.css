@@ -1,4 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;500;700;900&display=swap');
 
 .review-container {
     display: flex;
@@ -19,7 +18,6 @@
 .arrow-button:active {
     background: none;
     border: none;
-    cursor: pointer;
     outline: none;
 }
 
@@ -33,11 +31,11 @@
 }
 
 .review p{
-
     font-size: 16px;
     font-weight: 400;
     text-align: center;
 }
+
 .review h3{
     font-size: 20px;
     font-weight: 700;
@@ -46,6 +44,7 @@
     text-transform: uppercase;
     margin-top: 20px;
 }
+
 .review-image {
     border-radius: 50%;
     width: 144px;
