@@ -1,12 +1,19 @@
 // Libraries
-import React from 'react';
+import React, { useState } from 'react';
 
 // Styles
 import './PagesFooter.css';
 
+import FormWithCloseButton from "../../components/footer/FooterComponents/FormWithCloseButton";
 
-const PagesFooter: React.FC = () => (
+const PagesFooter: React.FC = () => {
+        const [isFormVisible, setIsFormVisible] = useState(false);
 
+        const openForm = () => setIsFormVisible(true);
+        const closeForm = () => setIsFormVisible(false);
+
+
+        return (
             <div className="box-gray">
                 <div className="footer-sections">
                     <div className="footer-section">
@@ -38,7 +45,7 @@ const PagesFooter: React.FC = () => (
                         <h4 className="main-menu">Послуги для авто</h4>
                     </div>
                     <div className="footer-section">
-                        <button className="footer-button">Написати нам</button>
+                        <button className="footer-button" onClick={openForm}>Написати нам</button>
                         <div className="social-media-container">
                             <a href="#"><img src="/images/viber.png" alt="Viber" className="social-icon"/></a>
                             <a href="#"><img src="/images/telegram.png" alt="Telegram" className="social-icon"/></a>
@@ -55,8 +62,10 @@ const PagesFooter: React.FC = () => (
                         <h4 className="phone">+380-66-446-61-41</h4>
                     </div>
                 </div>
+                {isFormVisible && <FormWithCloseButton onClose={closeForm} />}
             </div>
-    )
+        );
+    }
 ;
 
 export default PagesFooter;
