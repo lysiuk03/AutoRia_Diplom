@@ -53,23 +53,16 @@
 
 }
 
-.menu-container.dark-navbar{
-    left: 775px;
-}
-
-.menu-container.dark-navbar .menu a ,
-.menu-container.dark-navbar .user-actions a {
+.menu-container.auth-navbar .menu a  {
     color: #3B454E;
 }
 
-.menu-container.dark-navbar .sell-car-btn {
-    background-color: #2E4F76;
-    color: #FFFFFF !important;
+.menu-container.auth-navbar .notif-icon {
+    display: none;
 }
-.menu-container.dark-navbar .notif-icon {
-    content: url('/images/notif-dark.png');
-}
-
-.menu-container.dark-navbar .profile-icon {
-    content: url('/images/profile-dark.png');
+.profile-button{
+    background-color:transparent;
+    display: flex;
+    align-items: center;
+    color: #ffffff;
 }

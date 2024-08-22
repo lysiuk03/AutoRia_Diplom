@@ -50,7 +50,9 @@ button {
   transition: border-color 0.25s;
 }
 button:focus,
-button:focus-visible {
+button:focus-visible,
+input:focus,
+input:focus-visible{
   outline: none;
 }
 
