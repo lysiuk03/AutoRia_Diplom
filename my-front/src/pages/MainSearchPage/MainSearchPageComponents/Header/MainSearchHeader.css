@@ -1,0 +1,92 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;500;700;900&display=swap');
+
+.header-container {
+    font-family: 'Montserrat', sans-serif;
+    position: relative;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+.background-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.car-image {
+    position: absolute;
+    width: 947px;
+    height: 568px;
+    top: 271px;
+    left: 920px;
+}
+
+.auto-world-1{
+    position: absolute;
+    top: 746px;
+    left: 254px;
+}
+
+.auto-world-2{
+    position: absolute;
+    top: 870px;
+    left: 254px;
+    width: 232px;
+}
+
+.number-1 h3,h1{
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+    color: #ffffff;
+}
+.number-1 h1{
+    font-size: 128px !important;
+    font-weight: 800;
+    line-height: 156px;
+    text-align: left;
+}
+.number-1 h3{
+    font-size: 32px;
+    font-weight: 500;
+    text-align: center;
+
+}
+.auto-world-1 span{
+    font-size: 80px;
+}
+
+.statistic-label{
+    position: absolute;
+    top: 826px;
+    left: 985px;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 149px);
+    text-align: center;
+    gap: 28px;
+    color: #ffffff;
+}
+
+.grid-item span {
+    font-family: 'Montserrat', sans-serif;
+    display: block;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 24px;
+    text-align: center;
+}
+
+.grid-item p {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 20px;
+    text-align: center;
+    margin: 12px 0 0 0;
+}

@@ -1,0 +1,80 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;500;700;900&display=swap');
+.auto-check-container {
+    display: flex;
+    flex-direction: column;
+    width: 882px;
+    gap: 10px;
+    margin: 30px 200px 90px 200px;
+    font-family: "Montserrat", sans-serif;
+}
+
+.auto-check-container h3 {
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 29px;
+    color: #000000;
+    margin: 0;
+}
+
+.auto-check-container p {
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 24px;
+}
+
+.check-options {
+    display: flex;
+    gap: 50px;
+    margin-bottom: 16px;
+}
+
+input[type="number"],
+.by-id-btn,
+.not-by-btn{
+    border-radius: 5px;
+    padding: 10px;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 24px;
+}
+
+.by-id-btn {
+    border: 2px solid #2E4F76;
+    background-color: #D3FFFC;
+}
+.not-by-btn{
+    color: #2E4F76;
+    border: 2px solid #2E4F76;
+}
+
+.by-id-btn:hover,
+.by-id-btn:focus,
+.by-id-btn:active,
+.not-by-btn:hover,
+.not-by-btn:focus,
+.not-by-btn:active {
+    color: inherit;
+    border-color: inherit;
+    outline: none;
+    box-shadow: none;
+}
+
+input[type="number"] {
+    padding: 12px 8px 12px 8px;
+    border-radius: 5px;
+    border: 1px solid #909090;
+    color: #909090;
+    background: url('/images/search.png') no-repeat calc(100% - 3px) center #ffffff;
+    max-width: 495px;
+
+}
+
+
+input[type="number"]:hover,
+input[type="number"]:focus,
+input[type="number"]:active {
+    color: inherit;
+    border-color: inherit;
+    outline: none;
+    box-shadow: none;
+}

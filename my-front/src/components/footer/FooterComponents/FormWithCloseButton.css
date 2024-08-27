@@ -1,0 +1,79 @@
+.contact-form {
+    font-family: "Montserrat", sans-serif;
+    display: grid;
+    justify-content: center;
+    gap: 20px;
+    grid-template-rows: auto auto auto auto 1fr auto auto;
+    background-color: #ffffff;
+    width: 415px;
+    height: 690px;
+    padding: 30px 0;
+    position: absolute;
+    bottom:15px;
+    right:15px;
+}
+.contact-form h2{
+    font-family: "Karla", sans-serif;
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 26px;
+    margin: 0;
+    color: #000000;
+}
+.contact-form div img{
+    height: 25px;
+}
+.contact-form hr {
+    width: 100%;
+    border: 0;
+    border-top: 1px solid #DDDDDD;
+    margin: 5px 0;
+}
+
+.up-container{
+    display: flex;
+    flex-direction: row;
+    justify-content:space-between;
+    padding:0 20px;
+}
+
+.contact-form input,
+.contact-form textarea {
+    width: 380px;
+    padding: 7px 20px 7px 12px;
+    border: 0.8px solid #707070;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 20px;
+    color: #535353;
+}
+
+.contact-form  label{
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 20px;
+    width:380px;
+}
+
+.contact-form button {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 20px;
+    width: 380px;
+    padding: 9px 19px 9px 19px;
+    border-radius: 4px;
+    background-color: #2E4F76;
+    color: #ffffff;
+    text-transform: uppercase;
+}
+.h-container{
+    display: flex;
+    flex-direction: column;
+}
+.contact-form a{
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 20px;
+    color:  #2C4494;
+}

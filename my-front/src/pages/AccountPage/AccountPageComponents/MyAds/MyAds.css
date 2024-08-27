@@ -1,0 +1,9 @@
+.my-ads-container {
+    padding: 60px 200px;
+}
+
+.cars-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}

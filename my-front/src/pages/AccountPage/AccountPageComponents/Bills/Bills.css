@@ -1,0 +1,53 @@
+
+
+.bills-container{
+    padding: 60px 200px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.bills-container h3{
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 22px;
+    color: #3B454E;
+}
+
+.bills-container h3 span{
+    font-weight: 500;
+    color: #2C4494;
+    margin-left: 10px;
+}
+.bills-container a,
+.bills-container a:hover
+{
+    font-size: 16px;
+    font-weight: 400;
+    color: #2E4F76;
+}
+.a-container{
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+.top-u-fix-button,
+.top-up-button{
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 20px;
+    border-radius: 0;
+}
+
+.top-u-fix-button{
+    width: 287px;
+    height: 48px;
+    border: 1px solid #2E4F76;
+    background-color: transparent;
+    color: #2E4F76;
+}
+.top-up-button{
+    width: 240px;
+    height: 48px;
+    margin-left: 70px;
+    background-color: #2E4F76;
+    color: #ffffff;
+}

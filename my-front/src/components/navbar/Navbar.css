@@ -1,0 +1,68 @@
+
+.menu-container {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    position: absolute;
+    width: 1000px;
+    height: 46px;
+    top: 54px;
+    left: 800px;
+    z-index: 2;
+}
+.menu-container.left{
+    left: 750px;
+}
+
+.menu,
+.user-actions {
+    display: flex;
+    align-items: center;
+}
+
+.menu-container a {
+    display: flex;
+    align-items: center;
+    margin-right: 36px;
+    color: #ffffff;
+    text-decoration: none;
+}
+.menu-container a:hover {
+    color: #ffffff;
+}
+
+.user-actions img {
+    margin-right: 16px;
+}
+
+.sell-car-btn {
+    border-radius: 5px;
+    background-color: #FFFFFF;
+    font-size: 18px;
+    font-weight: 600;
+    color: #2E4F76 !important;
+    padding: 12px 24px 12px 24px;
+    text-align: center;
+    text-transform: uppercase;
+    height: 46px;
+
+}
+
+.menu-container.auth-navbar .menu a  {
+    color: #3B454E;
+}
+
+.menu-container.auth-navbar .notif-icon {
+    display: none;
+}
+.profile-button{
+    background-color:transparent;
+    display: flex;
+    align-items: center;
+    color: #ffffff;
+}

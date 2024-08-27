@@ -1,0 +1,64 @@
+
+.review-container {
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+.review-content {
+    width:763px;
+    height: 400px;
+}
+
+.arrow-button,
+.arrow-button:hover,
+.arrow-button:focus,
+.arrow-button:active {
+    background: none;
+    border: none;
+    outline: none;
+}
+
+.review {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: space-between;
+    font-family: "Montserrat", sans-serif;
+    color: #ffffff;
+}
+
+.review p{
+    font-size: 16px;
+    font-weight: 400;
+    text-align: center;
+}
+
+.review h3{
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 24px;
+    text-align: center;
+    text-transform: uppercase;
+    margin-top: 20px;
+}
+
+.review-image {
+    border-radius: 50%;
+    width: 144px;
+    height: 144px;
+    object-fit: cover;
+}
+
+.star-image {
+    width: 30px;
+    height: 30px;
+    margin-right: 5px;
+}
+
+.review-image-wrapper {
+    display: flex;
+    justify-content: center;
+}

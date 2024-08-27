@@ -1,0 +1,88 @@
+.auth-container{
+    width:473px;
+    margin-left: 160px;
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+    gap: 23px;
+}
+
+.auth-form{
+    color: #ffffff;
+    font-family: "Montserrat", sans-serif;
+}
+
+.auth-car{
+    position: absolute;
+    top: 358px;
+    left: 1050px;
+}
+
+.auth-social-container{
+    display: flex;
+    flex-direction:row;
+    align-items:center;
+    gap: 43px;
+}
+
+.auth-container h3{
+    font-size: 32px;
+    font-weight: 400;
+    line-height: 39.01px;
+    text-align: center;
+    text-transform:uppercase;
+}
+
+.auth-container input{
+    width: 100%;
+    padding: 8px 25px 8px 16px;
+    border-radius: 5px;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 25px;
+    color: #535353;
+    background-color: #ffffff;
+    border: 1px solid #ffffff;
+}
+
+.auth-form a,
+.auth-form span{
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 22px;
+    padding-right: 10px;
+}
+
+.auth-container a{
+    text-decoration: underline;
+}
+
+.auth-button{
+    width: 100%;
+    padding: 8px 14px 8px 14px;
+    border-radius: 5px;
+    background-color: #2E4F76;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 25px;
+    color: #ffffff;
+}
+
+.password-container {
+    position: relative;
+    width:100%;
+}
+
+.password-input {
+    padding-right: 40px;
+}
+
+.password-toggle-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+}

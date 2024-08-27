@@ -1,0 +1,115 @@
+.search-container{
+    padding: 60px 260px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.search-options-container,
+.sort-filtr-container{
+    display:flex;
+    flex-direction:row;
+    justify-content: space-between;
+    margin-bottom: 70px;
+}
+
+.options-container{
+    width: 1102px;
+    padding: 16px;
+    gap: 27px;
+    border: 1px solid #8C9BA9;
+    display: flex;
+    flex-direction: row;
+}
+
+.refine-search-button{
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 25px;
+    color: #ffffff;
+    background-color: #8C9BA9;
+    width: 238px;
+    padding: 26px 10px 26px 10px;
+    border-radius: 11px;
+    text-transform:uppercase;
+}
+
+
+.sort-filtr-container h5{
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 25px;
+    color: #3B454E;
+    margin: 0;
+    text-transform:uppercase;
+}
+
+.sort-filtr-button{
+    width: 236px;
+    padding: 8px 12px 8px 12px;
+    gap: 10px;
+    border-radius: 5px;
+    background-color: #2E4F76;
+    color:#ffffff;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 25px;
+    text-transform:uppercase;
+    margin-right:55px;
+}
+
+
+
+.custom-pagination .ant-pagination-item {
+    background-color: #B1BFCD;
+    border-radius: 0;
+    width: 33px;
+    height: auto;
+    gap: 10px;
+    border: none;
+    font-size: 32px;
+    font-weight: 400;
+    line-height: 40px;
+    text-align: center;
+    padding: 3px;
+}
+
+.custom-pagination .ant-pagination-item-active:hover,
+.custom-pagination .ant-pagination-item-active {
+    background-color: #8F9BA8;
+    border: none;
+}
+
+.custom-pagination .ant-pagination-item a,
+.custom-pagination .ant-pagination-item-active a,
+.custom-pagination .ant-pagination-item-active:hover a {
+    color: #ffffff;
+}
+
+.custom-pagination .ant-pagination-item:hover {
+    background-color: #A0AFC0;
+}
+
+.custom-pagination .ant-pagination-prev,
+.custom-pagination .ant-pagination-next {
+    display: none;
+}
+
+.criterion-item {
+    padding: 0 10px;
+    font-weight: 400;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    background-color: #8C9BA9;
+    color: #ffffff;
+}
+
+.remove-btn {
+    padding: 0;
+    font-size: 35px;
+    background-color: transparent;
+    border: none;
+    color: #ffffff;
+    cursor: pointer;
+    margin-left: 10px;
+    line-height: 1;
+}
