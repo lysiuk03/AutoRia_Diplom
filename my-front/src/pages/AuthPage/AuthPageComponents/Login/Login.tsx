@@ -30,7 +30,7 @@ const Login: React.FC = () => {
 
         if (username == 'user@gmail.com' && password == '1234') {
             dispatch(login());
-            navigate('/');
+            navigate('/search');
         } else {
             alert('Невірний логін або пароль');
         }

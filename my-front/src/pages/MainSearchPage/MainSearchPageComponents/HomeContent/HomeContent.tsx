@@ -13,7 +13,7 @@ import CarLogoMenu from "./HomeContentComponents/CarLogosMenu/CarLogoMenu";
 import Reviews from "./HomeContentComponents/Reviews/Reviews";
 import Digest from "./HomeContentComponents/Digest/Digest";
 
-const HomeContent = () => (
+const HomeContent: React.FC = () => (
     <div className="main-comp">
         <div className="bg-img">
             <img src="/images/vector.png" alt="Vector"/>
@@ -22,7 +22,7 @@ const HomeContent = () => (
             <h3>Автомобілі, <br/>які шукають найчастіше</h3>
         </div>
         <div>
-                <CarCarousel cars={cars} />
+            <CarCarousel cars={cars} />
         </div>
         <div className="center-width logo-container">
             <CarLogoMenu/>

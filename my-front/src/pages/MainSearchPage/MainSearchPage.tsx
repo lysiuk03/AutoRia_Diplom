@@ -8,8 +8,7 @@ import './MainSearchPage.css';
 // Components
 import PagesFooter from "../../components/footer/PagesFooter";
 import MainSearchHeader from "./MainSearchPageComponents/Header/MainSearchHeader";
-import HomeContent from "./MainSearchPageComponents/HomeContent/HomeContent";
-
+import { Outlet } from 'react-router-dom';
 
 const { Header, Content, Footer } = Layout;
 
@@ -21,7 +20,7 @@ const MainSearchPage: React.FC = () => {
                 <MainSearchHeader/>
             </Header>
             <Content className="content">
-                <HomeContent/>
+                <Outlet />
             </Content>
             <Footer className="footer">
                 <PagesFooter/>

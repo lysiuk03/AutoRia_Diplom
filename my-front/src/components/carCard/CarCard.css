@@ -14,7 +14,7 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-   justify-content: space-between;
+    justify-content: space-between;
 }
 
 .car-card .img-car {
@@ -75,12 +75,13 @@
 .car-details {
     font-family: "Montserrat", sans-serif;
     color: #707070;
+    justify-content:center;
 }
 
 .car-details h3 {
-    font-size: 20px;
+    font-size: 20px !important;
     font-weight: 700;
-    line-height: 24px;
+    line-height: 24px !important;
 }
 
 .car-details .price {
@@ -105,4 +106,9 @@
     border: none;
     height: 1px;
     background-color: #707070;
+}
+
+.geo-image{
+    height:16px;
+    width: 16px;
 }

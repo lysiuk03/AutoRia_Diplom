@@ -1,0 +1,90 @@
+
+
+.price-and-like,
+.search-car-card{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.search-car-card{
+    width: 100%;
+    height: 400px;
+    padding: 60px 80px 60px 80px;
+    border-radius: 22px ;
+    border: 1px solid #707070;
+    color: #707070;
+    background-color:transparent;
+
+    gap: 140px;
+    margin-bottom: 70px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.search-car-card-img-container {
+    height: 270px;
+    width: 500px;
+    overflow: hidden;
+}
+
+.car-card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.search-car-details{
+    display: flex;
+    flex-direction: column;
+    justify-content:space-between;
+    flex-grow: 1;
+}
+
+.search-car-details h3{
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 40px;
+    margin: 0;
+    text-transform:uppercase;
+}
+
+.search-car-details p{
+    font-size: 26px;
+    font-weight: 400;
+    line-height: 32px;
+    margin: 0;
+}
+
+.search-car-details .price{
+    font-size: 38px;
+    font-weight: 700;
+    line-height: 47px;
+    color: #2C4494;
+}
+.search-car-details hr{
+    width: 100%;
+    height: 1px;
+    border: none;
+    background-color: #707070;
+    margin: 5px;
+}
+
+.price-and-like img{
+    width: 37px;
+    height: 37px;
+}
+.geo-fuel-mileage-container{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    align-items: center;
+    justify-items: center;
+}
+.geo-fuel-mileage-container p {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.geo-fuel-mileage-container p img{
+    padding-right: 20px;
+}

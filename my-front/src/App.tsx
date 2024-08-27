@@ -14,14 +14,20 @@ import Bills from "./pages/AccountPage/AccountPageComponents/Bills/Bills.tsx";
 
 import Login from './pages/AuthPage/AuthPageComponents/Login/Login.tsx';
 import Register from './pages/AuthPage/AuthPageComponents/Register/Register.tsx';
+import HomeContent from './pages/MainSearchPage/MainSearchPageComponents/HomeContent/HomeContent.tsx';
+import SearchContent from './pages/MainSearchPage/MainSearchPageComponents/SearchContent/SearchContent.tsx';
 
 const App: React.FC = () => {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<MainSearchPage />} />
+                <Route path="/" element={<MainSearchPage />}>
+                    <Route index element={<HomeContent />} />
+                    <Route path="home" element={<HomeContent />} />
+                    <Route path="search" element={<SearchContent />} />
+                </Route>
                 <Route path="/auth" element={<AuthPage />}>
-                    <Route index element={<Login />} />
+                    <Route index element={<Register />} />
                     <Route path="login" element={<Login />} />
                     <Route path="register" element={<Register />} />
                 </Route>
