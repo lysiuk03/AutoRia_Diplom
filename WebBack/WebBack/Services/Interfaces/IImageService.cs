@@ -16,4 +16,5 @@ public interface IImageService
     void DeleteImagesIfExists(IEnumerable<string> images);
 
     string ImagesDir { get; }
+
 }

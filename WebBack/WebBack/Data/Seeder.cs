@@ -14,7 +14,7 @@ namespace WebBack.Data
         public static async void SeedData(this IApplicationBuilder app)
         {
             using (var scope = app.ApplicationServices
-                .GetRequiredService<IServiceScopeFactory>().CreateScope())
+                       .GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
                 var context = scope.ServiceProvider.GetRequiredService<CarDbContext>();
                 var imageService = scope.ServiceProvider.GetRequiredService<IImageService>();
@@ -58,8 +58,7 @@ namespace WebBack.Data
 
                             var carPhoto = new CarPhotoEntity
                             {
-                                Name = await imageService.SaveImageAsync(imageBase64),
-                                Priority = k + 1
+                                Name = await imageService.SaveImageAsync(imageBase64), Priority = k + 1
                             };
 
                             carPhotos.Add(carPhoto);
@@ -78,171 +77,192 @@ namespace WebBack.Data
 
                 await context.SaveChangesAsync();
 
-                    //context.Cars.AddRange(fakeCars);
-                    //await context.SaveChangesAsync();
-                }
-
-                //SeedModels(context, configuration);
-                //    SeedColors(context, configuration);
-                //     SeedEngineVolumes(context, configuration);
-                //     SeedFuelTypes(context, configuration);
-                //     SeedNumberOfSeats(context, configuration);
-                //     SeedTransmissionTypes(context, configuration);
-                //     SeedTransportTypes(context, configuration);
-                
-                //await SeedRegionsAsync(context, configuration);
-                //await SeedCitiesAsync(context, configuration);
-
-
+                //context.Cars.AddRange(fakeCars);
                 //await context.SaveChangesAsync();
             }
-        }
+
+            //SeedModels(context, configuration);
+            //    SeedColors(context, configuration);
+            //     SeedEngineVolumes(context, configuration);
+            //     SeedFuelTypes(context, configuration);
+            //     SeedNumberOfSeats(context, configuration);
+            //     SeedTransmissionTypes(context, configuration);
+            //     SeedTransportTypes(context, configuration);
+
+            //await SeedRegionsAsync(context, configuration);
+            //await SeedCitiesAsync(context, configuration);
 
 
-        private static async Task<string> GetImageAsBase64Async(HttpClient httpClient, string imageUrl)
-        {
-            var imageBytes = await httpClient.GetByteArrayAsync(imageUrl);
-            return Convert.ToBase64String(imageBytes);
-        }
+            //await context.SaveChangesAsync();
+            //}
+            //}
 
 
-        private static async Task SeedModelsAsync(CarDbContext context, IConfiguration configuration)
-        {
-            if (!context.Models.Any())
+            static async Task<string> GetImageAsBase64Async(HttpClient httpClient, string imageUrl)
             {
-                var models = configuration.GetSection("DefaultSeedData:Models").Get<string[]>();
-                foreach (var model in models)
-                {
-                    context.Models.Add(new CarModelEntity { Name = model, DateCreated = DateTime.Now });
-                }
-                await context.SaveChangesAsync();
+                var imageBytes = await httpClient.GetByteArrayAsync(imageUrl);
+                return Convert.ToBase64String(imageBytes);
             }
-        }
 
-        private static async Task SeedColorsAsync(CarDbContext context, IConfiguration configuration)
-        {
-            if (!context.Colors.Any())
-            {
-                var colors = configuration.GetSection("DefaultSeedData:Colors").Get<string[]>();
-                foreach (var color in colors)
-                {
-                    context.Colors.Add(new ColorEntity { Color = color, DateCreated = DateTime.Now });
-                }
-                await context.SaveChangesAsync();
-            }
-        }
 
-        private static async Task SeedEngineVolumesAsync(CarDbContext context, IConfiguration configuration)
-        {
-            if (!context.EngineVolumes.Any())
+            async Task SeedModelsAsync(CarDbContext context, IConfiguration configuration)
             {
-                var engineVolumes = configuration.GetSection("DefaultSeedData:EngineVolume").Get<string[]>();
-                foreach (var volume in engineVolumes)
+                if (!context.Models.Any())
                 {
-                    if (decimal.TryParse(volume, out decimal decimalVolume))
+                    var models = configuration.GetSection("DefaultSeedData:Models").Get<string[]>();
+                    foreach (var model in models)
                     {
-                        context.EngineVolumes.Add(new EngineVolumeEntity { Volume = decimalVolume, DateCreated = DateTime.Now });
+                        context.Models.Add(new CarModelEntity { Name = model, DateCreated = DateTime.Now });
                     }
-                }
-                await context.SaveChangesAsync();
-            }
-        }
 
-        private static async Task SeedFuelTypesAsync(CarDbContext context, IConfiguration configuration)
-        {
-            if (!context.FuelTypes.Any())
-            {
-                var fuelTypes = configuration.GetSection("DefaultSeedData:FuelTypes").Get<string[]>();
-                foreach (var fuelType in fuelTypes)
-                {
-                    context.FuelTypes.Add(new FuelTypesEntity { Name = fuelType, DateCreated = DateTime.Now });
-                }
-                await context.SaveChangesAsync();
-            }
-        }
-
-        private static async Task SeedNumberOfSeatsAsync(CarDbContext context, IConfiguration configuration)
-        {
-            if (!context.numbersOfSeats.Any())
-            {
-                var numberOfSeats = configuration.GetSection("DefaultSeedData:NumberOfSeats").Get<string[]>();
-                foreach (var seats in numberOfSeats)
-                {
-                    if (int.TryParse(seats, out int intSeats))
-                    {
-                        context.numbersOfSeats.Add(new NumberOfSeatsEntity { Number = intSeats, DateCreated = DateTime.Now });
-
-                    }
                     await context.SaveChangesAsync();
                 }
             }
-        }
 
-        private static async Task SeedTransmissionTypesAsync(CarDbContext context, IConfiguration configuration)
-        {
-            if (!context.TransmissionTypes.Any())
+            async Task SeedColorsAsync(CarDbContext context, IConfiguration configuration)
             {
-                var transmissionTypes = configuration.GetSection("DefaultSeedData:TransmissionTypes").Get<string[]>();
-                foreach (var transmissionType in transmissionTypes)
+                if (!context.Colors.Any())
                 {
-                    context.TransmissionTypes.Add(new TransmissionTypeEntity { Name = transmissionType, DateCreated = DateTime.Now });
-                }
-                await context.SaveChangesAsync();
-            }
-        }
-
-        private static async Task SeedTransportTypesAsync(CarDbContext context, IConfiguration configuration)
-        {
-            if (!context.TransportTypes.Any())
-            {
-                var transportTypes = configuration.GetSection("DefaultSeedData:TransportTypes").Get<string[]>();
-                foreach (var transportType in transportTypes)
-                {
-                    context.TransportTypes.Add(new TransportTypeEntity { Name = transportType, DateCreated = DateTime.Now });
-                }
-                await context.SaveChangesAsync();
-            }
-        }
-
-
-        //__________________________some regions & coties
-        private static async Task SeedRegionsAsync(CarDbContext context, IConfiguration configuration)
-        {
-            if (!context.Regions.Any())
-            {
-                var regions = configuration.GetSection("DefaultSeedData:Regions").Get<string[]>();
-                foreach (var region in regions)
-                {
-                    context.Regions.Add(new RegionEntity { Name = region, DateCreated = DateTime.Now });
-                }
-                await context.SaveChangesAsync();
-            }
-        }
-
-
-        private static async Task SeedCitiesAsync(CarDbContext context, IConfiguration configuration)
-        {
-            if (!context.Cities.Any())
-            {
-                var cities = configuration.GetSection("DefaultSeedData:Cities").Get<Dictionary<string, string>>();
-
-                foreach (var city in cities)
-                {
-                    var region = await context.Regions.FirstOrDefaultAsync(r => r.Name == city.Value);
-                    if (region != null)
+                    var colors = configuration.GetSection("DefaultSeedData:Colors").Get<string[]>();
+                    foreach (var color in colors)
                     {
-                        context.Cities.Add(new CityEntity
+                        context.Colors.Add(new ColorEntity { Color = color, DateCreated = DateTime.Now });
+                    }
+
+                    await context.SaveChangesAsync();
+                }
+            }
+
+            async Task SeedEngineVolumesAsync(CarDbContext context, IConfiguration configuration)
+            {
+                if (!context.EngineVolumes.Any())
+                {
+                    var engineVolumes = configuration.GetSection("DefaultSeedData:EngineVolume").Get<string[]>();
+                    foreach (var volume in engineVolumes)
+                    {
+                        if (decimal.TryParse(volume, out decimal decimalVolume))
                         {
-                            Name = city.Key,
-                            RegionId = region.Id,
-                            DateCreated = DateTime.Now
-                        });
+                            context.EngineVolumes.Add(new EngineVolumeEntity
+                            {
+                                Volume = decimalVolume, DateCreated = DateTime.Now
+                            });
+                        }
+                    }
+
+                    await context.SaveChangesAsync();
+                }
+            }
+
+            async Task SeedFuelTypesAsync(CarDbContext context, IConfiguration configuration)
+            {
+                if (!context.FuelTypes.Any())
+                {
+                    var fuelTypes = configuration.GetSection("DefaultSeedData:FuelTypes").Get<string[]>();
+                    foreach (var fuelType in fuelTypes)
+                    {
+                        context.FuelTypes.Add(new FuelTypesEntity { Name = fuelType, DateCreated = DateTime.Now });
+                    }
+
+                    await context.SaveChangesAsync();
+                }
+            }
+
+            async Task SeedNumberOfSeatsAsync(CarDbContext context, IConfiguration configuration)
+            {
+                if (!context.numbersOfSeats.Any())
+                {
+                    var numberOfSeats = configuration.GetSection("DefaultSeedData:NumberOfSeats").Get<string[]>();
+                    foreach (var seats in numberOfSeats)
+                    {
+                        if (int.TryParse(seats, out int intSeats))
+                        {
+                            context.numbersOfSeats.Add(new NumberOfSeatsEntity
+                            {
+                                Number = intSeats, DateCreated = DateTime.Now
+                            });
+
+                        }
+
+                        await context.SaveChangesAsync();
                     }
                 }
-                await context.SaveChangesAsync();
             }
+
+            async Task SeedTransmissionTypesAsync(CarDbContext context, IConfiguration configuration)
+            {
+                if (!context.TransmissionTypes.Any())
+                {
+                    var transmissionTypes =
+                        configuration.GetSection("DefaultSeedData:TransmissionTypes").Get<string[]>();
+                    foreach (var transmissionType in transmissionTypes)
+                    {
+                        context.TransmissionTypes.Add(new TransmissionTypeEntity
+                        {
+                            Name = transmissionType, DateCreated = DateTime.Now
+                        });
+                    }
+
+                    await context.SaveChangesAsync();
+                }
+            }
+
+            async Task SeedTransportTypesAsync(CarDbContext context, IConfiguration configuration)
+            {
+                if (!context.TransportTypes.Any())
+                {
+                    var transportTypes = configuration.GetSection("DefaultSeedData:TransportTypes").Get<string[]>();
+                    foreach (var transportType in transportTypes)
+                    {
+                        context.TransportTypes.Add(new TransportTypeEntity
+                        {
+                            Name = transportType, DateCreated = DateTime.Now
+                        });
+                    }
+
+                    await context.SaveChangesAsync();
+                }
+            }
+
+
+            //__________________________some regions & coties
+            async Task SeedRegionsAsync(CarDbContext context, IConfiguration configuration)
+            {
+                if (!context.Regions.Any())
+                {
+                    var regions = configuration.GetSection("DefaultSeedData:Regions").Get<string[]>();
+                    foreach (var region in regions)
+                    {
+                        context.Regions.Add(new RegionEntity { Name = region, DateCreated = DateTime.Now });
+                    }
+
+                    await context.SaveChangesAsync();
+                }
+            }
+
+
+            async Task SeedCitiesAsync(CarDbContext context, IConfiguration configuration)
+            {
+                if (!context.Cities.Any())
+                {
+                    var cities = configuration.GetSection("DefaultSeedData:Cities").Get<Dictionary<string, string>>();
+
+                    foreach (var city in cities)
+                    {
+                        var region = await context.Regions.FirstOrDefaultAsync(r => r.Name == city.Value);
+                        if (region != null)
+                        {
+                            context.Cities.Add(new CityEntity
+                            {
+                                Name = city.Key, RegionId = region.Id, DateCreated = DateTime.Now
+                            });
+                        }
+                    }
+
+                    await context.SaveChangesAsync();
+                }
+            }
+
+
         }
-
-
     }
 }

@@ -5,19 +5,27 @@ using WebBack.Data.Entities.Identity;
 using WebBack.Services.ControllerServices.Interfaces;
 using WebBack.Services.Interfaces;
 using WebBack.ViewModels.Account;
-using WebBack.Services;
 
 namespace WebBack.Controllers
 {
-
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class AccountsController(
-        IJwtTokenService jwtTokenService,
-        IAccountsControllerService service,
-        UserManager<UserEntity> userManager
-    ) : ControllerBase
+    public class AccountsController : ControllerBase
     {
+        private readonly IJwtTokenService jwtTokenService;
+        private readonly IAccountsControllerService service;
+        private readonly UserManager<UserEntity> userManager;
+
+        public AccountsController(
+            IJwtTokenService jwtTokenService,
+            IAccountsControllerService service,
+            UserManager<UserEntity> userManager)
+        {
+            this.jwtTokenService = jwtTokenService;
+            this.service = service;
+            this.userManager = userManager;
+        }
+
         [HttpPost]
         public async Task<IActionResult> SignIn([FromBody] SignInVm model)
         {
@@ -44,11 +52,13 @@ namespace WebBack.Controllers
                     Token = await jwtTokenService.CreateTokenAsync(user)
                 });
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return StatusCode(500, "Exception create user!");
+                // Log the exception (optional, depending on your logging strategy)
+                // _logger.LogError(ex, "Error occurred during user registration.");
+
+                return StatusCode(500, $"Exception creating user: {ex.Message}");
             }
         }
-
     }
 }
