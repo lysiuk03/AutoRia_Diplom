@@ -48,12 +48,12 @@ const AccountHeader: React.FC = () => {
                 <div>
                     <hr/>
                     <nav className="account-menu">
-                    {menuItems.map(item => (
-                        <div key={item.key} className={`menu-item ${isActive(item.path) ? 'active' : ''}`}>
-                            <Link to={item.path}>{item.label}</Link>
-                        </div>
-                    ))}
-                </nav>
+                        {menuItems.map(item => (
+                            <div key={item.key} className={`menu-item ${isActive(item.path) ? 'active' : ''}`}>
+                                <Link to={item.path}>{item.label}</Link>
+                            </div>
+                        ))}
+                    </nav>
                 </div>
             </div>
         </>
