@@ -1,56 +1,56 @@
-// Styles
-import '../AuthPageComponents.css';
-import { Link } from 'react-router-dom';
-
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { login } from '../../authSlice';
-
-
-
-
+import { Link, useNavigate } from 'react-router-dom';
+import '../AuthPageComponents.css';
 
 const Login: React.FC = () => {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
     const [showPassword, setShowPassword] = useState<boolean>(false);
     const navigate = useNavigate();
-    const dispatch = useDispatch();
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        // You can make a server request to check the login here
-        // If the login is successful, you can dispatch the login action
+        // Implement login logic here
+        try {
+            // Simulate login request
+            const response = await fetch('http://localhost:5174/api/Accounts/SignIn', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ Email: email, Password: password }),
+            });
 
-        if (username == 'user@gmail.com' && password == '1234') {
-            dispatch(login());
+            if (!response.ok) {
+                throw new Error('Login failed');
+            }
+
+            // Handle successful login
             navigate('/search');
-        } else {
+        } catch (error) {
+            console.error('Error during login:', error);
             alert('Невірний логін або пароль');
         }
     };
 
     return (
-        <form onSubmit={handleSubmit} className="auth-form">
-            <img src="/images/login-car.png" alt="Car" className="auth-car"/>
+        <form className="auth-form" onSubmit={handleSubmit}>
+            <img src="/images/login-car.png" alt="Car" className="auth-car" />
             <div className="auth-container">
                 <div className="auth-social-container">
-                    <img src="/images/apple.png" alt="Car"/>
-                    <img src="/images/google.png" alt="Car"/>
-                    <img src="/images/fbook.png" alt="Car"/>
+                    <img src="/images/apple.png" alt="Apple" />
+                    <img src="/images/google.png" alt="Google" />
+                    <img src="/images/fbook.png" alt="Facebook" />
                 </div>
                 <h3>або</h3>
                 <input
                     type="email"
                     placeholder="Електронна адреса"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                 />
                 <div className="password-container">
                     <input
@@ -67,14 +67,15 @@ const Login: React.FC = () => {
                         className="password-toggle-icon"
                     />
                 </div>
-                <a>Забули пароль?</a>
-                <button className="auth-button">Увійти</button>
+                <a href="/forgot-password">Забули пароль?</a>
+                <button type="submit" className="auth-button">
+                    Увійти
+                </button>
                 <div>
                     <span>Не маєте акаунту?</span>
                     <Link to='/auth/register'>Зареєструватися</Link>
                 </div>
             </div>
-
         </form>
     );
 };
