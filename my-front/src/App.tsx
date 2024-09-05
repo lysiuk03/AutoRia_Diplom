@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import MainSearchPage from "./pages/MainSearchPage/MainSearchPage.tsx";
 import AccountPage from "./pages/AccountPage/AccountPage.tsx";
 import AuthPage from "./pages/AuthPage/AuthPage.tsx";
+import NewsPage from "./pages/NewsPage/NewsPage.tsx";
 
 // Account Page Components
 import MyAds from "./pages/AccountPage/AccountPageComponents/MyAds/MyAds.tsx";
@@ -16,6 +17,9 @@ import Login from './pages/AuthPage/AuthPageComponents/Login/Login.tsx';
 import Register from './pages/AuthPage/AuthPageComponents/Register/Register.tsx';
 import HomeContent from './pages/MainSearchPage/MainSearchPageComponents/HomeContent/HomeContent.tsx';
 import SearchContent from './pages/MainSearchPage/MainSearchPageComponents/SearchContent/SearchContent.tsx';
+import HomeNews from './pages/NewsPage/NewsPageComponents/HomeNews/HomeNews.tsx';
+
+
 
 const App: React.FC = () => {
     return (
@@ -37,6 +41,10 @@ const App: React.FC = () => {
                     <Route path="favorites" element={<Favorites />} />
                     <Route path="auto-check" element={<AutoCheck />} />
                     <Route path="bills" element={<Bills />} />
+                </Route>
+                <Route path="/news" element={<NewsPage />}>
+                    <Route index element={<HomeNews />} />
+                    <Route path="home" element={<HomeNews />} />
                 </Route>
             </Routes>
         </BrowserRouter>
