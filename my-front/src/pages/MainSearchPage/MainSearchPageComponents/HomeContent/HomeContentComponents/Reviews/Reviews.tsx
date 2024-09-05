@@ -1,7 +1,12 @@
-
+// Libraries
 import React, { useState } from 'react';
-import {reviews} from "../../../../../../data/reviews.ts";
+
+// Styles
 import './Reviews.css';
+
+// Data
+import { reviews } from "../../../../../../data/reviews.ts";
+
 
 const Reviews: React.FC = () => {
     const [currentIndex, setCurrentIndex] = useState(0);

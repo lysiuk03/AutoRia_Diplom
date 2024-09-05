@@ -1,17 +1,17 @@
+// Libraries
+import React from "react";
+import { Layout } from "antd";
+import { Outlet } from "react-router-dom";
 
 // Styles
 import './AuthPage.css';
 
 // Components
-import PagesFooter from "../../components/footer/PagesFooter";
-import {Outlet} from "react-router-dom";
-const { Header,Footer } = Layout;
-
 import Navbar from '../../components/navbar/Navbar.tsx';
 import Logo from '../../components/logo/Logo.tsx';
-import {Layout} from "antd";
-import React from "react";
+import PagesFooter from "../../components/footer/PagesFooter";
 
+const { Header,Footer } = Layout;
 
 const AuthPage: React.FC = () => {
     return (

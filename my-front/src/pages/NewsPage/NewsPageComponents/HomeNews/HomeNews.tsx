@@ -1,16 +1,15 @@
 // Libraries
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 // Styles
 import './HomeNews.css';
 
-
-import DigestCard from '../../../../components/digestCard/DigestCard';
-
-
-
+// Data
 import { digest } from '../../../../data/digest';
-import { Link } from 'react-router-dom';
+
+// Components
+import DigestCard from '../../../../components/digestCard/DigestCard';
 
 
 

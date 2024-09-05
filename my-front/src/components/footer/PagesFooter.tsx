@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 // Styles
 import './PagesFooter.css';
 
+// Components
 import FormWithCloseButton from "../../components/footer/FooterComponents/FormWithCloseButton";
 
 const PagesFooter: React.FC = () => {

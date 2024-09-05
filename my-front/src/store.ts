@@ -1,6 +1,9 @@
-// store.ts
+// Libraries
 import { configureStore } from '@reduxjs/toolkit';
+
+// Reducers
 import authReducer from './pages/AuthPage/authSlice.ts';
+
 
 const store = configureStore({
     reducer: {

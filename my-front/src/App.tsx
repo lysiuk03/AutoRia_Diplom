@@ -1,3 +1,4 @@
+// Libraries
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
@@ -13,12 +14,16 @@ import Favorites from "./pages/AccountPage/AccountPageComponents/Favorites/Favor
 import AutoCheck from "./pages/AccountPage/AccountPageComponents/AutoCheck/AutoCheck.tsx";
 import Bills from "./pages/AccountPage/AccountPageComponents/Bills/Bills.tsx";
 
+// Auth Page Components
 import Login from './pages/AuthPage/AuthPageComponents/Login/Login.tsx';
 import Register from './pages/AuthPage/AuthPageComponents/Register/Register.tsx';
+
+// Main Search Page Components
 import HomeContent from './pages/MainSearchPage/MainSearchPageComponents/HomeContent/HomeContent.tsx';
 import SearchContent from './pages/MainSearchPage/MainSearchPageComponents/SearchContent/SearchContent.tsx';
-import HomeNews from './pages/NewsPage/NewsPageComponents/HomeNews/HomeNews.tsx';
 
+// News Page Components
+import HomeNews from './pages/NewsPage/NewsPageComponents/HomeNews/HomeNews.tsx';
 
 
 const App: React.FC = () => {

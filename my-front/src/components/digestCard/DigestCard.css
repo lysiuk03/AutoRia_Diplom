@@ -16,6 +16,7 @@
     width: 300px;
     height: 160px;
     border-radius: 12px;
+    object-fit: cover;
 }
 
 .digest-card-container h3{

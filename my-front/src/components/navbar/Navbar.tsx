@@ -1,13 +1,14 @@
 // Libraries
 import React from 'react';
-import { Link } from 'react-router-dom';
-
+import { Link, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 // Styles
 import './Navbar.css';
-import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { RootState } from './store';
+
+// Types
+import { RootState } from "../../store.ts";
+
 
 interface NavbarProps {
     additionalClass?: string;
