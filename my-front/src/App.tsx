@@ -1,3 +1,4 @@
+// Libraries
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
@@ -5,6 +6,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import MainSearchPage from "./pages/MainSearchPage/MainSearchPage.tsx";
 import AccountPage from "./pages/AccountPage/AccountPage.tsx";
 import AuthPage from "./pages/AuthPage/AuthPage.tsx";
+import NewsPage from "./pages/NewsPage/NewsPage.tsx";
 
 // Account Page Components
 import MyAds from "./pages/AccountPage/AccountPageComponents/MyAds/MyAds.tsx";
@@ -12,10 +14,17 @@ import Favorites from "./pages/AccountPage/AccountPageComponents/Favorites/Favor
 import AutoCheck from "./pages/AccountPage/AccountPageComponents/AutoCheck/AutoCheck.tsx";
 import Bills from "./pages/AccountPage/AccountPageComponents/Bills/Bills.tsx";
 
+// Auth Page Components
 import Login from './pages/AuthPage/AuthPageComponents/Login/Login.tsx';
 import Register from './pages/AuthPage/AuthPageComponents/Register/Register.tsx';
+
+// Main Search Page Components
 import HomeContent from './pages/MainSearchPage/MainSearchPageComponents/HomeContent/HomeContent.tsx';
 import SearchContent from './pages/MainSearchPage/MainSearchPageComponents/SearchContent/SearchContent.tsx';
+
+// News Page Components
+import HomeNews from './pages/NewsPage/NewsPageComponents/HomeNews/HomeNews.tsx';
+
 
 const App: React.FC = () => {
     return (
@@ -37,6 +46,10 @@ const App: React.FC = () => {
                     <Route path="favorites" element={<Favorites />} />
                     <Route path="auto-check" element={<AutoCheck />} />
                     <Route path="bills" element={<Bills />} />
+                </Route>
+                <Route path="/news" element={<NewsPage />}>
+                    <Route index element={<HomeNews />} />
+                    <Route path="home" element={<HomeNews />} />
                 </Route>
             </Routes>
         </BrowserRouter>

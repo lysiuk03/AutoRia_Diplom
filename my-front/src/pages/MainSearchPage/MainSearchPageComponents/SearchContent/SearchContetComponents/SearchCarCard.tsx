@@ -1,11 +1,12 @@
 // Libraries
 import React from 'react';
 
-
-
 // Styles
 import './SearchCarCard.css';
+
+// Interfaces
 import { Car } from '../../../../../interfaces/Car';
+
 
 
 const SearchCarCard: React.FC<Car> = ({
@@ -15,7 +16,6 @@ const SearchCarCard: React.FC<Car> = ({
                                           mileage,
                                           description,
                                           fuelTypes,
-                                          transmissionType,
                                           photos,
                                           city,
                                           price

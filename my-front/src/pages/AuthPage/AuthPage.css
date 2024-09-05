@@ -46,11 +46,11 @@
 
 .auth-layout .container-content{
     width: 1527px;
-    height: 638px;
+    height: 750px;
     background-color:  #AAB9C8;
     z-index:1;
     border-radius: 10px;
-    margin-bottom: 200px;
+    margin-bottom: 170px;
 }
 .container-content h1{
     font-family: "Montserrat", sans-serif;

@@ -1,0 +1,14 @@
+.news-layout {
+    width: 1920px;
+    background-color: #FFFFFF;
+}
+
+.news-header{
+    width: 1919px;
+    height: 150px;
+    background-color: #FFFFFF;
+}
+
+.news-content{
+    background-color: #ffffff;
+}

@@ -1,6 +1,10 @@
+// Libraries
 import React, { useState } from 'react';
-import {Link, useNavigate} from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+
+// Styles
 import '../AuthPageComponents.css';
+
 
 const Register: React.FC = () => {
     const [fullName, setFullName] = useState<string>('');

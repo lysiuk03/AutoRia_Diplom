@@ -1,5 +1,8 @@
+// Libraries
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+
+// Styles
 import '../AuthPageComponents.css';
 
 const Login: React.FC = () => {

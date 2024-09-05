@@ -1,13 +1,16 @@
 // Libraries
 import React, { useState } from 'react';
+import { Pagination } from 'antd';
 
 // Styles
 import './SearchContent.css';
-import { Pagination } from 'antd';
 
 // Data
 import { cars } from "../../../../data/cars";
+
+// Components
 import SearchCarCard from "./SearchContetComponents/SearchCarCard.tsx";
+
 
 const SearchContent: React.FC = () => {
     const [currentPage, setCurrentPage] = useState(1);
