@@ -27,6 +27,7 @@ const SearchCarCard: React.FC<Car> = ({
         }
         return `${mileage} км`;
     }
+
     function formatPrice(price: number | undefined): string {
         if (price == undefined) {
             return 'Ціна не вказана';
@@ -38,7 +39,7 @@ const SearchCarCard: React.FC<Car> = ({
         <div className="search-car-card">
 
             <div className="search-car-card-img-container">
-                <img className="car-card-img" src={photos[0]} alt={`${manufacturer} ${model} ${year}`}/>
+                <img className="car-card-img" src={`http://localhost:5174/images/1200_${photos[0]}`}  alt={`${manufacturer} ${model} ${year}`}/>
             </div>
             <div className="search-car-details">
                 <h3>{manufacturer} {model} {year}</h3>

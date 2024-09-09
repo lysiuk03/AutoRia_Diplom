@@ -1,26 +1,45 @@
-// Libraries
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-
-// Styles
 import '../AuthPageComponents.css';
 
 const Login: React.FC = () => {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [showPassword, setShowPassword] = useState<boolean>(false);
+    const [errors, setErrors] = useState<{ [key: string]: string }>({});
     const navigate = useNavigate();
 
-    const togglePasswordVisibility = () => {
-        setShowPassword(!showPassword);
+    const validateForm = (): boolean => {
+        const newErrors: { [key: string]: string } = {};
+
+        // Email validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            newErrors.email = 'Будь ласка, введіть дійсну електронну адресу.';
+            setEmail('');  // Clear the input if invalid
+        }
+
+        // Password validation
+        if (password.length < 6) {
+            newErrors.password = 'Пароль має містити принаймні 6 символів.';
+            setPassword('');  // Clear the input if invalid
+        }
+
+        setErrors(newErrors);
+
+        // Return true if there are no errors
+        return Object.keys(newErrors).length === 0;
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        // Implement login logic here
+        // Run validation before submitting
+        if (!validateForm()) {
+            return;
+        }
+
         try {
-            // Simulate login request
             const response = await fetch('http://localhost:5174/api/Accounts/SignIn', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -31,12 +50,15 @@ const Login: React.FC = () => {
                 throw new Error('Login failed');
             }
 
-            // Handle successful login
             navigate('/search');
         } catch (error) {
             console.error('Error during login:', error);
             alert('Невірний логін або пароль');
         }
+    };
+
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
     };
 
     return (
@@ -49,19 +71,23 @@ const Login: React.FC = () => {
                     <img src="/images/fbook.png" alt="Facebook" />
                 </div>
                 <h3>або</h3>
+
                 <input
                     type="email"
                     placeholder="Електронна адреса"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
+                    className={errors.email ? 'input-error' : ''}
                 />
+                {errors.email && <p className="error-message">{errors.email}</p>}
+
                 <div className="password-container">
                     <input
                         type={showPassword ? 'text' : 'password'}
                         placeholder="Пароль"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        className="password-input"
+                        className={`password-input ${errors.password ? 'input-error' : ''}`}
                     />
                     <img
                         src="/images/open-eye.png"
@@ -70,6 +96,8 @@ const Login: React.FC = () => {
                         className="password-toggle-icon"
                     />
                 </div>
+                {errors.password && <p className="error-message">{errors.password}</p>}
+
                 <a href="/forgot-password">Забули пароль?</a>
                 <button type="submit" className="auth-button">
                     Увійти

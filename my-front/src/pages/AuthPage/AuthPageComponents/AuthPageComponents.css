@@ -86,3 +86,18 @@
     width: 24px;
     height: 24px;
 }
+
+
+.input-error {
+    border: 3px solid red;
+    background-color: #ffe6e6;
+}
+
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: -25px;
+    margin-bottom: 3px;
+    text-align: left;
+    width: 100%;
+}
