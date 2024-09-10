@@ -1,7 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebBack.Data.Entities
 {
+    [Table("tbl_cities")]
     public class CityEntity : BaseEntity
     {
         [StringLength(255), Required]

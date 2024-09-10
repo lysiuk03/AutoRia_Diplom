@@ -26,53 +26,74 @@ namespace WebBack.Data
 
                 await context.Database.MigrateAsync();
 
-                // Сar seed
+                // Pre car seed
 
-                // Seed Cars
-                if (await context.Cars.CountAsync() < 1)
-                {
-                    var faker = new Faker();
+                await SeedBrandsAndModelsAsync(context, configuration);
+                await SeedColorsAsync(context, configuration);
+                await SeedEngineVolumesAsync(context, configuration);
+                await SeedFuelTypesAsync(context, configuration);
+                await SeedNumberOfSeatsAsync(context, configuration);
+                await SeedTransportTypesAsync(context, configuration);
+                await SeedTransportTypesAsync(context, configuration);
 
-                    var fakeCars = new List<CarEntity>();
+                await SeedRegionsAsync(context, configuration);
+                await SeedCitiesAsync(context, configuration);
 
-                    for (int i = 0; i < 10; i++)
-                    {
-                        var carFaker = new Faker<CarEntity>()
-                            .RuleFor(c => c.Model, f => f.Vehicle.Model())
-                            .RuleFor(c => c.Manufacturer, f => f.Vehicle.Manufacturer())
-                            .RuleFor(c => c.Description, f => f.Lorem.Sentence())
-                            .RuleFor(c => c.Stage, f => f.Lorem.Word())
-                            .RuleFor(c => c.Mileage, f => f.Random.Decimal(0, 9999))
-                            .RuleFor(c => c.VIN, f => f.Vehicle.Vin())
-                            .RuleFor(c => c.DateCreated, f => DateTime.UtcNow.AddDays(f.Random.Int(-10, -1)));
 
-                        var car = carFaker.Generate();
+                await context.SaveChangesAsync();
 
-                        int numberOfPhotos = faker.Random.Int(1, 5);
-                        var carPhotos = new List<CarPhotoEntity>();
+                //// Seed Cars
+                //if (await context.Cars.CountAsync() < 1)
+                //{
+                //    var faker = new Faker();
 
-                        for (int k = 0; k < numberOfPhotos; k++)
-                        {
-                            var imageUrl = faker.Image.LoremFlickrUrl(keywords: "Car", width: 1000, height: 800);
-                            var imageBase64 = await GetImageAsBase64Async(httpClient, imageUrl);
+                //    var fakeCars = new List<CarEntity>();
 
-                            var carPhoto = new CarPhotoEntity
-                            {
-                                Name = await imageService.SaveImageAsync(imageBase64), Priority = k + 1
-                            };
+                //    for (int i = 0; i < 10; i++)
+                //    {
+                //        var carFaker = new Faker<CarEntity>()
+                //            .RuleFor(c => c.Model, f => f.Vehicle.Model())
+                //            .RuleFor(c => c.Manufacturer, f => f.Vehicle.Manufacturer())
+                //            .RuleFor(c => c.Description, f => f.Lorem.Sentence())
+                //            .RuleFor(c => c.Stage, f => f.Lorem.Word())
+                //            .RuleFor(c => c.Mileage, f => f.Random.Decimal(0, 9999))
+                //            .RuleFor(c => c.VIN, f => f.Vehicle.Vin())
+                //            .RuleFor(c => c.DateCreated, f => DateTime.UtcNow.AddDays(f.Random.Int(-10, -1)));
 
-                            carPhotos.Add(carPhoto);
-                        }
+                //        var car = carFaker.Generate();
 
-                        car.Photos = carPhotos; // Assign photos to car
+                //        int numberOfPhotos = faker.Random.Int(1, 5);
+                        
 
-                        fakeCars.Add(car);
-                    }
 
-                    // Add all cars to context and save changes
-                    context.Cars.AddRange(fakeCars);
-                    await context.SaveChangesAsync();
-                }
+
+
+
+
+                //        var carPhotos = new List<CarPhotoEntity>();
+
+                //        for (int k = 0; k < numberOfPhotos; k++)
+                //        {
+                //            var imageUrl = faker.Image.LoremFlickrUrl(keywords: "Car", width: 1000, height: 800);
+                //            var imageBase64 = await GetImageAsBase64Async(httpClient, imageUrl);
+
+                //            var carPhoto = new CarPhotoEntity
+                //            {
+                //                Name = await imageService.SaveImageAsync(imageBase64), Priority = k + 1
+                //            };
+
+                //            carPhotos.Add(carPhoto);
+                //        }
+
+                //        car.Photos = carPhotos; // Assign photos to car
+
+                //        fakeCars.Add(car);
+                //    }
+
+                //    // Add all cars to context and save changes
+                //    context.Cars.AddRange(fakeCars);
+                //    await context.SaveChangesAsync();
+                //}
 
 
                 await context.SaveChangesAsync();
@@ -81,19 +102,7 @@ namespace WebBack.Data
                 //await context.SaveChangesAsync();
             }
 
-            //SeedModels(context, configuration);
-            //    SeedColors(context, configuration);
-            //     SeedEngineVolumes(context, configuration);
-            //     SeedFuelTypes(context, configuration);
-            //     SeedNumberOfSeats(context, configuration);
-            //     SeedTransmissionTypes(context, configuration);
-            //     SeedTransportTypes(context, configuration);
-
-            //await SeedRegionsAsync(context, configuration);
-            //await SeedCitiesAsync(context, configuration);
-
-
-            //await context.SaveChangesAsync();
+            
             //}
             //}
 
@@ -105,19 +114,80 @@ namespace WebBack.Data
             }
 
 
-            async Task SeedModelsAsync(CarDbContext context, IConfiguration configuration)
+            async Task SeedBrandsAndModelsAsync(CarDbContext context, IConfiguration configuration)
             {
-                if (!context.Models.Any())
+                // Перевіряємо, чи є вже дані про моделі
+                if (!context.Brands.Any())
                 {
-                    var models = configuration.GetSection("DefaultSeedData:Models").Get<string[]>();
-                    foreach (var model in models)
+                    // Отримуємо бренди та їх моделі з конфігураційного файлу
+                    var brandsSection = configuration.GetSection("DefaultSeedData:Brands");
+                    var carBrands = brandsSection.GetChildren();
+
+                    foreach (var brandSection in carBrands)
                     {
-                        context.Models.Add(new CarModelEntity { Name = model, DateCreated = DateTime.Now });
+                        var brandName = brandSection.Value;
+                        
+                        // Додаємо бренд, якщо його ще немає в базі
+                        var carBrandEntity = await context.Brands.FirstOrDefaultAsync(b => b.Name == brandName);
+                        if (carBrandEntity == null)
+                        {
+                            carBrandEntity = new CarBrandEntity
+                            {
+                                Name = brandName,
+                                DateCreated = DateTime.UtcNow
+                            };
+                            context.Brands.Add(carBrandEntity);
+                            await context.SaveChangesAsync(); // Зберігаємо бренд перед додаванням моделей
+                        }
+
+                        var modelsSection = configuration.GetSection("DefaultSeedData:Models");
+                        var brandModels = modelsSection.GetChildren();
+                        var models = brandModels;
+                      
+
+                            var carBrandId = carBrandEntity.Id;
+
+                            var currentModels = models.Where(m => m.Key == carBrandEntity.Name).ToList();
+
+                        foreach (var valmodel in currentModels)
+                        {
+
+                            foreach (var m in valmodel.GetChildren())
+                            {
+
+                                var carModelEntity = new CarModelEntity
+                                {
+                                    Name = m.Value,
+                                    CarBrandId = carBrandId,
+                                    DateCreated = DateTime.UtcNow
+                                };
+                                context.Models.Add(carModelEntity); // Додаємо в контекст
+                            }
+                        }
+
+                            // SaveChangesAsync варто викликати один раз після виходу з циклу
+                        
+                        await context.SaveChangesAsync();
+
+                        //{
+                        //    if (!context.Models.Any(m => m.Name == model && m.CarBrandId == carBrandEntity.Id))
+                        //    {
+                        //        var carModelEntity = new CarModelEntity
+                        //        {
+                        //            Name = model,
+                        //            CarBrandId = carBrandEntity.Id,
+                        //            DateCreated = DateTime.Now
+                        //        };
+                        //        context.Models.Add(carModelEntity);
+                        //    }
+                        //}
                     }
 
+                    // Зберігаємо всі зміни після додавання моделей
                     await context.SaveChangesAsync();
                 }
             }
+
 
             async Task SeedColorsAsync(CarDbContext context, IConfiguration configuration)
             {
@@ -126,7 +196,7 @@ namespace WebBack.Data
                     var colors = configuration.GetSection("DefaultSeedData:Colors").Get<string[]>();
                     foreach (var color in colors)
                     {
-                        context.Colors.Add(new ColorEntity { Color = color, DateCreated = DateTime.Now });
+                        context.Colors.Add(new ColorEntity { Color = color, DateCreated = DateTime.UtcNow });
                     }
 
                     await context.SaveChangesAsync();
@@ -140,11 +210,11 @@ namespace WebBack.Data
                     var engineVolumes = configuration.GetSection("DefaultSeedData:EngineVolume").Get<string[]>();
                     foreach (var volume in engineVolumes)
                     {
-                        if (decimal.TryParse(volume, out decimal decimalVolume))
+                        if (float.TryParse(volume, out float floatVolume))
                         {
                             context.EngineVolumes.Add(new EngineVolumeEntity
                             {
-                                Volume = decimalVolume, DateCreated = DateTime.Now
+                                Volume = floatVolume, DateCreated = DateTime.UtcNow
                             });
                         }
                     }
@@ -160,7 +230,7 @@ namespace WebBack.Data
                     var fuelTypes = configuration.GetSection("DefaultSeedData:FuelTypes").Get<string[]>();
                     foreach (var fuelType in fuelTypes)
                     {
-                        context.FuelTypes.Add(new FuelTypesEntity { Name = fuelType, DateCreated = DateTime.Now });
+                        context.FuelTypes.Add(new FuelTypesEntity { Name = fuelType, DateCreated = DateTime.UtcNow });
                     }
 
                     await context.SaveChangesAsync();
@@ -178,7 +248,7 @@ namespace WebBack.Data
                         {
                             context.numbersOfSeats.Add(new NumberOfSeatsEntity
                             {
-                                Number = intSeats, DateCreated = DateTime.Now
+                                Number = intSeats, DateCreated = DateTime.UtcNow
                             });
 
                         }
@@ -198,7 +268,7 @@ namespace WebBack.Data
                     {
                         context.TransmissionTypes.Add(new TransmissionTypeEntity
                         {
-                            Name = transmissionType, DateCreated = DateTime.Now
+                            Name = transmissionType, DateCreated = DateTime.UtcNow
                         });
                     }
 
@@ -215,7 +285,7 @@ namespace WebBack.Data
                     {
                         context.TransportTypes.Add(new TransportTypeEntity
                         {
-                            Name = transportType, DateCreated = DateTime.Now
+                            Name = transportType, DateCreated = DateTime.UtcNow
                         });
                     }
 
@@ -232,7 +302,7 @@ namespace WebBack.Data
                     var regions = configuration.GetSection("DefaultSeedData:Regions").Get<string[]>();
                     foreach (var region in regions)
                     {
-                        context.Regions.Add(new RegionEntity { Name = region, DateCreated = DateTime.Now });
+                        context.Regions.Add(new RegionEntity { Name = region, DateCreated = DateTime.UtcNow });
                     }
 
                     await context.SaveChangesAsync();
@@ -253,7 +323,7 @@ namespace WebBack.Data
                         {
                             context.Cities.Add(new CityEntity
                             {
-                                Name = city.Key, RegionId = region.Id, DateCreated = DateTime.Now
+                                Name = city.Key, RegionId = region.Id, DateCreated = DateTime.UtcNow
                             });
                         }
                     }
