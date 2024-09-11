@@ -13,8 +13,8 @@ import {Outlet} from "react-router-dom";
 
 const { Header, Content,Footer } = Layout;
 
+const AccountPage: React.FC = () => {
 
-const MainSearchPage: React.FC = () => {
     return (
         <Layout className="account-layout">
             <Header className="account-header">
@@ -30,4 +30,4 @@ const MainSearchPage: React.FC = () => {
     );
 };
 
-export default MainSearchPage;
+export default AccountPage;

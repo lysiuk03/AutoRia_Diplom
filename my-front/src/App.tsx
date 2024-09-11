@@ -16,6 +16,8 @@ import Login from './pages/AuthPage/AuthPageComponents/Login/Login.tsx';
 import Register from './pages/AuthPage/AuthPageComponents/Register/Register.tsx';
 import HomeContent from './pages/MainSearchPage/MainSearchPageComponents/HomeContent/HomeContent.tsx';
 import SearchContent from './pages/MainSearchPage/MainSearchPageComponents/SearchContent/SearchContent.tsx';
+import EditAccountPage from "./pages/EditAccountPage/EditAccountPage.tsx";
+import ProfileEditing from "./pages/EditAccountPage/EditAccountPageComponents/ProfileEditing/ProfileEditing.tsx";
 
 const App: React.FC = () => {
     return (
@@ -37,6 +39,10 @@ const App: React.FC = () => {
                     <Route path="favorites" element={<Favorites />} />
                     <Route path="auto-check" element={<AutoCheck />} />
                     <Route path="bills" element={<Bills />} />
+                </Route>
+                <Route path="/edit-account" element={<EditAccountPage />}>
+                    <Route index element={<ProfileEditing/>} />
+                    <Route path="profile" element={<ProfileEditing/>} />
                 </Route>
             </Routes>
         </BrowserRouter>

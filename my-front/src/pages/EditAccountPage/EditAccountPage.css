@@ -1,0 +1,23 @@
+.edit-account-layout{
+    background: linear-gradient(0deg, #FFFFFF 50%, #8C9BA9 100%);
+}
+
+.edit-account-header{
+    height: 130px;
+    background-color: transparent;
+}
+
+.edit-account-h2{
+    font-family: "Montserrat", sans-serif;
+    font-size: 32px;
+    font-weight: 500;
+    line-height: 22px;
+    text-align: left;
+    color:#000000;
+}
+
+.edit-account-container{
+    width: 660px;
+    margin-left: 210px;
+    margin-bottom: 100px;
+}
