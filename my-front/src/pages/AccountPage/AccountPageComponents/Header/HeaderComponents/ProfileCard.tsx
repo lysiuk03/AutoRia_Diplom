@@ -3,6 +3,7 @@ import React from 'react';
 
 // Styles
 import './ProfileCard.css';
+import {renderStars} from "../../../../../components/starRating/StarRating.tsx";
 
 
 type ProfileCardProps = {
@@ -14,23 +15,7 @@ type ProfileCardProps = {
 };
 
 const ProfileCard: React.FC<ProfileCardProps> = ({ name, id, location, rating, imageUrl }) => {
-    const renderStars = (rating: number) => {
-        const scaledRating = Math.round(rating / 2);
-        const stars = [];
-        for (let i = 1; i <= 5; i++) {
-            const isFilled = i <= scaledRating;
-            const starImage = isFilled ? 'bluestar.png' : 'star.png';
-            stars.push(
-                <img
-                    key={i}
-                    src={`/images/${starImage}`}
-                    alt={isFilled ? 'Filled Star' : 'Empty Star'}
-                    className="star"
-                />
-            );
-        }
-        return stars;
-    };
+
 
     return (
         <div className="profile-card">

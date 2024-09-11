@@ -3,7 +3,7 @@ import './AccountHeader.css';
 
 // Standard libraries
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import {Link, useLocation, useNavigate} from 'react-router-dom';
 
 // Custom components
 import Navbar from '../../../../components/navbar/Navbar.tsx';
@@ -28,6 +28,11 @@ const AccountHeader: React.FC = () => {
         { key: '3', label: 'Перевірки авто', path: '/account/auto-check' },
         { key: '4', label: 'Рахунки', path: '/account/bills' },
     ];
+    const navigate = useNavigate();
+
+    const handleNavigate = () => {
+        navigate('/edit-account');
+    };
 
 
     return (
@@ -39,13 +44,13 @@ const AccountHeader: React.FC = () => {
                     <ProfileCard {...profileData} />
                     <div className="btn-container">
                         <button className="chat-button none-line">Чат з покупцями</button>
-                        <button className="edit-profile-button">
-                            <img src="/images/edit.png" alt="Edit"/>
+                        <button className="edit-profile-button" onClick={handleNavigate}>
+                        <img src="/images/edit.png" alt="Edit"/>
                             Редагувати профіль
-                        </button>
-                    </div>
+                    </button>
                 </div>
-                <div>
+            </div>
+            <div>
                     <hr/>
                     <nav className="account-menu">
                         {menuItems.map(item => (
