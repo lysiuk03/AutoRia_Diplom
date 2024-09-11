@@ -6,6 +6,7 @@ using Bogus;
 using Bogus.DataSets;
 using WebBack.Data.Entities;
 using WebBack.Services;
+using System.Globalization;
 
 namespace WebBack.Data
 {
@@ -34,10 +35,9 @@ namespace WebBack.Data
                 await SeedFuelTypesAsync(context, configuration);
                 await SeedNumberOfSeatsAsync(context, configuration);
                 await SeedTransportTypesAsync(context, configuration);
-                await SeedTransportTypesAsync(context, configuration);
-
-                await SeedRegionsAsync(context, configuration);
-                await SeedCitiesAsync(context, configuration);
+                await SeedTransmissionTypesAsync(context, configuration);
+                await SeedBodyTypesAsync(context, configuration);
+                await SeedRegionsAndCitiesAsync(context, configuration);
 
 
                 await context.SaveChangesAsync();
@@ -116,77 +116,60 @@ namespace WebBack.Data
 
             async Task SeedBrandsAndModelsAsync(CarDbContext context, IConfiguration configuration)
             {
-                // Перевіряємо, чи є вже дані про моделі
+                // Check if brands exist in the database
                 if (!context.Brands.Any())
                 {
-                    // Отримуємо бренди та їх моделі з конфігураційного файлу
+                    // Get brands from configuration
                     var brandsSection = configuration.GetSection("DefaultSeedData:Brands");
                     var carBrands = brandsSection.GetChildren();
 
                     foreach (var brandSection in carBrands)
                     {
                         var brandName = brandSection.Value;
-                        
-                        // Додаємо бренд, якщо його ще немає в базі
+
+                        // Check if the brand exists in the database
                         var carBrandEntity = await context.Brands.FirstOrDefaultAsync(b => b.Name == brandName);
                         if (carBrandEntity == null)
                         {
+                            // Add new brand
                             carBrandEntity = new CarBrandEntity
                             {
                                 Name = brandName,
                                 DateCreated = DateTime.UtcNow
                             };
                             context.Brands.Add(carBrandEntity);
-                            await context.SaveChangesAsync(); // Зберігаємо бренд перед додаванням моделей
+                            await context.SaveChangesAsync(); // Save after adding the brand
                         }
 
-                        var modelsSection = configuration.GetSection("DefaultSeedData:Models");
+                        // Get models for the specific brand
+                        var modelsSection = configuration.GetSection($"DefaultSeedData:Models:{brandName}");
                         var brandModels = modelsSection.GetChildren();
-                        var models = brandModels;
-                      
 
-                            var carBrandId = carBrandEntity.Id;
-
-                            var currentModels = models.Where(m => m.Key == carBrandEntity.Name).ToList();
-
-                        foreach (var valmodel in currentModels)
+                        foreach (var modelSection in brandModels)
                         {
+                            var modelName = modelSection.Value;
 
-                            foreach (var m in valmodel.GetChildren())
+                            // Check if the model already exists in the database
+                            var existingModel = await context.Models.FirstOrDefaultAsync(m => m.Name == modelName && m.CarBrandId == carBrandEntity.Id);
+                            if (existingModel == null)
                             {
-
+                                // Add new model
                                 var carModelEntity = new CarModelEntity
                                 {
-                                    Name = m.Value,
-                                    CarBrandId = carBrandId,
+                                    Name = modelName,
+                                    CarBrandId = carBrandEntity.Id,
                                     DateCreated = DateTime.UtcNow
                                 };
-                                context.Models.Add(carModelEntity); // Додаємо в контекст
+                                context.Models.Add(carModelEntity);
                             }
                         }
 
-                            // SaveChangesAsync варто викликати один раз після виходу з циклу
-                        
+                        // Save all models for the brand in one go
                         await context.SaveChangesAsync();
-
-                        //{
-                        //    if (!context.Models.Any(m => m.Name == model && m.CarBrandId == carBrandEntity.Id))
-                        //    {
-                        //        var carModelEntity = new CarModelEntity
-                        //        {
-                        //            Name = model,
-                        //            CarBrandId = carBrandEntity.Id,
-                        //            DateCreated = DateTime.Now
-                        //        };
-                        //        context.Models.Add(carModelEntity);
-                        //    }
-                        //}
                     }
-
-                    // Зберігаємо всі зміни після додавання моделей
-                    await context.SaveChangesAsync();
                 }
             }
+
 
 
             async Task SeedColorsAsync(CarDbContext context, IConfiguration configuration)
@@ -207,16 +190,15 @@ namespace WebBack.Data
             {
                 if (!context.EngineVolumes.Any())
                 {
-                    var engineVolumes = configuration.GetSection("DefaultSeedData:EngineVolume").Get<string[]>();
+                    var engineVolumes = configuration.GetSection("DefaultSeedData:EngineVolume").GetChildren();
                     foreach (var volume in engineVolumes)
                     {
-                        if (float.TryParse(volume, out float floatVolume))
+                        context.EngineVolumes.Add(new EngineVolumeEntity
                         {
-                            context.EngineVolumes.Add(new EngineVolumeEntity
-                            {
-                                Volume = floatVolume, DateCreated = DateTime.UtcNow
-                            });
-                        }
+                            // Використовуємо InvariantCulture для правильного парсингу чисел з крапкою
+                            Volume = float.Parse(volume.Value, CultureInfo.InvariantCulture),
+                            DateCreated = DateTime.UtcNow
+                        });
                     }
 
                     await context.SaveChangesAsync();
@@ -231,6 +213,20 @@ namespace WebBack.Data
                     foreach (var fuelType in fuelTypes)
                     {
                         context.FuelTypes.Add(new FuelTypesEntity { Name = fuelType, DateCreated = DateTime.UtcNow });
+                    }
+
+                    await context.SaveChangesAsync();
+                }
+            }
+
+            async Task SeedBodyTypesAsync(CarDbContext context, IConfiguration configuration)
+            {
+                if (!context.FuelTypes.Any())
+                {
+                    var bodyTypes = configuration.GetSection("DefaultSeedData:BodyTypes").Get<string[]>();
+                    foreach (var fuelType in bodyTypes)
+                    {
+                        context.BodyTypes.Add(new BodyTypeEntity { Name = fuelType, DateCreated = DateTime.UtcNow });
                     }
 
                     await context.SaveChangesAsync();
@@ -263,12 +259,12 @@ namespace WebBack.Data
                 if (!context.TransmissionTypes.Any())
                 {
                     var transmissionTypes =
-                        configuration.GetSection("DefaultSeedData:TransmissionTypes").Get<string[]>();
+                        configuration.GetSection("DefaultSeedData:TransmissionTypes").GetChildren();
                     foreach (var transmissionType in transmissionTypes)
                     {
                         context.TransmissionTypes.Add(new TransmissionTypeEntity
                         {
-                            Name = transmissionType, DateCreated = DateTime.UtcNow
+                            Name = transmissionType.Value, DateCreated = DateTime.UtcNow
                         });
                     }
 
@@ -294,43 +290,72 @@ namespace WebBack.Data
             }
 
 
-            //__________________________some regions & coties
-            async Task SeedRegionsAsync(CarDbContext context, IConfiguration configuration)
+            async Task SeedRegionsAndCitiesAsync(CarDbContext context, IConfiguration configuration)
             {
+                // Check if regions exist in the database
                 if (!context.Regions.Any())
                 {
-                    var regions = configuration.GetSection("DefaultSeedData:Regions").Get<string[]>();
-                    foreach (var region in regions)
+                    var regionsSection = configuration.GetSection("DefaultSeedData:Regions");
+                    var regionNames = regionsSection.GetChildren();
+                   
+                    foreach (var regionSection in regionNames)
                     {
-                        context.Regions.Add(new RegionEntity { Name = region, DateCreated = DateTime.UtcNow });
+                        var regionName = regionSection.Value;
+
+                        // Create region and add to context
+                        var regionEntity = new RegionEntity
+                        {
+                            Name = regionName,
+                            Cities = new List<CityEntity>(), // Initialize the Cities collection
+                            DateCreated = DateTime.UtcNow
+                        };
+                        context.Regions.Add(regionEntity);
                     }
 
+                    // Save all regions to the database
                     await context.SaveChangesAsync();
                 }
-            }
 
-
-            async Task SeedCitiesAsync(CarDbContext context, IConfiguration configuration)
-            {
+                // Check if cities exist in the database
                 if (!context.Cities.Any())
                 {
-                    var cities = configuration.GetSection("DefaultSeedData:Cities").Get<Dictionary<string, string>>();
+                    var citiesSection = configuration.GetSection("DefaultSeedData:Cities");
 
-                    foreach (var city in cities)
+                    foreach (var regionSection in citiesSection.GetChildren())
                     {
-                        var region = await context.Regions.FirstOrDefaultAsync(r => r.Name == city.Value);
+                        var regionName = regionSection.Value; // Use Key for the region name
+                        var region = await context.Regions.FirstOrDefaultAsync(r => r.Name == regionName);
+
                         if (region != null)
                         {
-                            context.Cities.Add(new CityEntity
-                            {
-                                Name = city.Key, RegionId = region.Id, DateCreated = DateTime.UtcNow
-                            });
+                            var cities = regionSection.GetChildren(); // Get cities for this region
+
+                            
+                                var cityName = regionSection.Key;
+
+                                // Create city and add to context
+                                var cityEntity = new CityEntity
+                                {
+                                    Name = cityName,
+                                    RegionId = region.Id,
+                                    DateCreated = DateTime.UtcNow
+                                };
+
+                                // Add city to the region's Cities collection
+                                region.Cities.Add(cityEntity);
+
+                                // Add the city to the context (optional if relationship is tracked through RegionEntity)
+                                context.Cities.Add(cityEntity);
+                            
+
+                            // Save changes to the region, which includes cities
+                            await context.SaveChangesAsync();
                         }
                     }
-
-                    await context.SaveChangesAsync();
                 }
             }
+
+
 
 
         }

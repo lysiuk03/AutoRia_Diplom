@@ -3,6 +3,7 @@ using WebBack.Data.Entities;
 using WebBack.Data.Entities.Identity;
 using WebBack.ViewModels.Account;
 using WebBack.ViewModels.Car;
+using WebBack.ViewModels.Region_City;
 
 
 namespace WebBack.Mapper;
@@ -22,6 +23,13 @@ public class AppMapProfile : Profile
             .ForMember(c => c.Photos, opt => opt.Ignore());
 
         CreateMap<CarPhotoEntity, CarPhotoVm>();
+
+        // Map from RegionEntity to RegionVm
+        CreateMap<RegionEntity, RegionVm>()
+            .ForMember(dest => dest.Cities, opt => opt.MapFrom(src => src.Cities));
+
+        // Map from CityEntity to CityVm
+        CreateMap<CityEntity, CityVm>();
 
     }
 

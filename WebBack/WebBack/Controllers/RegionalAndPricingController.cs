@@ -5,6 +5,7 @@ using WebBack.Data;
 using WebBack.Data.Entities;
 using WebBack.Services.ControllerServices.Interfaces;
 using WebBack.ViewModels.Car;
+using WebBack.ViewModels.Region_City;
 
 namespace WebBack.Controllers
 {
@@ -32,10 +33,14 @@ namespace WebBack.Controllers
 
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<RegionEntity>>> GetRegions()
+        public async Task<ActionResult<IEnumerable<RegionVm>>> GetRegions()
         {
-            var regions = await _context.Regions.ToListAsync();
-            return Ok(regions);
+            var regions = await _context.Regions.Include(r => r.Cities).ToListAsync();
+
+            var regionVms = _mapper.Map<IEnumerable<RegionVm>>(regions);
+
+            return Ok(regionVms);
         }
+
     }
 }

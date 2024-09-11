@@ -9,6 +9,6 @@ namespace WebBack.Data.Entities
         [StringLength(255), Required]
         public string Name { get; set; } = null!;
 
-        public ICollection<CityEntity> Cities { get; set; } = null!;
+        public ICollection<CityEntity> Cities { get; set; } = new List<CityEntity>();
     }
 }
