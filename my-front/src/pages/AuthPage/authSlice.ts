@@ -1,5 +1,6 @@
-// authSlice.ts
-import { createSlice} from '@reduxjs/toolkit';
+// Libraries
+import { createSlice } from '@reduxjs/toolkit';
+
 
 interface AuthState {
     isAuthenticated: boolean;

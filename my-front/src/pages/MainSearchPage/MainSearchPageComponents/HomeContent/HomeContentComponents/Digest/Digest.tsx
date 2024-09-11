@@ -10,11 +10,23 @@ import DigestCard from "../../../../../../components/digestCard/DigestCard";
 // Styles
 import './Digest.css';
 
-
 const Digest: React.FC = () => {
+    // Function to get random cards
+    const getRandomCards = (array: any[], count: number): any[] => {
+        if (!Array.isArray(array)) {
+            console.error('Provided digest is not an array');
+            return [];
+        }
+
+        const shuffled = [...array].sort(() => 0.5 - Math.random());
+        return shuffled.slice(0, count);
+    };
+
+    const randomCards = getRandomCards(digest, 3);
+
     return (
         <div className="container">
-            {digest.map((card, index) => (
+            {randomCards.map((card, index) => (
                 <DigestCard
                     key={index}
                     image={card.image}

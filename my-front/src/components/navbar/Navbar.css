@@ -66,3 +66,14 @@
     align-items: center;
     color: #ffffff;
 }
+
+.menu-container.dark a,
+.menu-container.dark .profile-button{
+    color: #3B454E;
+}
+
+.menu-container.dark .sell-car-btn{
+    color: #ffffff !important;
+    background-color: #2E4F76;
+
+}
