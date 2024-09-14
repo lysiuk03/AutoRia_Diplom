@@ -18,6 +18,14 @@ import HomeContent from './pages/MainSearchPage/MainSearchPageComponents/HomeCon
 import SearchContent from './pages/MainSearchPage/MainSearchPageComponents/SearchContent/SearchContent.tsx';
 import EditAccountPage from "./pages/EditAccountPage/EditAccountPage.tsx";
 import ProfileEditing from "./pages/EditAccountPage/EditAccountPageComponents/ProfileEditing/ProfileEditing.tsx";
+import EditPassword
+    from "./pages/EditAccountPage/EditAccountPageComponents/EditAccountPageComponents/EditPassword/EditPassword.tsx";
+import PasswordChange
+    from "./pages/EditAccountPage/EditAccountPageComponents/EditAccountPageComponents/EditPassword/EditPasswordComponents/PasswordChange/PasswordChange.tsx";
+import PasswordForgot
+    from "./pages/EditAccountPage/EditAccountPageComponents/EditAccountPageComponents/EditPassword/EditPasswordComponents/PasswordForgot/PasswordForgot.tsx";
+import PasswordRecovery
+    from "./pages/EditAccountPage/EditAccountPageComponents/EditAccountPageComponents/EditPassword/EditPasswordComponents/PasswordRecovery/PasswordRecovery.tsx";
 
 const App: React.FC = () => {
     return (
@@ -43,6 +51,12 @@ const App: React.FC = () => {
                 <Route path="/edit-account" element={<EditAccountPage />}>
                     <Route index element={<ProfileEditing/>} />
                     <Route path="profile" element={<ProfileEditing/>} />
+                    <Route path="password" element={<EditPassword />}>
+                        <Route index element={<PasswordChange/>} />
+                        <Route path="change" element={<PasswordChange/>} />
+                        <Route path="forgot" element={<PasswordForgot/>} />
+                        <Route path="recovery" element={<PasswordRecovery/>} />
+                    </Route>
                 </Route>
             </Routes>
         </BrowserRouter>

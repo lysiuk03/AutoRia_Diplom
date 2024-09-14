@@ -14,11 +14,16 @@ const ProfileEditing: React.FC = () => {
     const [city, setCity] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
+    const handleClick = () => {
+        alert('Image button clicked!');
+    };
     return (
         <div className="edit-account-container">
             <h2 className='edit-account-h2'>Редагування профілю</h2>
             <div className="edit-account-details">
-                <img src="/images/men.png" alt="/images/men.png" className="profile-image"/>
+                <button className="profile-image-button" onClick={handleClick}>
+                    <img src="/images/men.png" alt="Profile" className="profile-image"/>
+                </button>
                 <div className="container-mg-left">
                     <div>
                         <p>Ваш клієнтський ID: ________</p>
@@ -28,7 +33,7 @@ const ProfileEditing: React.FC = () => {
                             {renderStars(8)}
                             <p><span>8</span></p>
                         </div>
-                        <Link to='/edit-password' className="edit-password-link">Натисніть, щоб змінити пароль</Link>
+                        <Link to='password' className="edit-password-link">Натисніть, щоб змінити пароль</Link>
                     </div>
 
                 </div>
