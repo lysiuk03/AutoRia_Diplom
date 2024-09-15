@@ -45,16 +45,23 @@ namespace WebBack.Controllers
 
         // GET: api/Car/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<CarEntity>> GetCar(int id)
+        public async Task<ActionResult<CarVm>> GetCar(int id)
         {
-            var car = await _context.Cars.FindAsync(id);
+            var cars = await _context.Cars
+                .ProjectTo<CarVm>(_mapper.ConfigurationProvider)
+                .ToArrayAsync();
+            var car = cars.Where(c=>c.Id == id).FirstOrDefault();
 
             if (car == null)
             {
                 return NotFound();
             }
 
-            return car;
+            // Map the car entity to a CarVm using AutoMapper
+            var carVm = _mapper.Map<CarVm>(car);
+
+            // Return the CarVm
+            return Ok(car);
         }
 
         // POST: api/Car

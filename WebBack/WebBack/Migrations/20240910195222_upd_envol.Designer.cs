@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using WebBack.Data;
@@ -11,9 +12,11 @@ using WebBack.Data;
 namespace WebBack.Migrations
 {
     [DbContext(typeof(CarDbContext))]
-    partial class CarDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240910195222_upd_envol")]
+    partial class upd_envol
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -176,9 +179,6 @@ namespace WebBack.Migrations
                     b.Property<int?>("BodyTypeId")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("CarBrandId")
-                        .HasColumnType("integer");
-
                     b.Property<int?>("CarModelId")
                         .HasColumnType("integer");
 
@@ -205,11 +205,21 @@ namespace WebBack.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
+                    b.Property<string>("Manufacturer")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
+
                     b.Property<bool>("Metallic")
                         .HasColumnType("boolean");
 
                     b.Property<decimal>("Mileage")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Model")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
 
                     b.Property<int?>("NumberOfSeatsId")
                         .HasColumnType("integer");
@@ -236,8 +246,6 @@ namespace WebBack.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("BodyTypeId");
-
-                    b.HasIndex("CarBrandId");
 
                     b.HasIndex("CarModelId");
 
@@ -676,10 +684,6 @@ namespace WebBack.Migrations
                         .WithMany()
                         .HasForeignKey("BodyTypeId");
 
-                    b.HasOne("WebBack.Data.Entities.CarBrandEntity", "CarBrand")
-                        .WithMany()
-                        .HasForeignKey("CarBrandId");
-
                     b.HasOne("WebBack.Data.Entities.CarModelEntity", "CarModel")
                         .WithMany()
                         .HasForeignKey("CarModelId");
@@ -713,8 +717,6 @@ namespace WebBack.Migrations
                         .HasForeignKey("TransportTypeId");
 
                     b.Navigation("BodyType");
-
-                    b.Navigation("CarBrand");
 
                     b.Navigation("CarModel");
 
