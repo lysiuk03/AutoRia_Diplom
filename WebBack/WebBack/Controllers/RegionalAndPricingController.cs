@@ -15,19 +15,13 @@ namespace WebBack.Controllers
     {
         private readonly IMapper _mapper;
         private readonly CarDbContext _context;
-        //private readonly IValidator<CarCreateVm> _createValidator;
-        private readonly ICarControllerService _service;
 
         public RegionalAndPricingController(
             IMapper mapper,
-            CarDbContext context,
-            //IValidator<CarCreateVm> createValidator,
-            ICarControllerService service)
+            CarDbContext context)
         {
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _context = context ?? throw new ArgumentNullException(nameof(context));
-            //_createValidator = createValidator ?? throw new ArgumentNullException(nameof(createValidator));
-            _service = service ?? throw new ArgumentNullException(nameof(service));
         }
 
 
