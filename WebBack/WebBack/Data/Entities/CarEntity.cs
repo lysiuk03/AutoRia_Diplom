@@ -11,11 +11,12 @@ namespace WebBack.Data.Entities
         [Range(1886, 2024)]
         public int Year { get; set; }
 
-        [StringLength(255), Required]
-        public string Model { get; set; } = null!;
+        //[StringLength(255), Required]
+        //public string Model { get; set; } = null!;
 
-        [StringLength(255), Required]
-        public string Manufacturer { get; set; } = null!;
+        //[StringLength(255), Required]
+        //public string Manufacturer { get; set; } = null!;
+        public CarBrandEntity? CarBrand { get; set; }
 
         [Required]
         [Column(TypeName = "decimal(18,2)")]

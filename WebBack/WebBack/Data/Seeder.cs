@@ -7,6 +7,7 @@ using Bogus.DataSets;
 using WebBack.Data.Entities;
 using WebBack.Services;
 using System.Globalization;
+using WebBack.ViewModels.Car;
 
 namespace WebBack.Data
 {
@@ -38,62 +39,90 @@ namespace WebBack.Data
                 await SeedTransmissionTypesAsync(context, configuration);
                 await SeedBodyTypesAsync(context, configuration);
                 await SeedRegionsAndCitiesAsync(context, configuration);
-
+                await SeedBodyTypesAsync(context,configuration);
 
                 await context.SaveChangesAsync();
 
-                //// Seed Cars
-                //if (await context.Cars.CountAsync() < 1)
-                //{
-                //    var faker = new Faker();
+               
+                // Seed Cars
+                if (await context.Cars.CountAsync() < 1)
+                {
+                    var faker = new Faker();
+                    var fakeCars = new List<CarEntity>();
 
-                //    var fakeCars = new List<CarEntity>();
+                    for (int i = 0; i < 10; i++)
+                    {
+                        // Вибір випадкової моделі автомобіля, що містить інформацію про бренд
+                        var carModel = await context.Models
+                                                    .Include(m => m.CarBrand) // Завантажуємо бренд разом із моделлю
+                                                    .OrderBy(r => Guid.NewGuid())
+                                                    .FirstOrDefaultAsync();
 
-                //    for (int i = 0; i < 10; i++)
-                //    {
-                //        var carFaker = new Faker<CarEntity>()
-                //            .RuleFor(c => c.Model, f => f.Vehicle.Model())
-                //            .RuleFor(c => c.Manufacturer, f => f.Vehicle.Manufacturer())
-                //            .RuleFor(c => c.Description, f => f.Lorem.Sentence())
-                //            .RuleFor(c => c.Stage, f => f.Lorem.Word())
-                //            .RuleFor(c => c.Mileage, f => f.Random.Decimal(0, 9999))
-                //            .RuleFor(c => c.VIN, f => f.Vehicle.Vin())
-                //            .RuleFor(c => c.DateCreated, f => DateTime.UtcNow.AddDays(f.Random.Int(-10, -1)));
+                        // Вибір випадкового типу кузова
+                        var bodyType = await context.BodyTypes.OrderBy(r => Guid.NewGuid()).FirstOrDefaultAsync();
 
-                //        var car = carFaker.Generate();
+                        int numberOfPhotos = faker.Random.Int(1, 5);
 
-                //        int numberOfPhotos = faker.Random.Int(1, 5);
-                        
+                        var carPhotos = new List<CarPhotoEntity>();
+
+                        for (int k = 0; k < numberOfPhotos; k++)
+                        {
+                            var imageUrl = faker.Image.LoremFlickrUrl(keywords: "Car", width: 1000, height: 800);
+                            var imageBase64 = await GetImageAsBase64Async(httpClient, imageUrl);
+
+                            var carPhoto = new CarPhotoEntity
+                            {
+                                Name = await imageService.SaveImageAsync(imageBase64),
+                                Priority = k + 1
+                            };
+
+                            carPhotos.Add(carPhoto);
+                        }
+
+                        var car = new CarEntity
+                        {
+                            Year = faker.Random.Int(1990, 2024),
+                            CarBrand = carModel.CarBrand,
+                            CarModel = carModel, // Прив'язка до моделі, яка містить бренд
+                            Description = faker.Lorem.Sentence(),
+                            Stage = faker.Lorem.Word(),
+                            Mileage = faker.Random.Decimal(0, 9999),
+                            VIN = faker.Vehicle.Vin(),
+                            Metallic = faker.Random.Bool(),
+                            AccidentParticipation = faker.Random.Bool(),
+                            DateCreated = DateTime.UtcNow.AddDays(faker.Random.Int(-10, -1)),
+
+                            // Base options
+                            TransportType = await context.TransportTypes.OrderBy(r => Guid.NewGuid()).FirstOrDefaultAsync(),
+                            BodyType = bodyType, // Прив'язка до кузова (BodyType)
+
+                            // Інші опції
+                            TransmissionType = await context.TransmissionTypes.OrderBy(r => Guid.NewGuid()).FirstOrDefaultAsync(),
+                            NumberOfSeats = await context.numbersOfSeats.OrderBy(r => Guid.NewGuid()).FirstOrDefaultAsync(),
+                            FuelTypes = await context.FuelTypes.OrderBy(r => Guid.NewGuid()).FirstOrDefaultAsync(),
+                            EngineVolume = await context.EngineVolumes.OrderBy(r => Guid.NewGuid()).FirstOrDefaultAsync(),
+
+                            // Місто та регіон
+                            City = await context.Cities.OrderBy(r => Guid.NewGuid()).FirstOrDefaultAsync(),
+
+                            // Appearance
+                            Color = await context.Colors.OrderBy(r => Guid.NewGuid()).FirstOrDefaultAsync(),
+
+                            Photos = carPhotos
+                        };
+
+                        // Додаємо автомобіль до списку
+                        fakeCars.Add(car);
+                    }
+
+                    // Зберігаємо згенеровані дані в базу
+                    await context.Cars.AddRangeAsync(fakeCars);
+                    await context.SaveChangesAsync();
+                }
 
 
 
 
-
-
-                //        var carPhotos = new List<CarPhotoEntity>();
-
-                //        for (int k = 0; k < numberOfPhotos; k++)
-                //        {
-                //            var imageUrl = faker.Image.LoremFlickrUrl(keywords: "Car", width: 1000, height: 800);
-                //            var imageBase64 = await GetImageAsBase64Async(httpClient, imageUrl);
-
-                //            var carPhoto = new CarPhotoEntity
-                //            {
-                //                Name = await imageService.SaveImageAsync(imageBase64), Priority = k + 1
-                //            };
-
-                //            carPhotos.Add(carPhoto);
-                //        }
-
-                //        car.Photos = carPhotos; // Assign photos to car
-
-                //        fakeCars.Add(car);
-                //    }
-
-                //    // Add all cars to context and save changes
-                //    context.Cars.AddRange(fakeCars);
-                //    await context.SaveChangesAsync();
-                //}
 
 
                 await context.SaveChangesAsync();
@@ -113,6 +142,21 @@ namespace WebBack.Data
                 return Convert.ToBase64String(imageBytes);
             }
 
+
+            async Task SeedBodyTypesAsync(CarDbContext context,IConfiguration configuration)
+            {
+                if (!context.BodyTypes.Any())
+                {
+                    var bodyTypes = configuration.GetSection("DefaultSeedData:BodyTypes").Get<string[]>();
+                    foreach (var type in bodyTypes)
+                    {
+                        context.BodyTypes.Add(new BodyTypeEntity { Name = type, DateCreated = DateTime.UtcNow });
+                    }
+
+                    await context.SaveChangesAsync();
+                }
+
+            }
 
             async Task SeedBrandsAndModelsAsync(CarDbContext context, IConfiguration configuration)
             {
@@ -213,20 +257,6 @@ namespace WebBack.Data
                     foreach (var fuelType in fuelTypes)
                     {
                         context.FuelTypes.Add(new FuelTypesEntity { Name = fuelType, DateCreated = DateTime.UtcNow });
-                    }
-
-                    await context.SaveChangesAsync();
-                }
-            }
-
-            async Task SeedBodyTypesAsync(CarDbContext context, IConfiguration configuration)
-            {
-                if (!context.FuelTypes.Any())
-                {
-                    var bodyTypes = configuration.GetSection("DefaultSeedData:BodyTypes").Get<string[]>();
-                    foreach (var fuelType in bodyTypes)
-                    {
-                        context.BodyTypes.Add(new BodyTypeEntity { Name = fuelType, DateCreated = DateTime.UtcNow });
                     }
 
                     await context.SaveChangesAsync();
