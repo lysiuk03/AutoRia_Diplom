@@ -68,3 +68,18 @@ input:focus-visible{
     background-color:#ffffff;
   }
 }
+
+.base-layout {
+  width: 1920px;
+  background-color: #FFFFFF;
+}
+
+.base-header{
+  width: 1919px;
+  height: 150px;
+  background-color: #FFFFFF;
+}
+
+.base-content{
+  background-color: #ffffff;
+}

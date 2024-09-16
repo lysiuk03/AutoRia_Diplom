@@ -26,6 +26,8 @@ import PasswordForgot
     from "./pages/EditAccountPage/EditAccountPageComponents/EditAccountPageComponents/EditPassword/EditPasswordComponents/PasswordForgot/PasswordForgot.tsx";
 import PasswordRecovery
     from "./pages/EditAccountPage/EditAccountPageComponents/EditAccountPageComponents/EditPassword/EditPasswordComponents/PasswordRecovery/PasswordRecovery.tsx";
+import PostAdPage from "./pages/PostAdPage/PostAdPahe.tsx";
+import AdForm from "./pages/PostAdPage/PostAdPageComponents/AdForm/AdForm.tsx";
 
 const App: React.FC = () => {
     return (
@@ -58,6 +60,11 @@ const App: React.FC = () => {
                         <Route path="recovery" element={<PasswordRecovery/>} />
                     </Route>
                 </Route>
+                <Route path="/post" element={<PostAdPage />}>
+                    <Route index element={<AdForm/>} />
+                    <Route path="ad" element={<AdForm/>} />
+                </Route>
+
             </Routes>
         </BrowserRouter>
     );
