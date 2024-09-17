@@ -8,9 +8,9 @@
     width: 415px;
     height: 690px;
     padding: 30px 0;
-    position: absolute;
-    bottom:15px;
-    right:15px;
+    position: fixed;
+    bottom:20px;
+    left:1460px;
 }
 .contact-form h2{
     font-family: "Karla", sans-serif;
@@ -41,12 +41,17 @@
 .contact-form textarea {
     width: 380px;
     padding: 7px 20px 7px 12px;
-    border: 0.8px solid #707070;
+    border: 1px solid #707070;
     border-radius: 4px;
     font-size: 16px;
     font-weight: 400;
     line-height: 20px;
     color: #535353;
+    background-color: #ffffff;
+}
+.contact-form textarea {
+    resize: none;
+    overflow: auto;
 }
 
 .contact-form  label{
