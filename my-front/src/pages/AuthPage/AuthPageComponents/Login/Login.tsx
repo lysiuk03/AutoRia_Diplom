@@ -98,7 +98,7 @@ const Login: React.FC = () => {
                 </div>
                 {errors.password && <p className="error-message">{errors.password}</p>}
 
-                <a href="/forgot-password">Забули пароль?</a>
+                <a href="/edit-account/password/forgot">Забули пароль?</a>
                 <button type="submit" className="auth-button">
                     Увійти
                 </button>
