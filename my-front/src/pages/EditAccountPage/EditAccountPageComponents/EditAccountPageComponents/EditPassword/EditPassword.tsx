@@ -6,7 +6,7 @@ const EditPassword: React.FC = () => {
 
     return (
         <div className="edit-account-container">
-            <p>Головна/Особистий кабінет/Редагувати профіль/<span>Зміна пароля</span></p>
+            <p>Головна/Особистий кабінет/Редагувати профіль/<span className="blue-underline">Зміна пароля</span></p>
            <Outlet/>
         </div>
     );
