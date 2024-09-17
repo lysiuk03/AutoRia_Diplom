@@ -28,6 +28,8 @@ import PasswordRecovery
     from "./pages/EditAccountPage/EditAccountPageComponents/EditAccountPageComponents/EditPassword/EditPasswordComponents/PasswordRecovery/PasswordRecovery.tsx";
 import PostAdPage from "./pages/PostAdPage/PostAdPahe.tsx";
 import AdForm from "./pages/PostAdPage/PostAdPageComponents/AdForm/AdForm.tsx";
+import NewsPage from "./pages/NewsPage/NewsPage.tsx";
+import HomeNews from "./pages/NewsPage/NewsPageComponents/HomeNews/HomeNews.tsx";
 
 const App: React.FC = () => {
     return (
@@ -63,6 +65,10 @@ const App: React.FC = () => {
                 <Route path="/post" element={<PostAdPage />}>
                     <Route index element={<AdForm/>} />
                     <Route path="ad" element={<AdForm/>} />
+                </Route>
+                <Route path="/news" element={<NewsPage />}>
+                    <Route index element={<HomeNews />} />
+                    <Route path="home" element={<HomeNews />} />
                 </Route>
 
             </Routes>
