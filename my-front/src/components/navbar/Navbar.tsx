@@ -42,7 +42,7 @@ const Navbar: React.FC<NavbarProps> = ({ additionalClass }) =>
                     <img src={profileIcon} alt="Profile or Login" className="profile-icon" />
                     Профіль
                 </button>
-                <a href="#" className="sell-car-btn">Продати авто</a>
+                <Link to="/post" className="sell-car-btn">Продати авто</Link>
             </div>
         </nav>
     );

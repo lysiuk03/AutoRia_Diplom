@@ -12,7 +12,7 @@ import Logo from "../../components/logo/Logo";
 const { Header, Content,Footer} = Layout;
 
 
-const NewsPage: React.FC = () => {
+const PostAdPage: React.FC = () => {
     return (
         <Layout className="base-layout">
             <Header className="base-header">
@@ -29,4 +29,4 @@ const NewsPage: React.FC = () => {
     );
 };
 
-export default NewsPage;
+export default PostAdPage;

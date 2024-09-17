@@ -1,0 +1,315 @@
+.ad-form-container{
+    margin: 30px 200px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.add-img-auto{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.ad-form-container h2{
+    font-size: 32px;
+    font-weight: 500;
+    line-height: 22px;
+    text-align: left;
+}
+
+.circle-number {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    background-color: black;
+    color: white;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 40px;
+    font-size: 20px;
+    font-weight: bold;
+    margin-right: 7px;
+}
+
+.ad-row{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}
+.ad-column{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+}
+
+.ad-form-container h3{
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 22px;
+    margin: 0;
+}
+
+.ad-form-container p{
+    font-size: 16px;
+    line-height: 22px;
+    text-align: left;
+    margin: 0;
+}
+
+.add-img-btn{
+    width: 55px;
+    height: 55px;
+    background-color:#2E4F76;
+    color: white;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 40px;
+    font-size: 70px;
+    padding: 0;
+}
+
+.add-img-label{
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 22px;
+}
+
+.info-box {
+    background-color: #B6D4F8;
+    width: 500px;
+    height: 33px;
+    gap: 10px;
+    margin: 30px 0 60px 0;
+    padding-left: 30px;
+    display: flex;
+    align-items: center;
+}
+.info-box a{
+    font-size: 14px;
+    font-weight: 400;
+    text-decoration: underline;
+    color: #2E4F76;
+}
+
+.ad-grid-container{
+    display: grid;
+    width: 90%;
+    grid-template-columns: repeat(2, 520px);
+    gap: 20px 200px;
+    margin: 60px 20px ;
+}
+.dropdown-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.dropdown-container select {
+    width: 300px;
+    height: 36px;
+    gap: 12px;
+    border: 1px solid #909090;
+    background-color: #FFFFFF;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 20px;
+    color: #535353;
+    padding-left: 20px;
+}
+
+.ad-form-container label{
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 22px;
+    color: black;
+    width: 200px;
+    text-align: left;
+
+}
+
+.vin-input{
+    width: 495px;
+    height: 36px;
+    padding: 12px 228px 12px 8px;
+    border-radius: 5px;
+    border: 1px solid #909090;
+    margin-left:20px;
+    background-color: #ffffff;
+}
+
+.vin-container{
+    margin-left: 35px;
+}
+
+.vin-small{
+    font-size: 14px;
+    line-height: 17px;
+    color: black;
+    margin-left: 75px;
+}
+
+.description-container{
+    margin: 40px 0 80px 0;
+}
+
+.description-input{
+    width: 495px;
+    height: 205px;
+    padding: 12px 28px 12px 8px;
+    border-radius: 5px;
+    border: 1px solid #909090;
+    resize: none;
+    overflow: auto;
+    background-color: #ffffff;
+}
+
+.description small{
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 22px;
+    color: black;
+}
+.description small span{
+    color: #E75808;
+    font-size: 20px;
+    padding-left: 30px;
+    padding-right: 5px;
+}
+
+.characteristic-container{
+    width: 510px;
+    margin: 30px 50px 60px 50px;
+    gap: 20px;
+}
+
+.grid-retreat{
+    margin-left: 50px;
+}
+.price-retreat{
+    margin: 50px 30px;
+}
+.price-inp{
+    width:178px;
+    height: 36px;
+    padding: 12px 28px 12px 8px;
+    border-radius: 5px;
+    border: 1px solid #909090;
+    background-color: #ffffff;
+}
+
+.price-select{
+    width: 146px;
+    height: 36px;
+    padding: 8px 16px 8px 16px;
+    border-radius: 5px;
+    border: 1px solid #909090;
+}
+
+.options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.options label {
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 22px;
+    color: #2E4F76;
+    width: 300px;
+}
+
+.options input[type="checkbox"] {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+    appearance: none;
+    border-radius:5px;
+    border: 1px solid #D9D9D9;
+    background-color: #D9D9D9;
+    cursor: pointer;
+    padding:0;
+}
+
+.options input[type="checkbox"]::before {
+    content: '✔';
+    font-size: 28px;
+    color: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.options input[type="checkbox"]:checked::before {
+    content: '✔';
+    font-size: 28px;
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.agreement{
+    margin: 30px 0;
+}
+
+.agreement label,
+.agreement a{
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 17px;
+    color: #2E4F76;
+}
+
+.agreement a{
+    color: #2E4F76;
+}
+.agreement label{
+    color: black;
+}
+
+.agreement input[type="checkbox"] {
+    width: 22px;
+    height: 22px;
+    border-radius: 2px;
+    margin-right: 10px;
+    appearance: none;
+    border: 1px solid #D9D9D9;
+    background-color: #D9D9D9;
+    cursor: pointer;
+    padding:0;
+}
+.agreement input[type="checkbox"]::before {
+    content: '✔';
+    font-size: 14px;
+    color: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.agreement input[type="checkbox"]:checked::before {
+    content: '✔';
+    font-size: 14px;
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.ad-btn{
+    padding: 12px 24px 12px 24px;
+    border-radius: 5px;
+    background-color: #2E4F76;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 22px;
+    color: #FFFFFF;
+    margin: 10px 0 70px 0;
+}
+
+
+.ad-form-container select {
+    appearance: none;
+    background: url('/images/triangle.png') no-repeat right 10px center;
+    background-size: 21px 13px;
+    padding-right: 30px;
+}
