@@ -1,0 +1,69 @@
+
+.bank-financing-container{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.financing-header{
+   display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    background-color: #F2F0F0;
+    border-radius: 5px;
+    padding: 8px 10px 8px 10px;
+}
+.financing-header h4{
+    font-size: 22px;
+    font-weight: 500;
+    line-height: 27px;
+    text-transform: uppercase;
+    color: #707070;
+    margin: 0;
+}
+
+.proposition-button{
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 24px;
+    padding: 8px 12px 8px 12px;
+    gap: 10px;
+    border-radius: 5px;
+    background-color: #2E4F76;
+    width: 100%;
+}
+.financing-option{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-content: center;
+}
+.financing-options{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.financing-option select {
+    appearance: none;
+    background: url('/images/triangle.png') no-repeat right 10px center;
+    background-size: 21px 13px;
+    padding-right: 30px;
+    width: 300px;
+    height: 36px;
+    gap: 12px;
+    border: 1px solid #909090;
+    background-color: #FFFFFF;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 20px;
+    color: #535353;
+    padding-left: 20px;
+}
+
+.financing-option label{
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 22px;
+    color: #000000;
+}

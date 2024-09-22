@@ -30,6 +30,7 @@ import PostAdPage from "./pages/PostAdPage/PostAdPahe.tsx";
 import AdForm from "./pages/PostAdPage/PostAdPageComponents/AdForm/AdForm.tsx";
 import NewsPage from "./pages/NewsPage/NewsPage.tsx";
 import HomeNews from "./pages/NewsPage/NewsPageComponents/HomeNews/HomeNews.tsx";
+import ProductPage from "./pages/ProductPage/ProductPage.tsx";
 
 const App: React.FC = () => {
     return (
@@ -70,7 +71,7 @@ const App: React.FC = () => {
                     <Route index element={<HomeNews />} />
                     <Route path="home" element={<HomeNews />} />
                 </Route>
-
+                <Route path="/product" element={<ProductPage/>}></Route>
             </Routes>
         </BrowserRouter>
     );
