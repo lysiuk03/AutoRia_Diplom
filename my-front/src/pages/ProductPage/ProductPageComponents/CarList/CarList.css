@@ -1,0 +1,11 @@
+.car-list{
+        display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.name-section-cars{
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 27px;
+}

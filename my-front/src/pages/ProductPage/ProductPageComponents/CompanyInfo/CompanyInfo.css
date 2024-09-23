@@ -1,0 +1,89 @@
+.box-company{
+    padding: 40px 60px 40px 60px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.company{
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+}
+
+.company-img{
+    width: 70px;
+    height: 70px;
+}
+
+.company-name small {
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 22px;
+    color: #535353;
+}
+
+.company-name h3 {
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 27px;
+    color: #2E4F76;
+    text-transform: uppercase;
+}
+
+.row-info{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 30px;
+}
+
+.row-info img{
+    width: 35px;
+    height: 35px;
+}
+
+.row-info p{
+    font-size: 26px;
+    font-weight: 400;
+    line-height: 32px;
+    color: #707070;
+    margin: 0;
+}
+
+.h4-style{
+    font-size: 26px;
+    font-weight: 700;
+    line-height: 32px;
+    color: #707070;
+    margin-top: 20px;
+}
+
+.contacts-company p{
+    color: #2E4F76;
+    font-size: 38px;
+    font-weight: 700;
+    line-height: 46px;
+    margin: 0;
+}
+
+.contacts-company small{
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 22px;
+    color:#535353;
+}
+
+.btn-salon{
+    background-color: #3B454E;
+    padding: 8px 12px 8px 12px;
+    gap: 10px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 24px;
+    margin: 20px 0;
+}
