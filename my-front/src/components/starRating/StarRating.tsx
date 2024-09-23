@@ -1,6 +1,4 @@
-// src/components/StarRating.tsx
 
-import React from 'react';
 
 export const renderStars = (rating: number) => {
     const scaledRating = Math.round(rating / 2);

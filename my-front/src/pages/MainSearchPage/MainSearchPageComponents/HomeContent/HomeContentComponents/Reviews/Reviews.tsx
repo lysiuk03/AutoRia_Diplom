@@ -30,7 +30,7 @@ const Reviews: React.FC = () => {
                 <div className="review">
                     <div>
                         <div className="review-image-wrapper">
-                            <img src={image} alt={name} className="review-image"/>
+                            <img src={image[0]} alt={name} className="review-image"/>
                         </div>
                         <h3>{name}</h3>
                         <p>{Array.from({length: rating}, (_, index) => (
