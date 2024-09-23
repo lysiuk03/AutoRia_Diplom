@@ -2,7 +2,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 // Інтерфейс для стану авторизації
-interface AuthState {
+export interface AuthState {  // Додано "export"
     isAuthenticated: boolean;
 }
 
