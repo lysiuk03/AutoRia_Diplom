@@ -10,10 +10,24 @@ import Navbar from '../../../../components/navbar/Navbar.tsx';
 import Logo from '../../../../components/logo/Logo.tsx';
 import ProfileCard from "./HeaderComponents/ProfileCard.tsx";
 
-// Data
-import { profileData } from "../../../../data/profileData.ts";
+interface ProfileCardProps {
+    name: string;
+    id: number;
+    location: string;
+    rating: number;
+    imageUrl: string[];
+}
 
 const AccountHeader: React.FC = () => {
+
+    const profileData:ProfileCardProps = {
+        name: 'Давид Войтко',
+        id: 14411374,
+        location: 'Рівне',
+        rating: 8.6,
+        imageUrl: ['/images/men.png']
+    };
+
     const location = useLocation();
     const isActive = (path: string) => location.pathname === path;
     interface MenuItem {
