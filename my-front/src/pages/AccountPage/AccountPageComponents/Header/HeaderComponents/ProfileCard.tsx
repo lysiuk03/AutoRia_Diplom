@@ -11,7 +11,7 @@ type ProfileCardProps = {
     id: number;
     location: string;
     rating: number;
-    imageUrl: string;
+    imageUrl: string[];
 };
 
 const ProfileCard: React.FC<ProfileCardProps> = ({ name, id, location, rating, imageUrl }) => {
@@ -19,7 +19,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ name, id, location, rating, i
 
     return (
         <div className="profile-card">
-            <img src={imageUrl} alt={name} className="profile-image" />
+            <img src={imageUrl[0]} alt={name} className="profile-image" />
             <div className="profile-details">
                 <h2>{name}</h2>
                 <p>ID: {id} • {location}</p>
