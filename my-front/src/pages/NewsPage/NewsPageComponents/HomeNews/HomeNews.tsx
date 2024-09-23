@@ -44,7 +44,7 @@ const HomeNews: React.FC = () => {
                 {digest.map((card, index) => (
                     <DigestCard
                         key={index}
-                        image={card.image}
+                        image={card.image[0]}
                         date={card.date}
                         title={card.title}
                         description={card.description}
