@@ -24,6 +24,7 @@ const SearchContent: React.FC = () => {
             setIsLoading(true);
             try {
                 const response = await axios.get('http://localhost:5174/api/Car');
+                console.log(response.data);
                 setCars(response.data);
             } catch (err) {
                 setError('Не вдалося завантажити дані');
