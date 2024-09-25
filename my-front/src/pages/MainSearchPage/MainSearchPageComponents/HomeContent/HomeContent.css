@@ -54,6 +54,8 @@
 
 .carousel-container
 {
+    display: flex;
+
     margin: 0 auto;
     width: 90%; /* Адаптивна ширина */
     max-width: 1225px;

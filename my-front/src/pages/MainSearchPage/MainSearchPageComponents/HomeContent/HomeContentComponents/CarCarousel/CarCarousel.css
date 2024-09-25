@@ -2,21 +2,17 @@
 
 
 .arrow {
-    position: absolute;
+    color: #2C4494;
     top: 1556px;
+    margin: 10px;
 }
 
-.left-arrow {
-    left: 200px;
-}
 
-.right-arrow {
-    left: 1699px;
-}
 
 .cars-container {
     display: flex;
     justify-content: space-between;
+    flex-grow: 1;
 }
 
 .btn-none-styles{
