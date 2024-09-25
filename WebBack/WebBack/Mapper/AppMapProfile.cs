@@ -2,6 +2,7 @@ using AutoMapper;
 using WebBack.Data.Entities;
 using WebBack.Data.Entities.Identity;
 using WebBack.ViewModels.Account;
+using WebBack.ViewModels.BodyType;
 using WebBack.ViewModels.Brand;
 using WebBack.ViewModels.Car;
 using WebBack.ViewModels.EngineVolume;
@@ -10,6 +11,7 @@ using WebBack.ViewModels.Model;
 using WebBack.ViewModels.NumberOfSeats;
 using WebBack.ViewModels.Region_City;
 using WebBack.ViewModels.TransmissionType;
+using WebBack.ViewModels.TransportType;
 
 
 namespace WebBack.Mapper;
@@ -52,6 +54,8 @@ public class AppMapProfile : Profile
         CreateMap<EngineVolumeEntity,EngineVolumeVm>();
         CreateMap<NumberOfSeatsEntity,NumberOfSeatsVm>();
         CreateMap<TransmissionTypeEntity, TransmissionTypeVm>();
+        CreateMap<BodyTypeEntity, BodyTypeVm>();
+        CreateMap<TransportTypeEntity, TransportTypeVm>();
     }
 
 }

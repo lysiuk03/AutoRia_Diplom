@@ -1,6 +1,6 @@
 // Libraries
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import {Link, useLocation, useNavigate} from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 // Styles
@@ -17,6 +17,7 @@ const Navbar: React.FC<NavbarProps> = ({ additionalClass }) =>
 {
     const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
     const navigate = useNavigate();
+    const location = useLocation();
 
     const handleProfileClick = () => {
         if (isAuthenticated) {
@@ -28,6 +29,7 @@ const Navbar: React.FC<NavbarProps> = ({ additionalClass }) =>
 
     const notifIcon = additionalClass === 'dark' ? '/images/notif-dark.png' : '/images/notif.png';
     const profileIcon = additionalClass === 'dark' ? '/images/profile-dark.png' : '/images/profile.png';
+    const isAddCarPage = location.pathname === '/post';
 
     return (
         <nav className={`menu-container ${additionalClass}`}>
@@ -42,7 +44,7 @@ const Navbar: React.FC<NavbarProps> = ({ additionalClass }) =>
                     <img src={profileIcon} alt="Profile or Login" className="profile-icon" />
                     Профіль
                 </button>
-                <Link to="/post" className="sell-car-btn">Продати авто</Link>
+                <Link to="/post" className="sell-car-btn"  style={{ pointerEvents: isAddCarPage ? 'none' : 'auto', opacity: isAddCarPage ? 0.5 : 1 }}>Продати авто</Link>
             </div>
         </nav>
     );

@@ -1,4 +1,5 @@
 ﻿using WebBack.Data.Entities;
+using WebBack.ViewModels.BodyType;
 using WebBack.ViewModels.Brand;
 using WebBack.ViewModels.EngineVolume;
 using WebBack.ViewModels.Model;
@@ -10,9 +11,11 @@ namespace WebBack.ViewModels.Car
 {
     public class CarVm
     {
+        public int Year {  get; set; }
         public int Id { get; set; } // Assuming CarEntity has an Id property in BaseEntity
         public CarModelVm CarModel { get; set; }
         public CarBrandCutVm CarBrand { get; set; }
+        public BodyTypeVm BodyType { get; set; }
         public string Description { get; set; } = null!;
         public string Stage { get; set; } = null!;
         public decimal Mileage { get; set; }

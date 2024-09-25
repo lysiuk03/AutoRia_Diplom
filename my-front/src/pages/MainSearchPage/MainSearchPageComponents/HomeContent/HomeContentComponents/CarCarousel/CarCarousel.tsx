@@ -10,6 +10,7 @@ import CarCard from '../../../../../../components/carCard/CarCard';
 // Styles
 import './CarCarousel.css';
 
+// Define props interface
 interface CarCarouselProps {
     cars: Car[];
 }
@@ -31,15 +32,15 @@ const CarCarousel: React.FC<CarCarouselProps> = ({ cars }) => {
 
     return (
         <>
-            <button onClick={handlePrev} className="arrow left-arrow btn-none-styles" disabled={currentIndex === 0}>
+            <button onClick={handlePrev} className="arrow btn-none-styles" disabled={currentIndex === 0}>
                 <img src="/images/left.png" alt="Left" />
             </button>
-            <div className="center-width cars-container">
+            <div className="cars-container">
                 {cars.slice(currentIndex, currentIndex + 4).map((car, index) => (
                     <CarCard key={index} {...car} />
                 ))}
             </div>
-            <button onClick={handleNext} className="arrow right-arrow btn-none-styles none-line" disabled={currentIndex >= cars.length - 4}>
+            <button onClick={handleNext} className="arrow btn-none-styles none-line" disabled={currentIndex >= cars.length - 4}>
                 <img src="/images/right.png" alt="Right" />
             </button>
         </>

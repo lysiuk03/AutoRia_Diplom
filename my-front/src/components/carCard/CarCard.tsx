@@ -9,14 +9,15 @@ import './CarCard.css';
 
 
 const CarCard: React.FC<Car> = ({
+                                    carBrand,
+                                    carModel,
                                     year,
-                                    model,
-                                    manufacturer,
+
+                                    city,
+
                                     mileage,
                                     transmissionType,
                                     photos,
-                                    city,
-                                    price,
                                     height = 386,
                                     width = 290
                                 }) => {
@@ -27,18 +28,18 @@ const CarCard: React.FC<Car> = ({
         }
         return `${mileage} км пробіг`;
     }
-    function formatPrice(price: number | undefined): string {
-        if (price == undefined) {
-            return 'Ціна не вказана';
-        }
-        return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
-    }
+    // function formatPrice(price: number | undefined): string {
+    //     if (price == undefined) {
+    //         return 'Ціна не вказана';
+    //     }
+    //     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    // }
 
     return (
         <div className="car-card" style={{ width: `${width}px`, height: `${height}px` }}>
             <div className="content">
                 <div>
-                    <img className="img-car" src={photos[0]} alt={`${manufacturer} ${model} ${year}`}/>
+                    <img className="img-car" src={`http://localhost:5174/images/200_${photos[0].name}`} alt={`${carBrand.name} ${carModel.name} ${year}`}/>
                     <div className="like-circle-1">
                         <div className="like-circle-2">
                             <div className="content">
@@ -49,11 +50,11 @@ const CarCard: React.FC<Car> = ({
                     </div>
                 </div>
                 <div className="car-details">
-                    <h3>{manufacturer} {model} {year}</h3>
-                    <p>{transmissionType} &#8729; {formatMileage(mileage)}</p>
-                    <p className="price">{formatPrice(price)} $</p>
+                    <h3>{carBrand.name} {carModel.name} {year}</h3>
+                    <p>{transmissionType.name} &#8729; {formatMileage(mileage)}</p>
+                    {/*<p className="price">{formatPrice(price)} $</p>*/}
                     <hr/>
-                    <p> <img src="/images/geo.png" alt="Geo" className="geo-image"/>{city}</p>
+                    <p> <img src="/images/geo.png" alt="Geo" className="geo-image"/>{city.name}</p>
                 </div>
             </div>
         </div>
