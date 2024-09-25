@@ -32,6 +32,7 @@ import NewsPage from "./pages/NewsPage/NewsPage.tsx";
 import HomeNews from "./pages/NewsPage/NewsPageComponents/HomeNews/HomeNews.tsx";
 import ProductPage from "./pages/ProductPage/ProductPage.tsx";
 
+
 const App: React.FC = () => {
     return (
         <BrowserRouter>

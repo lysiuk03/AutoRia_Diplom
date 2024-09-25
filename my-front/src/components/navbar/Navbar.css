@@ -1,22 +1,14 @@
-
 .menu-container {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 18px;
-    font-weight: 400;
-    text-align: left;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-    position: absolute;
-    width: 1000px;
-    height: 46px;
-    top: 54px;
-    left: 800px;
-    z-index: 2;
+    width: 50%;
+    justify-content: flex-end;
+    align-items: flex-start;
+    text-wrap: nowrap;
+    z-index: 1;
 }
-.menu-container.left{
-    left: 750px;
+
+.menu-container.left {
+    left: 0;
 }
 
 .menu,
@@ -32,6 +24,7 @@
     color: #ffffff;
     text-decoration: none;
 }
+
 .menu-container a:hover {
     color: #ffffff;
 }
@@ -46,34 +39,85 @@
     font-size: 18px;
     font-weight: 600;
     color: #2E4F76 !important;
-    padding: 12px 24px 12px 24px;
+    padding: 12px 24px;
     text-align: center;
     text-transform: uppercase;
     height: 46px;
-
 }
 
-.menu-container.auth-navbar .menu a  {
+.menu-container.auth-navbar .menu a {
     color: #3B454E;
 }
 
 .menu-container.auth-navbar .notif-icon {
     display: none;
 }
-.profile-button{
-    background-color:transparent;
+
+.profile-button {
+    background-color: transparent;
     display: flex;
     align-items: center;
     color: #ffffff;
 }
 
 .menu-container.dark a,
-.menu-container.dark .profile-button{
+.menu-container.dark .profile-button {
     color: #3B454E;
 }
 
-.menu-container.dark .sell-car-btn{
+.menu-container.dark .sell-car-btn {
     color: #ffffff !important;
     background-color: #2E4F76;
+}
 
+/* Адаптивні стилі для планшетів */
+@media (max-width: 1024px) {
+    .menu-container {
+        width: 90%;
+        left: 5%;
+    }
+
+    .menu-container a {
+        margin-right: 20px;
+        font-size: 16px;
+    }
+
+    .sell-car-btn {
+        font-size: 16px;
+        padding: 10px 20px;
+    }
+}
+
+/* Адаптивні стилі для мобільних пристроїв */
+@media (max-width: 768px) {
+    .menu-container {
+        flex-direction: column;
+        align-items: flex-start;
+        height: auto;
+        top: 10px;
+        left: 0;
+    }
+
+    .menu-container a {
+        margin-right: 10px;
+        font-size: 14px;
+    }
+
+    .sell-car-btn {
+        font-size: 14px;
+        padding: 8px 16px;
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .menu,
+    .user-actions {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .user-actions img {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
 }

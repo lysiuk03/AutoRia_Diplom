@@ -1,3 +1,6 @@
+
+
+
 .arrow {
     position: absolute;
     top: 1556px;
@@ -12,17 +15,8 @@
 }
 
 .cars-container {
-    position: absolute;
-    width: 1436px;
-    top: 1345px;
-    padding: 8px;
     display: flex;
     justify-content: space-between;
-}
-
-.center-width{
-    left: 50%;
-    transform: translateX(-50%);
 }
 
 .btn-none-styles{

@@ -14,11 +14,12 @@ const MainSearchHeader: React.FC = () => (
 
         <>
             <div className="header-container">
-              <Logo/>
+                <Logo/>
                 <img src="/images/road.png" alt="Road" className="background-image"/>
                 <img src="/images/blue_car.png" alt="Car" className="car-image"/>
+                <Navbar/>
             </div>
-            <Navbar/>
+
 
             <CarSearchForm/>
             <section className="number-1">
