@@ -1,0 +1,53 @@
+pipeline {
+    agent any
+    stages {
+        stage('Get Server IP Address') {
+            steps {
+                script {
+                    if (!env.IP_ADDRESS_SERVER) {
+                        def ipAddress = sh(script: "curl -s ifconfig.me", returnStdout: true).trim()
+                        env.IP_ADDRESS_SERVER = ipAddress
+                    } else {
+                        println("Geted from parameters")
+                    }
+                }
+            }
+        }
+
+        stage('Create Docker Network') {
+            steps {
+                script {
+                    sh "docker network create project_net --subnet=10.0.0.0/24"
+                }
+            }
+        }
+
+
+
+
+
+    }
+    post {
+        always {
+            script {
+                def containers = ["postres", "backend", "frontend"]
+                containers.each { container ->
+                    def containerExists = sh(script: "docker ps -a --format '{{.Names}}' | grep -Eq '^${container}\$'", returnStatus: true) == 0
+                    if (containerExists) {
+                        sh "docker rm -f ${container}"
+                    }
+                }
+                def networks = ["project_net"]
+                networks.each { network ->
+                    def networkExists = sh(script: "docker network ls --format '{{.Name}}' | grep -Eq '^${network}\$'", returnStatus: true) == 0
+                    if (networkExists) {
+                        sh "docker network rm ${network}"
+                    }
+                }
+            }
+            script {
+                sh 'docker image prune -a --filter "until=24h" --force'
+            }
+        }
+    }
+}
