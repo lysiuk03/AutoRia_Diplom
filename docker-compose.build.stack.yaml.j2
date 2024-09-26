@@ -15,8 +15,8 @@ services:
       build_net:
         ipv4_address: 10.10.10.2
     volumes:
-      - ./postgres_init/init-db.sh:/docker-entrypoint-initdb.d/init-db.sh
-      
+      - ./postgres_init/init-db.sh:/docker-entrypoint-initdb.d/
+
   frontend:
     image: {{ FRONTEND_IMAGE_BUILD }}
     ports:
