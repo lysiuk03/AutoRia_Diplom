@@ -107,7 +107,7 @@ pipeline {
         stage('Check Health Backend') {
             steps {
                 script {
-                    sleep(60) 
+                    sleep(10) 
                     def backendStatus = sh(script: 'docker inspect -f \'{{.State.Status}}\' wheeldeal_backend_b', returnStdout: true).trim()
                     def backendLogs = sh(script: 'docker logs wheeldeal_backend_b', returnStdout: true).trim()
 
@@ -127,7 +127,7 @@ pipeline {
         stage('Check Health Frontend') {
             steps {
                 script {
-                    sleep(60)
+                    sleep(10)
                     def frontendStatus = sh(script: 'docker inspect -f \'{{.State.Status}}\' wheeldeal_frontend_b', returnStdout: true).trim()
                     def frontendLogs = sh(script: 'docker logs wheeldeal_frontend_b', returnStdout: true).trim()
 
