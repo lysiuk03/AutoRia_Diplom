@@ -173,9 +173,11 @@ pipeline {
     }
     post {
         always {
+            /*
             script {
                 sh "docker-compose -f ./docker-compose.build.stack.yaml down"
             }
+            */
             script {
                 sh 'docker image prune -a --filter "until=24h" --force'
             }
