@@ -31,11 +31,7 @@ pipeline {
                         usernamePassword(credentialsId: 'duck', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS'),
                         string(credentialsId: 'dpr', variable: 'DOCKER_PRIVATE_REPO')
                     ]) {
-                        def latestTag = sh(script: '''
-                            latest_image_tag=$(curl -s -H "Authorization: Bearer ${DOCKER_PASS}" "https://hub.docker.com/v2/repositories/${DOCKER_USER}/${DOCKER_PRIVATE_REPO}/tags/?page_size=100" | grep -o '"name":"wheeldeal.postgres\\.r\\.[^"]*"' | sed 's/"name":"//' | sort -V  | tail -n 1)
-                            echo $latest_image_tag
-                        ''', returnStdout: true).trim()
-                        
+                        def latestTag = sh(script: 'curl -s -H "Authorization: Bearer ${DOCKER_PASS}" "https://hub.docker.com/v2/repositories/${DOCKER_USER}/${DOCKER_PRIVATE_REPO}/tags/?page_size=100" | grep -o \'"name":"wheeldeal.postgres\\.r\\.[^"]*\' | sed \'s/"name":"//\' | sort -V | tail -n 1', returnStdout: true).trim()
                         if (latestTag) {
                             echo "Found latest PostgreSQL image: ${latestTag}"
                             env.POSTGRES_IMAGE = "${DOCKER_USER}/${DOCKER_PRIVATE_REPO}:${latestTag}"
@@ -151,9 +147,9 @@ pipeline {
         stage('Push Success Build to Docker Hub') {
             steps {
                 script {
-                    withCredentials([usernamePassword(credentialsId: 'duck', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-                        sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}"
-                    }
+                    //withCredentials([usernamePassword(credentialsId: 'duck', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                        sh "docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}"
+                    //}
                         sh "docker stop wheeldeal_postgres_b wheeldeal_frontend_b wheeldeal_backend_b"
                         sh "docker commit wheeldeal_postgres_b jj975/q1:wheeldeal.postgres.r.${BUILD_NUMBER}"
                         sh "docker push jj975/q1:wheeldeal.postgres.r.${BUILD_NUMBER}"
