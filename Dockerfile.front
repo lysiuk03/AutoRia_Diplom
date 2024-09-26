@@ -2,11 +2,11 @@ FROM node:alpine
 
 WORKDIR /app
 
-COPY package.json .
+COPY ./stable/my-front/package.json .
 
 RUN npm install --force
 
-COPY . .
+COPY ./stable/my-front/ .
 
 RUN npm run build
 

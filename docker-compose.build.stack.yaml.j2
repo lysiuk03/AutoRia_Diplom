@@ -1,0 +1,45 @@
+#version: '3.8'
+
+services:
+  postgres:
+    image: {{ POSTGRES_IMAGE }}
+    container_name: wheeldeal_postgres_b
+    hostname: postgres
+    environment:
+      POSTGRES_USER: {{ POSTGRES_USER }}
+      POSTGRES_PASSWORD: {{ POSTGRES_PASSWORD }}
+      POSTGRES_DB: {{ POSTGRES_DB }}
+    ports:
+      - "5432:5432"
+    networks:
+      build_net:
+        ipv4_address: 10.10.10.2
+    volumes:
+      - ./postgres_init/init-db.sh:/docker-entrypoint-initdb.d/init-db.sh
+    
+   frontend:
+    image: {{ FRONTEND_IMAGE_BUILD }}
+    ports:
+      - "5173:5173"
+    networks:
+      build_net:
+        ipv4_address: 10.10.10.3
+    container_name: wheeldeal_frontend_b
+    hostname: frontend
+
+  backend:
+    image: {{ BACKEND_IMAGE_BUILD }}
+    networks:
+      build_net:
+        ipv4_address: 10.10.10.4
+    ports:
+      - "5174:5174"
+    container_name: wheeldeal_backend_b
+    hostname: backend
+
+networks:
+  build_net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.10.10.0/24   

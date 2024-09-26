@@ -12,10 +12,15 @@ pipeline {
                 }
             }
         }
-        stage('Create Docker Network') {
+        stage('Get Public Address') {
             steps {
                 script {
-                    sh "docker network create project_net --subnet=10.0.0.0/24"
+                    if (!env.PUBLIC_ADDRESS) {
+                        def publicAddress = sh(script: "curl -s ifconfig.me", returnStdout: true).trim()
+                        env.PUBLIC_ADDRESS = publicAddress
+                    } else {
+                        println("Geted from parameters")
+                    }
                 }
             }
         }
@@ -49,39 +54,42 @@ pipeline {
                 }
             }
         }
-        stage('Prepare Settings PostgreSQL') {
+        stage('Prepare Settings Build') {
             steps {
                 script {
                     withCredentials([ 
                         usernamePassword(credentialsId: 'jgul', usernameVariable: 'POSTGRES_USER', passwordVariable: 'POSTGRES_PASSWORD'),
                         string(credentialsId: 'deb', variable: 'POSTGRES_DB')
                     ]) {
-                        def settingsTemplate = readFile './docker-compose.postgres.yaml.j2'
+                        def settingsTemplate = readFile './docker-compose.build.stack.yaml.j2'
                         settingsTemplate = settingsTemplate.replaceAll('\\{\\{ POSTGRES_USER \\}\\}', env.POSTGRES_USER)
                         settingsTemplate = settingsTemplate.replaceAll('\\{\\{ POSTGRES_PASSWORD \\}\\}', env.POSTGRES_PASSWORD)
                         settingsTemplate = settingsTemplate.replaceAll('\\{\\{ POSTGRES_DB \\}\\}', env.POSTGRES_DB)
                         settingsTemplate = settingsTemplate.replaceAll('\\{\\{ POSTGRES_IMAGE \\}\\}', env.POSTGRES_IMAGE)
-                        writeFile file: './docker-compose.postgres.yaml', text: settingsTemplate
+                        settingsTemplate = settingsTemplate.replaceAll('\\{\\{ BACKEND_IMAGE_BUILD \\}\\}', "wheeldeal:backend.b.${BUILD_NUMBER}")
+                        settingsTemplate = settingsTemplate.replaceAll('\\{\\{ FRONTEND_IMAGE_BUILD \\}\\}', "wheeldeal:frontend.b.${BUILD_NUMBER}")
+                        writeFile file: './docker-compose.build.stack.yaml', text: settingsTemplate
                         
                         def dbInitScript = readFile './postgres_init/init-db.sh.j2'
                         dbInitScript = dbInitScript.replaceAll('\\{\\{ POSTGRES_USER \\}\\}', env.POSTGRES_USER)
                         dbInitScript = dbInitScript.replaceAll('\\{\\{ POSTGRES_PASSWORD \\}\\}', env.POSTGRES_PASSWORD)
                         dbInitScript = dbInitScript.replaceAll('\\{\\{ POSTGRES_DB \\}\\}', env.POSTGRES_DB)
                         writeFile file: './postgres_init/init-db.sh', text: dbInitScript
+
+                        def settingsBackend = readFile './stable/WebBack/WebBack/appsettings.json.j2'
+                        settingsBackend = settingsBackend.replaceAll('\\{\\{ PUBLIC_ADDRESS \\}\\}', env.PUBLIC_ADDRESS)
+                        settingsBackend = settingsBackend.replaceAll('\\{\\{ POSTGRES_USER \\}\\}', env.POSTGRES_USER)
+                        settingsBackend = settingsBackend.replaceAll('\\{\\{ POSTGRES_PASSWORD \\}\\}', env.POSTGRES_PASSWORD)
+                        settingsBackend = settingsBackend.replaceAll('\\{\\{ POSTGRES_DB \\}\\}', env.POSTGRES_DB)
+                        writeFile file: './stable/WebBack/WebBack/appsettings.json', text: settingsBackend
+                        
+                        def settingsFrontend = readFile './stable/my-front/.env.j2'
+                        settingsFrontend = settingsFrontend.replaceAll('\\{\\{ PUBLIC_ADDRESS \\}\\}', env.PUBLIC_ADDRESS)
+                        writeFile file: './stable/my-front/.env', text: settingsFrontend
                     }
                 }
             }
         }
-
-        stage('Start PostgreSQL') {
-            steps {
-                script {
-                    sh "docker-compose -f ./docker-compose.postgres.yaml up -d"
-                }
-            }
-        }
-
-//заміна критичних файлів бека
         
         stage('Build Backend') {
             steps {
@@ -91,7 +99,6 @@ pipeline {
             }
         }
 
-//заміна критичних файлів фронта
         stage('Build Frontend') {
             steps {
                 script {
@@ -99,21 +106,66 @@ pipeline {
                 }
             }
         }
-// запуск бека і фронта перевірка помилок
+
+        stage('Start Build') {
+            steps {
+                script {
+                    sh "docker-compose -f ./docker-compose.build.stack.yaml up -d"
+                }
+            }
+        }
+        stage('Check Health Backend') {
+            steps {
+                script {
+                    sleep(60) 
+                    def backendStatus = sh(script: 'docker inspect -f \'{{.State.Status}}\' wheeldeal_backend_b', returnStdout: true).trim()
+                    def backendLogs = sh(script: 'docker logs backend', returnStdout: true).trim()
+
+                    if (backendLogs.contains('error') || backendLogs.contains('Error')) {
+                        if (backendStatus == 'running') {
+                            echo "Warning: Backend container is running but contains errors:\n${backendLogs}"
+                        } else {
+                            error "Fatal error found in Backend container logs:\n${backendLogs}"
+                        }
+                    } else {
+                        echo "Backend container health check: OK"
+                    }
+                }
+            }
+        }
+
+        stage('Check Health Frontend') {
+            steps {
+                script {
+                    sleep(60)
+                    def frontendStatus = sh(script: 'docker inspect -f \'{{.State.Status}}\' wheeldeal_frontend_b', returnStdout: true).trim()
+                    def frontendLogs = sh(script: 'docker logs frontend', returnStdout: true).trim()
+
+                    if (frontendLogs.contains('error') || frontendLogs.contains('Error')) {
+                        if (frontendStatus == 'running') {
+                            echo "Warning: Frontend container is running but contains errors:\n${frontendLogs}"
+                        } else {
+                            error "Fatal error found in Frontend container logs:\n${frontendLogs}"
+                        }
+                    } else {
+                        echo "Frontend container health check: OK"
+                    }
+                }
+            }
+        }
 
         stage('Push Success Build to Docker Hub') {
             steps {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'duck', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-                        // перевірка імеджів
                         sh "docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}"
-                        sh "docker stop mssql frontend backend"
-                        sh "docker commit mssql jj975/testdiplom:mssql.r.${BUILD_NUMBER}"
-                        sh "docker push jj975/testdiplom:mssql.r.${BUILD_NUMBER}"
-                        sh "docker commit backend jj975/testdiplom:backend.r.${BUILD_NUMBER}"
-                        sh "docker push jj975/testdiplom:backend.r.${BUILD_NUMBER}"
-                        sh "docker commit frontend jj975/testdiplom:frontend.r.${BUILD_NUMBER}"
-                        sh "docker push jj975/testdiplom:frontend.r.${BUILD_NUMBER}"
+                        sh "docker stop wheeldeal_postgres_b wheeldeal_frontend_b wheeldeal_backend_b"
+                        sh "docker commit wheeldeal_postgres_b jj975/q1:wheeldeal.postgres.r.${BUILD_NUMBER}"
+                        sh "docker push jj975/q1:wheeldeal.postgres.r.${BUILD_NUMBER}"
+                        sh "docker commit wheeldeal_backend_b jj975/q1:wheeldeal.backend.r.${BUILD_NUMBER}"
+                        sh "docker push jj975/q1:wheeldeal.backend.r.${BUILD_NUMBER}"
+                        sh "docker commit wheeldeal_frontend_b jj975/q1:wheeldeal.frontend.r.${BUILD_NUMBER}"
+                        sh "docker push jj975/q1:wheeldeal.frontend.r.${BUILD_NUMBER}"
                     }
                 }
             }
@@ -122,20 +174,7 @@ pipeline {
     post {
         always {
             script {
-                def containers = ["postres", "backend", "frontend"]
-                containers.each { container ->
-                    def containerExists = sh(script: "docker ps -a --format '{{.Names}}' | grep -Eq '^${container}\$'", returnStatus: true) == 0
-                    if (containerExists) {
-                        sh "docker rm -f ${container}"
-                    }
-                }
-                def networks = ["project_net"]
-                networks.each { network ->
-                    def networkExists = sh(script: "docker network ls --format '{{.Name}}' | grep -Eq '^${network}\$'", returnStatus: true) == 0
-                    if (networkExists) {
-                        sh "docker network rm ${network}"
-                    }
-                }
+                sh "docker-compose -f ./docker-compose.build.stack.yaml down"
             }
             script {
                 sh 'docker image prune -a --filter "until=24h" --force'

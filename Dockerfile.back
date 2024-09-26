@@ -3,12 +3,12 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 
 # copy csproj and restore as distinct layers
 WORKDIR /src
-COPY WebBack.sln ./
-COPY WebBack/*.csproj ./WebBack/
+COPY ./stable/WebBack/WebBack.sln ./
+COPY ./stable/WebBack/WebBack/WebBack/*.csproj ./WebBack/
 RUN dotnet restore
 
 # copy everything else and build app
-COPY . .
+COPY /stable/WebBack .
 
 WORKDIR /src/WebBack
 RUN dotnet publish -o /app
