@@ -148,7 +148,7 @@ pipeline {
             steps {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'duck', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-                        sh 'docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}'
+                        sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}"
                     }
                         sh "docker stop wheeldeal_postgres_b wheeldeal_frontend_b wheeldeal_backend_b"
                         sh "docker commit wheeldeal_postgres_b jj975/q1:wheeldeal.postgres.r.${BUILD_NUMBER}"
