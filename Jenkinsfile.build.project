@@ -1,19 +1,17 @@
 pipeline {
     agent any
     stages {
-        stage('Get Server IP Address') {
+        stage('Download Source') {
             steps {
                 script {
-                    if (!env.IP_ADDRESS_SERVER) {
-                        def ipAddress = sh(script: "curl -s ifconfig.me", returnStdout: true).trim()
-                        env.IP_ADDRESS_SERVER = ipAddress
+                    if (fileExists('stable')) {
+                        sh 'git -C stable pull origin stable'
                     } else {
-                        println("Geted from parameters")
+                        sh 'git clone https://github.com/lysiuk03/AutoRia_Diplom.git -b stable stable'
                     }
                 }
             }
         }
-
         stage('Create Docker Network') {
             steps {
                 script {
@@ -21,11 +19,105 @@ pipeline {
                 }
             }
         }
+        stage('Check Latest PostgreSQL Image') {
+            steps {
+                script {
+                    withCredentials([ 
+                        usernamePassword(credentialsId: 'duck', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS'),
+                        string(credentialsId: 'dpr', variable: 'DOCKER_PRIVATE_REPO')
+                    ]) {
+                        //якщо помилка видалити \ і в рядок всю команду
+                        def latestTag = sh(script: '''
+                            latest_image_tag=$(curl -s -H "Authorization: Bearer ${DOCKER_PASS}" \
+                                "https://hub.docker.com/v2/repositories/${DOCKER_USER}/${DOCKER_PRIVATE_REPO}/tags/?page_size=100" \
+                                | grep -o '"name":"wheeldeal.postgres\\.r\\.[^"]*"' \
+                                | sed 's/"name":"//' \
+                                | sort -V \
+                                | tail -n 1)
+                            echo $latest_image_tag
+                        ''', returnStdout: true).trim()
+                        
+                        if (latestTag) {
+                            echo "Found latest PostgreSQL image: ${latestTag}"
+                            env.POSTGRES_IMAGE = "${DOCKER_USER}/${DOCKER_PRIVATE_REPO}:${latestTag}"
+                        } else {
+                            echo "No matching PostgreSQL image found, using default."
+                            //env.POSTGRES_IMAGE = "${DOCKER_USER}/${DOCKER_PRIVATE_REPO}:postgres.r.0"
+                            env.POSTGRES_IMAGE = "postgres:latest"
+                        }
+                    }
+                }
+            }
+        }
+        stage('Prepare Settings PostgreSQL') {
+            steps {
+                script {
+                    withCredentials([ 
+                        usernamePassword(credentialsId: 'jgul', usernameVariable: 'POSTGRES_USER', passwordVariable: 'POSTGRES_PASSWORD'),
+                        string(credentialsId: 'deb', variable: 'POSTGRES_DB')
+                    ]) {
+                        def settingsTemplate = readFile './docker-compose.postgres.yaml.j2'
+                        settingsTemplate = settingsTemplate.replaceAll('\\{\\{ POSTGRES_USER \\}\\}', env.POSTGRES_USER)
+                        settingsTemplate = settingsTemplate.replaceAll('\\{\\{ POSTGRES_PASSWORD \\}\\}', env.POSTGRES_PASSWORD)
+                        settingsTemplate = settingsTemplate.replaceAll('\\{\\{ POSTGRES_DB \\}\\}', env.POSTGRES_DB)
+                        settingsTemplate = settingsTemplate.replaceAll('\\{\\{ POSTGRES_IMAGE \\}\\}', env.POSTGRES_IMAGE)
+                        writeFile file: './docker-compose.postgres.yaml', text: settingsTemplate
+                        
+                        def dbInitScript = readFile './postgres_init/init-db.sh.j2'
+                        dbInitScript = dbInitScript.replaceAll('\\{\\{ POSTGRES_USER \\}\\}', env.POSTGRES_USER)
+                        dbInitScript = dbInitScript.replaceAll('\\{\\{ POSTGRES_PASSWORD \\}\\}', env.POSTGRES_PASSWORD)
+                        dbInitScript = dbInitScript.replaceAll('\\{\\{ POSTGRES_DB \\}\\}', env.POSTGRES_DB)
+                        writeFile file: './postgres_init/init-db.sh', text: dbInitScript
+                    }
+                }
+            }
+        }
 
+        stage('Start PostgreSQL') {
+            steps {
+                script {
+                    sh "docker-compose -f ./docker-compose.postgres.yaml up -d"
+                }
+            }
+        }
 
+//заміна критичних файлів бека
+        
+        stage('Build Backend') {
+            steps {
+                script {
+                    sh "docker build -f Dockerfile.back -t wheeldeal:backend.b.${BUILD_NUMBER} --no-cache  ."
+                }
+            }
+        }
 
+//заміна критичних файлів фронта
+        stage('Build Frontend') {
+            steps {
+                script {
+                    sh "docker build -f Dockerfile.front -t wheeldeal:frontend.b.${BUILD_NUMBER} --no-cache  ."
+                }
+            }
+        }
+// запуск бека і фронта перевірка помилок
 
-
+        stage('Push Success Build to Docker Hub') {
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'duck', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                        // перевірка імеджів
+                        sh "docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}"
+                        sh "docker stop mssql frontend backend"
+                        sh "docker commit mssql jj975/testdiplom:mssql.r.${BUILD_NUMBER}"
+                        sh "docker push jj975/testdiplom:mssql.r.${BUILD_NUMBER}"
+                        sh "docker commit backend jj975/testdiplom:backend.r.${BUILD_NUMBER}"
+                        sh "docker push jj975/testdiplom:backend.r.${BUILD_NUMBER}"
+                        sh "docker commit frontend jj975/testdiplom:frontend.r.${BUILD_NUMBER}"
+                        sh "docker push jj975/testdiplom:frontend.r.${BUILD_NUMBER}"
+                    }
+                }
+            }
+        }
     }
     post {
         always {
