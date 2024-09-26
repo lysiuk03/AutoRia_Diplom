@@ -94,7 +94,7 @@ pipeline {
         stage('Build Backend') {
             steps {
                 script {
-                    sh "docker build -f Dockerfile.back -t wheeldeal:backend.b.${BUILD_NUMBER} --no-cache  ."
+                    sh "docker build -f Dockerfile.back -t wheeldeal:backend.b.${BUILD_NUMBER} ."
                 }
             }
         }
@@ -102,7 +102,7 @@ pipeline {
         stage('Build Frontend') {
             steps {
                 script {
-                    sh "docker build -f Dockerfile.front -t wheeldeal:frontend.b.${BUILD_NUMBER} --no-cache  ."
+                    sh "docker build -f Dockerfile.front -t wheeldeal:frontend.b.${BUILD_NUMBER} ."
                 }
             }
         }
