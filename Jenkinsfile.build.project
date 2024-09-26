@@ -31,14 +31,8 @@ pipeline {
                         usernamePassword(credentialsId: 'duck', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS'),
                         string(credentialsId: 'dpr', variable: 'DOCKER_PRIVATE_REPO')
                     ]) {
-                        //якщо помилка видалити \ і в рядок всю команду
                         def latestTag = sh(script: '''
-                            latest_image_tag=$(curl -s -H "Authorization: Bearer ${DOCKER_PASS}" \
-                                "https://hub.docker.com/v2/repositories/${DOCKER_USER}/${DOCKER_PRIVATE_REPO}/tags/?page_size=100" \
-                                | grep -o '"name":"wheeldeal.postgres\\.r\\.[^"]*"' \
-                                | sed 's/"name":"//' \
-                                | sort -V \
-                                | tail -n 1)
+                            latest_image_tag=$(curl -s -H "Authorization: Bearer ${DOCKER_PASS}" "https://hub.docker.com/v2/repositories/${DOCKER_USER}/${DOCKER_PRIVATE_REPO}/tags/?page_size=100" | grep -o '"name":"wheeldeal.postgres\\.r\\.[^"]*"' | sed 's/"name":"//' | sort -V  | tail -n 1)
                             echo $latest_image_tag
                         ''', returnStdout: true).trim()
                         
