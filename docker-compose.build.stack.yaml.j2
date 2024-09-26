@@ -16,8 +16,7 @@ services:
         ipv4_address: 10.10.10.2
     volumes:
       - ./postgres_init/init-db.sh:/docker-entrypoint-initdb.d/init-db.sh
-    
-   frontend:
+  frontend:
     image: {{ FRONTEND_IMAGE_BUILD }}
     ports:
       - "5173:5173"
