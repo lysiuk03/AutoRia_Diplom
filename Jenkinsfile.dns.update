@@ -1,0 +1,19 @@
+pipeline {
+    agent any
+    stages {
+        stage('Update DNS Record') {
+            steps {
+                script {
+                    withCredentials([
+                        string(credentialsId: 'docken', variable: 'TOKEN')
+                    ]) {
+                        sh '''
+                            mkdir -p /var/jenkins_home/duckdns
+                            echo url="https://www.duckdns.org/update?domains=wheeldeal&token=${TOKEN}&ip=" | curl -k -o /var/jenkins_home/duckdns/duck.log -K -
+                        '''
+                    }
+                }
+            }
+        }
+    }
+}
