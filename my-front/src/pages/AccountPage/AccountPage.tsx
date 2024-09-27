@@ -48,7 +48,6 @@ const AccountPage: React.FC = () => {
             </Header>
             <Content>
                 <div className="profile-container">
-                    <h1>Профіль користувача</h1>
                     {profile ? (
                         <div>
                             <p>Ім'я: {123}</p>

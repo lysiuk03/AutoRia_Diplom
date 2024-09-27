@@ -51,7 +51,7 @@ const AccountHeader: React.FC = () => {
 
     return (
         <>
-            <div className="accbaseheader center-width">
+            <div className="accbaseheader">
                 <Logo left/>
                 <Navbar additionalClass="left" />
             </div>
