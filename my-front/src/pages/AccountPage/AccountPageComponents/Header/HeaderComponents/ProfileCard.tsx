@@ -8,7 +8,7 @@ import {renderStars} from "../../../../../components/starRating/StarRating.tsx";
 
 type ProfileCardProps = {
     name: string;
-    id: number;
+    id: string;
     location: string;
     rating: number;
     imageUrl: string[];

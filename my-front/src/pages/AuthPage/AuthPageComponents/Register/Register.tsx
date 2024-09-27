@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import '../AuthPageComponents.css';
 import { useDispatch } from 'react-redux';
-import { login } from '../../../../redux/authSlice.ts';
+import {register} from "../../authSlice.ts";
 
 const Register: React.FC = () => {
     const [fullName, setFullName] = useState<string>('');
@@ -77,9 +77,10 @@ const Register: React.FC = () => {
             if (response.ok) {
                 const data = await response.json();
                 localStorage.setItem('token', data.token);  // Зберігаємо токен
-                dispatch(login(data.user));  // Оновлюємо стан авторизації в Redux
+                dispatch(register(data.token));  // Оновлюємо стан авторизації в Redux
                 navigate('/account');  // Перенаправляємо на сторінку профілю
-            } else {
+            }
+            else {
                 throw new Error('Network response was not ok');
             }
         } catch (error) {

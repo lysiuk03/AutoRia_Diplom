@@ -1,6 +1,5 @@
 .account-layout {
     width: 100%;
-
     height: auto;
     margin: 0 auto;
     position: relative;
@@ -17,6 +16,6 @@
 
     height: 450px;
     padding: 0;
-    display: contents;
+
     background: linear-gradient(0deg, #F0F2F5 0%, #8C9BA9 100%);
 }

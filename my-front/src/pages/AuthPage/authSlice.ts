@@ -1,32 +1,34 @@
-// Libraries
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-// Інтерфейс для стану авторизації
-export interface AuthState {  // Додано "export"
+interface AuthState {
     isAuthenticated: boolean;
+    token: string | null; // Зберігаємо лише токен
 }
 
-// Початковий стан для авторизації
 const initialState: AuthState = {
-    isAuthenticated: false,  // За замовчуванням користувач не авторизований
+    isAuthenticated: false,
+    token: null,
 };
 
-// Створення slice для авторизації
 const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        login(state) {
+        login(state, action: PayloadAction<string>) {
             state.isAuthenticated = true;
+            state.token = action.payload; // Зберігаємо токен
         },
         logout(state) {
             state.isAuthenticated = false;
+            state.token = null; // Скидаємо токен
+        },
+        register(state, action: PayloadAction<string>) {
+            state.isAuthenticated = true;
+            state.token = action.payload; // Зберігаємо токен після реєстрації
         },
     },
 });
 
-// Експорт екшенів для авторизації
-export const { login, logout } = authSlice.actions;
-
-// Експорт редюсера
+// Експортуємо дії
+export const { login, logout, register } = authSlice.actions;
 export default authSlice.reducer;

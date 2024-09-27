@@ -10,7 +10,7 @@ const Login: React.FC = () => {
     const [showPassword, setShowPassword] = useState<boolean>(false);
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
     const navigate = useNavigate();
-    const dispatch = useDispatch();  // Створюємо диспетчер Redux
+    const dispatch = useDispatch();  // Create Redux dispatcher
 
     const validateForm = (): boolean => {
         const newErrors: { [key: string]: string } = {};
@@ -53,10 +53,10 @@ const Login: React.FC = () => {
                 throw new Error('Login failed');
             }
 
-            const userData = await response.json();
+            const { token } = await response.json(); // Отримуємо лише токен
 
-            // Збереження користувача у Redux
-            dispatch(login(userData));
+            // Зберігаємо токен у Redux
+            dispatch(login({ token }));
 
             navigate('/search');
         } catch (error) {

@@ -47,17 +47,9 @@ const AccountPage: React.FC = () => {
                 <AccountHeader />
             </Header>
             <Content>
-                <div className="profile-container">
-                    {profile ? (
-                        <div>
-                            <p>Ім'я: {123}</p>
-                            <p>Email: {123}</p>
-                        </div>
-                    ) : (
-                        <p>Завантаження...</p>
-                    )}
+
                     <Outlet />
-                </div>
+
             </Content>
             <Footer className="footer">
                 <PagesFooter />
