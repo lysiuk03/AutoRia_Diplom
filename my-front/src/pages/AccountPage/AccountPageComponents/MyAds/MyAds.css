@@ -1,5 +1,8 @@
 .my-ads-container {
-    padding: 60px 200px;
+    padding: 20px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .cars-grid {

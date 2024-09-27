@@ -46,6 +46,7 @@ const AccountPage: React.FC = () => {
             <Header className="account-header">
                 <AccountHeader />
             </Header>
+
             <Content>
                 <div className="profile-container">
                     {profile ? (
