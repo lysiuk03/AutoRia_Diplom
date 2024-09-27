@@ -42,6 +42,7 @@ const AccountPage: React.FC = () => {
 
     return (
         <Layout className="account-layout">
+
             <Header className="account-header">
                 <AccountHeader />
             </Header>

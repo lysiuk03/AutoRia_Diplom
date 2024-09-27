@@ -51,8 +51,11 @@ const AccountHeader: React.FC = () => {
 
     return (
         <>
-            <Logo left/>
-            <Navbar additionalClass="left" />
+            <div className="accbaseheader center-width">
+                <Logo left/>
+                <Navbar additionalClass="left" />
+            </div>
+
             <div className="profile-overview-container">
                 <div className="user-info-actions">
                     <ProfileCard {...profileData} />
