@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { login } from 'C:\\Users\\dklxw\\OneDrive\\Desktop\\Work\\my-front\\src\\redux\\authSlice.ts';  // Імпортуємо екшн для логіну
 import '../AuthPageComponents.css';
 
 const Login: React.FC = () => {
@@ -8,6 +10,7 @@ const Login: React.FC = () => {
     const [showPassword, setShowPassword] = useState<boolean>(false);
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
     const navigate = useNavigate();
+    const dispatch = useDispatch();  // Створюємо диспетчер Redux
 
     const validateForm = (): boolean => {
         const newErrors: { [key: string]: string } = {};
@@ -49,6 +52,11 @@ const Login: React.FC = () => {
             if (!response.ok) {
                 throw new Error('Login failed');
             }
+
+            const userData = await response.json();
+
+            // Збереження користувача у Redux
+            dispatch(login(userData));
 
             navigate('/search');
         } catch (error) {
