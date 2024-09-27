@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { login } from 'C:\\Users\\dklxw\\OneDrive\\Desktop\\Work\\my-front\\src\\redux\\authSlice.ts';  // Імпортуємо екшн для логіну
+import { login } from '../../../../redux/authSlice.ts';
 import '../AuthPageComponents.css';
 
 const Login: React.FC = () => {

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import '../AuthPageComponents.css';
 import { useDispatch } from 'react-redux';
-import { login } from 'C:\\Users\\dklxw\\OneDrive\\Desktop\\Work\\my-front\\src\\redux\\authSlice.ts';
+import { login } from '../../../../redux/authSlice.ts';
 
 const Register: React.FC = () => {
     const [fullName, setFullName] = useState<string>('');
