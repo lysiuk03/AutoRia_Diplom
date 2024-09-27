@@ -67,7 +67,7 @@ const AccountHeader: React.FC = () => {
     };
 
     return (
-        <>
+        <div className="nameheader">
             <div className="accbaseheader">
                 <Logo left />
                 <Navbar additionalClass="left" />
@@ -95,7 +95,7 @@ const AccountHeader: React.FC = () => {
                     </nav>
                 </div>
             </div>
-        </>
+        </div>
     );
 };
 
