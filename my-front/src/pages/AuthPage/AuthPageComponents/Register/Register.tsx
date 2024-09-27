@@ -1,15 +1,19 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import '../AuthPageComponents.css';
+import { useDispatch } from 'react-redux';
+import { login } from 'C:\\Users\\dklxw\\OneDrive\\Desktop\\Work\\my-front\\src\\redux\\authSlice.ts';
 
 const Register: React.FC = () => {
     const [fullName, setFullName] = useState<string>('');
     const [email, setEmail] = useState<string>('');
-    const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [showPassword, setShowPassword] = useState<boolean>(false);
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
+    const [username, setUsername] = useState<string>('');
+    const [image, setImage] = useState<string>('');
     const navigate = useNavigate();
+    const dispatch = useDispatch()
 
     const validateForm = (): boolean => {
         const newErrors: { [key: string]: string } = {};
@@ -18,38 +22,36 @@ const Register: React.FC = () => {
         const nameParts = fullName.trim().split(' ');
         if (nameParts.length < 2) {
             newErrors.fullName = 'Будь ласка, введіть повне ім’я (ім’я та прізвище).';
-            setFullName('');  // Clear the input if invalid
+            setFullName('');
         }
 
         // Email validation
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(email)) {
             newErrors.email = 'Будь ласка, введіть дійсну електронну адресу.';
-            setEmail('');  // Clear the input if invalid
+            setEmail('');
         }
+
+
 
         // Username validation
         if (!username.trim()) {
             newErrors.username = 'Будь ласка, введіть ім’я користувача.';
-            setUsername('');  // Clear the input if invalid
+            setUsername('');
         }
 
         // Password validation
         if (password.length < 6) {
             newErrors.password = 'Пароль має містити принаймні 6 символів.';
-            setPassword('');  // Clear the input if invalid
+            setPassword('');
         }
 
         setErrors(newErrors);
-
-        // Return true if there are no errors
         return Object.keys(newErrors).length === 0;
     };
 
     const handleRegister = async (e: React.FormEvent) => {
         e.preventDefault();
-
-        // Run validation before submitting
         if (!validateForm()) {
             return;
         }
@@ -62,6 +64,9 @@ const Register: React.FC = () => {
         formData.append("Email", email);
         formData.append("UserName", username);
         formData.append("Password", password);
+        if (image) {
+            formData.append("Image", image); // Include the image file if present
+        }
 
         try {
             const response = await fetch('http://localhost:5174/api/Accounts/Registration', {
@@ -69,11 +74,14 @@ const Register: React.FC = () => {
                 body: formData,
             });
 
-            if (!response.ok) {
+            if (response.ok) {
+                const data = await response.json();
+                localStorage.setItem('token', data.token);  // Зберігаємо токен
+                dispatch(login(data.user));  // Оновлюємо стан авторизації в Redux
+                navigate('/account');  // Перенаправляємо на сторінку профілю
+            } else {
                 throw new Error('Network response was not ok');
             }
-
-            navigate('/');
         } catch (error) {
             console.error('Error during registration:', error);
         }
@@ -137,6 +145,13 @@ const Register: React.FC = () => {
                     />
                 </div>
                 {errors.password && <p className="error-message">{errors.password}</p>}
+
+                <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => setImage(e.target.files ? e.target.files[0] : null)}
+                    className="file-input"
+                />
 
                 <button type="submit" className="auth-button">
                     Зареєструватися

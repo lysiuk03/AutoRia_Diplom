@@ -34,9 +34,15 @@ namespace WebBack.Controllers
             if (user is null || !await userManager.CheckPasswordAsync(user, model.Password))
                 return Unauthorized("Wrong authentication data");
 
+            // Генеруємо токен
+            var token = await jwtTokenService.CreateTokenAsync(user);
+
+            // Зберігаємо токен у таблиці AspNetUserTokens
+            await userManager.SetAuthenticationTokenAsync(user, "JWT", "AccessToken", token);
+
             return Ok(new JwtTokenResponse
             {
-                Token = await jwtTokenService.CreateTokenAsync(user)
+                Token = token
             });
         }
 
@@ -47,17 +53,27 @@ namespace WebBack.Controllers
             {
                 var user = await service.SignUpAsync(vm);
 
+                // Генеруємо токен
+                var token = await jwtTokenService.CreateTokenAsync(user);
+
+                // Зберігаємо токен у таблиці AspNetUserTokens
+                await userManager.SetAuthenticationTokenAsync(user, "JWT", "AccessToken", token);
+
                 return Ok(new JwtTokenResponse
                 {
-                    Token = await jwtTokenService.CreateTokenAsync(user)
+                    Token = token
                 });
+            }
+            catch (ArgumentNullException ex)
+            {
+                return BadRequest(new { Message = "Registration failed: Missing required fields.", Details = ex.Message });
             }
             catch (Exception ex)
             {
                 // Log the exception (optional, depending on your logging strategy)
                 // _logger.LogError(ex, "Error occurred during user registration.");
 
-                return StatusCode(500, $"Exception creating user: {ex.Message}");
+                return StatusCode(500, new { Message = "An error occurred during user registration.", Details = ex.Message });
             }
         }
     }

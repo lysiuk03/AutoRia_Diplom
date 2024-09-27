@@ -1,29 +1,26 @@
-// Libraries
+// src/components/Navbar/Navbar.tsx
 import React from 'react';
-import {Link, useLocation, useNavigate} from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import './Navbar.css';  // CSS-стилі
 
-// Styles
-import './Navbar.css';
-
-// Types
-import { RootState } from "../../store.ts";
-
+// Типи
+import { RootState } from "../../redux/store.ts";
 
 interface NavbarProps {
     additionalClass?: string;
 }
-const Navbar: React.FC<NavbarProps> = ({ additionalClass }) =>
-{
+
+const Navbar: React.FC<NavbarProps> = ({ additionalClass }) => {
     const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
     const navigate = useNavigate();
     const location = useLocation();
 
     const handleProfileClick = () => {
         if (isAuthenticated) {
-            navigate('/account');
+            navigate('/account');  // Перехід на сторінку профілю
         } else {
-            navigate('/auth/login');
+            navigate('/auth/login');  // Перехід на сторінку входу
         }
     };
 
@@ -44,11 +41,10 @@ const Navbar: React.FC<NavbarProps> = ({ additionalClass }) =>
                     <img src={profileIcon} alt="Profile or Login" className="profile-icon" />
                     Профіль
                 </button>
-                <Link to="/post" className="sell-car-btn"  style={{ pointerEvents: isAddCarPage ? 'none' : 'auto', opacity: isAddCarPage ? 0.5 : 1 }}>Продати авто</Link>
+                <Link to="/post" className="sell-car-btn" style={{ pointerEvents: isAddCarPage ? 'none' : 'auto', opacity: isAddCarPage ? 0.5 : 1 }}>Продати авто</Link>
             </div>
         </nav>
     );
 };
-
 
 export default Navbar;
