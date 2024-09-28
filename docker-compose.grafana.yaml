@@ -7,8 +7,8 @@ services:
       - "3000:3000"
     volumes:
       - grafana-data:/var/lib/grafana
-      - ./configs/grafana/datasources:/etc/grafana/provisioning/datasources/
-      - ./configs/grafana/dashboards:/etc/grafana/provisioning/dashboards/
+      - ./configs/grafana/datasources:/etc/grafana/provisioning/datasources
+      - ./configs/grafana/dashboards:/etc/grafana/provisioning/dashboards
 
   prometheus:
     image: prom/prometheus
@@ -22,8 +22,8 @@ services:
       - "--web.console.templates=/usr/share/prometheus/consoles"
     volumes:
       - prom-data:/prometheus
-      - ./configs/prometheus/alert_rules.yml:/etc/prometheus/alert_rules.yml
-      - ./configs/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./configs/prometheus/alert_rules.yml:/etc/prometheus/
+      - ./configs/prometheus/prometheus.yml:/etc/prometheus/
 
   alertmanager:
     image: prom/alertmanager
@@ -35,7 +35,7 @@ services:
       - "--web.external-url=http://localhost:9093"      
     volumes:
       - alert-data:/alertmanager
-      - ./configs/alertmanager.yml:/etc/alertmanager/alertmanager.yml
+      - ./configs/alertmanager.yml:/etc/alertmanager/
 
   node-exporter:
     image: prom/node-exporter
