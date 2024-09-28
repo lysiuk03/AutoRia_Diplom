@@ -1,0 +1,24 @@
+pipeline {
+    agent any
+    stages {
+        stage('Download Source') {
+            steps {
+                script {
+                    if (fileExists('grafana-cluster')) {
+                        sh 'git -C stable pull origin grafana-cluster'
+                    } else {
+                        sh 'git clone https://github.com/lysiuk03/AutoRia_Diplom.git -b grafana-cluster grafana-cluster'
+                    }
+                }
+            }
+        }
+        stage('Start Grafana') {
+            steps {
+                script {
+                    sh "cd grafana-cluster"
+                    sh "docker-compose -f ./docker-compose.grafana.yaml up -d"
+                }
+            }
+        }
+    }
+}
