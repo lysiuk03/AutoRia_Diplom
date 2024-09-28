@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   postgres:
-    image: {{ POSTGRES_IMAGE_RELEASE }}
+    image: {{ POSTGRES_IMAGE_LATEST }}
     container_name: wheeldeal_postgres_r
     hostname: postgres
     ports:
@@ -12,7 +12,7 @@ services:
         ipv4_address: 10.0.0.2
 
   frontend:
-    image: {{ FRONTEND_IMAGE_RELEASE }}
+    image: {{ BACKEND_IMAGE_LATEST }}
     ports:
       - "5173:5173"
     networks:
@@ -22,7 +22,7 @@ services:
     hostname: frontend
 
   backend:
-    image: {{ BACKEND_IMAGE_RELEASE }}
+    image: {{ FRONTEND_IMAGE_LATEST }}
     networks:
       release_net:
         ipv4_address: 10.0.0.4
