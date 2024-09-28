@@ -15,8 +15,10 @@ pipeline {
         stage('Start Grafana') {
             steps {
                 script {
-                    sh "cd grafana-cluster"
-                    sh "docker-compose -f ./grafana-cluster/docker-compose.grafana.yaml up -d"
+                    sh """
+                        cd grafana-cluster
+                        docker-compose -f docker-compose.grafana.yaml up -d
+                    """
                 }
             }
         }
