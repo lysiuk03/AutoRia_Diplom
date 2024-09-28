@@ -22,8 +22,7 @@ services:
       - "--web.console.templates=/usr/share/prometheus/consoles"
     volumes:
       - prom-data:/prometheus
-      - ./configs/prometheus/alert_rules.yml:/etc/prometheus/
-      - ./configs/prometheus/prometheus.yml:/etc/prometheus/
+      - ./configs/prometheus:/etc/prometheus/
 
   alertmanager:
     image: prom/alertmanager
