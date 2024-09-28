@@ -76,5 +76,23 @@ namespace WebBack.Controllers
                 return StatusCode(500, new { Message = "An error occurred during user registration.", Details = ex.Message });
             }
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            var users = userManager.Users.ToList();
+            return Ok(users);
+        }
+
+        [HttpGet("{email}")]
+        public async Task<IActionResult> GetUserByEmail(string email)
+        {
+            var user = await userManager.FindByEmailAsync(email);
+            if (user == null)
+                return NotFound(new { Message = "User not found." });
+
+            return Ok(user);
+        }
+
     }
 }

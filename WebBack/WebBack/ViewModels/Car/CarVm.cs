@@ -6,6 +6,7 @@ using WebBack.ViewModels.Model;
 using WebBack.ViewModels.NumberOfSeats;
 using WebBack.ViewModels.Region_City;
 using WebBack.ViewModels.TransmissionType;
+using WebBack.ViewModels.TransportType;
 
 namespace WebBack.ViewModels.Car
 {
@@ -27,6 +28,7 @@ namespace WebBack.ViewModels.Car
         public NumberOfSeatsVm NumberOfSeats { get; set; }
         public FuelTypesEntity FuelTypes { get; set; }
         public EngineVolumeVm EngineVolume { get; set; }
+        public TransportTypeVm TransportType { get; set; }
         public CityVm City { get; set; }
         public decimal? Price { get; set; }
         public ColorEntity Color { get; set; }
