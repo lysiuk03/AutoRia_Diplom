@@ -1,0 +1,60 @@
+pipeline {
+    agent any
+    stages {
+        stage('Check Latest Images') {
+            steps {
+                script {
+                    withCredentials([ 
+                        usernamePassword(credentialsId: 'duck', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS'),
+                        string(credentialsId: 'dpr', variable: 'DOCKER_PRIVATE_REPO')
+                    ]) {
+                        def latestTagPostgres = sh(script: 'curl -s -H "Authorization: Bearer ${DOCKER_PASS}" "https://hub.docker.com/v2/repositories/${DOCKER_USER}/${DOCKER_PRIVATE_REPO}/tags/?page_size=100" | grep -o \'"name":"wheeldeal.postgres\\.r\\.[^"]*\' | sed \'s/"name":"//\' | sort -V | tail -n 1', returnStdout: true).trim()
+                        if (latestTagPostgres) {
+                            echo "Found latest PostgreSQL image: ${latestTagPostgres}"
+                            env.POSTGRES_IMAGE_LATEST = "${DOCKER_USER}/${DOCKER_PRIVATE_REPO}:${latestTagPostgres}"
+                        } else {
+                            echo "No matching PostgreSQL image found, using default."
+                            //env.POSTGRES_IMAGE_LATEST = "${DOCKER_USER}/${DOCKER_PRIVATE_REPO}:postgres.r.0"
+                            env.POSTGRES_IMAGE_LATEST = "postgres:latest"
+                        }
+                        def latestTagBackend = sh(script: 'curl -s -H "Authorization: Bearer ${DOCKER_PASS}" "https://hub.docker.com/v2/repositories/${DOCKER_USER}/${DOCKER_PRIVATE_REPO}/tags/?page_size=100" | grep -o \'"name":"wheeldeal.backend\\.r\\.[^"]*\' | sed \'s/"name":"//\' | sort -V | tail -n 1', returnStdout: true).trim()
+                        if (latestTagBackend) {
+                            echo "Found latest Backend image: ${latestTagBackend}"
+                            env.BACKEND_IMAGE_LATEST = "${DOCKER_USER}/${DOCKER_PRIVATE_REPO}:${latestTagBackend}"
+                        } else {
+                            echo "No matching Backend image found, using default."
+                            env.BACKEND_IMAGE_LATEST = "${DOCKER_USER}/${DOCKER_PRIVATE_REPO}:backend.r.0"
+                        }
+                        def latestTagFrontend = sh(script: 'curl -s -H "Authorization: Bearer ${DOCKER_PASS}" "https://hub.docker.com/v2/repositories/${DOCKER_USER}/${DOCKER_PRIVATE_REPO}/tags/?page_size=100" | grep -o \'"name":"wheeldeal.frontend\\.r\\.[^"]*\' | sed \'s/"name":"//\' | sort -V | tail -n 1', returnStdout: true).trim()
+                        if (latestTagFrontend) {
+                            echo "Found latest Frontend image: ${latestTagFrontend}"
+                            env.FRONTEND_IMAGE_LATEST = "${DOCKER_USER}/${DOCKER_PRIVATE_REPO}:${latestTagFrontend}"
+                        } else {
+                            echo "No matching Frontend image found, using default."
+                            env.FRONTEND_IMAGE_LATEST = "${DOCKER_USER}/${DOCKER_PRIVATE_REPO}:backend.r.0"
+                        }
+                    }
+                }
+            }
+        }
+        stage('Prepare Settings Release') {
+            steps {
+                script {
+                        def settingsTemplate = readFile './docker-compose.release.stack.yaml.j2'
+                        settingsTemplate = settingsTemplate.replaceAll('\\{\\{ POSTGRES_IMAGE_LATEST \\}\\}', env.POSTGRES_IMAGE_LATEST)
+                        settingsTemplate = settingsTemplate.replaceAll('\\{\\{ BACKEND_IMAGE_LATEST \\}\\}', env.BACKEND_IMAGE_LATEST)
+                        settingsTemplate = settingsTemplate.replaceAll('\\{\\{ FRONTEND_IMAGE_LATEST \\}\\}', env.FRONTEND_IMAGE_LATEST)
+                        writeFile file: './docker-compose.release.stack.yaml', text: settingsTemplate
+
+                }
+            }
+        }
+        stage('Start Release') {
+            steps {
+                script {
+                    sh "docker-compose -f ./docker-compose.release.stack.yaml up -d"
+                }
+            }
+        }
+    }
+}

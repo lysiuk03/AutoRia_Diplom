@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: {{ POSTGRES_IMAGE_RELEASE }}
+    container_name: wheeldeal_postgres_r
+    hostname: postgres
+    ports:
+      - "5432:5432"
+    networks:
+      release_net:
+        ipv4_address: 10.0.0.2
+
+  frontend:
+    image: {{ FRONTEND_IMAGE_RELEASE }}
+    ports:
+      - "5173:5173"
+    networks:
+      release_net:
+        ipv4_address: 10.0.0.3
+    container_name: wheeldeal_frontend_r
+    hostname: frontend
+
+  backend:
+    image: {{ BACKEND_IMAGE_RELEASE }}
+    networks:
+      release_net:
+        ipv4_address: 10.0.0.4
+    ports:
+      - "5174:5174"
+    container_name: wheeldeal_backend_b
+    hostname: backend
+
+networks:
+  release_net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.0.0.0/24   
