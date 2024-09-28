@@ -5,7 +5,7 @@ pipeline {
             steps {
                 script {
                     if (fileExists('grafana-cluster')) {
-                        sh 'git -C stable pull origin grafana-cluster'
+                        sh 'git -C grafana-cluster pull origin grafana-cluster'
                     } else {
                         sh 'git clone https://github.com/lysiuk03/AutoRia_Diplom.git -b grafana-cluster grafana-cluster'
                     }
