@@ -9,6 +9,7 @@ using WebBack.Services.ControllerServices.Interfaces;
 using WebBack.Services.Interfaces;
 using WebBack.ViewModels.Car;
 using WebBack.ViewModels;
+using WebBack.SearchRequestClasses;
 
 namespace WebBack.Controllers
 {
@@ -32,7 +33,29 @@ namespace WebBack.Controllers
             //_createValidator = createValidator ?? throw new ArgumentNullException(nameof(createValidator));
             _service = service ?? throw new ArgumentNullException(nameof(service));
         }
-        
+
+        // POST: api/Car/search
+        [HttpPost("search")]
+        public async Task<IActionResult> SearchCars([FromBody] CarSearchRequest searchRequest)
+        {
+            if (searchRequest == null)
+            {
+                return BadRequest("Invalid search request.");
+            }
+
+            try
+            {
+                // Ваш код для пошуку автомобілів за заданими параметрами
+                var cars = await _service.SearchAsync(searchRequest); // Ви повинні реалізувати метод SearchAsync у вашому сервісі
+                return Ok(cars);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+
         // GET: api/Car
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CarVm>>> GetCars()

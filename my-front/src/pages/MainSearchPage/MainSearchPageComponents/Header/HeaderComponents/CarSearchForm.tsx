@@ -64,20 +64,22 @@ const CarSearchForm: React.FC = () => {
 
 
     const [searchType, setSearchType] = useState<string>('Всі');
-    const [carType, setCarType] = useState<string>('Легкові');
+    const [carType, setCarType] = useState<string>('Будь-який');
     //const [make, setMake] = useState<string>('');
     //const [model, setModel] = useState<string>('');
-    const [region, setRegion] = useState<string>('Оберіть');
-    const [year, setYear] = useState<string>('Оберіть');
-    const [price, setPrice] = useState<string>('Оберіть');
+    const [region, setRegion] = useState<string>('Київ');
+    const [year, setYear] = useState<string>('2024');
+    const [price, setPrice] = useState<string>('Всі');
     const [vinChecked, setVinChecked] = useState<boolean>(false);
 
     const [optionsData, setOptionsData] = useState<OptionData>(defaultOptions);
-    const [filteredModels, setFilteredModels] = useState<string[]>(['Оберіть']);
-    const [selectedModel, setSelectedModel] = useState<string>("Оберіть");
-    const [selectedBrand, setSelectedBrand] = useState<string>('Оберіть');
+    const [filteredModels, setFilteredModels] = useState<string[]>(['Всі']);
+    const [selectedModel, setSelectedModel] = useState<string>("Всі");
+    const [selectedBrand, setSelectedBrand] = useState<string>('Всі');
 
     useEffect(() => {
+
+
         const fetchData = async () => {
             //setIsLoading(true);
             try {
@@ -100,7 +102,11 @@ const CarSearchForm: React.FC = () => {
                     axios.get('http://localhost:5174/api/TechnicalSpecifications/transporttypes'),
                     axios.get('http://localhost:5174/api/RegionalAndPricing')
                 ]);
-
+                const updatedBrands = brandsAndModelsResponse.data.map((brand: { id: number; name: string; models: { name: string }[] }) => ({
+                    id: brand.id,
+                    name: brand.name,
+                    models: brand.models.map((model: { name: string }) => model)
+                }));
                 setOptionsData(prev => ({
                     ...prev,
                     bodyTypes: [...bodyTypesResponse.data.map((bt: { name: string }) => bt.name)],
@@ -117,7 +123,12 @@ const CarSearchForm: React.FC = () => {
                     transportTypes : [...transportTypesResponse.data.map((bt: { name: string }) => bt.name)],
                     regions: regionsResponse.data
                 }));
-
+                const audiBrand = updatedBrands.find((brand: CarBrand) => brand.name === 'Audi');
+                if (audiBrand) {
+                    setSelectedBrand(audiBrand.name);
+                    setFilteredModels(audiBrand.models.map((model: { name: string; }) => model.name));
+                    setSelectedModel(audiBrand.models.length > 0 ? audiBrand.models[0].name : 'Всі');
+                }
             } catch (err) {
                 //setError('Не вдалося завантажити дані');
             } finally {
@@ -125,8 +136,10 @@ const CarSearchForm: React.FC = () => {
             }
         };
 
-
         fetchData();
+// Встановити "Audi" як бренд за замовчуванням
+
+       // setFilteredModels(optionsData.brands[0].models.map((bt: { name: string }) => bt.name));
     }, []);
 
     const handleBrandChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -134,7 +147,7 @@ const CarSearchForm: React.FC = () => {
         setSelectedBrand(brandName);
         const selectedBrand = optionsData.brands.find(b => b.name === brandName);
         setFilteredModels(selectedBrand ? selectedBrand.models.map((model) => model.name) : []);
-        setSelectedModel(e.target); // Reset model on brand change
+        setSelectedModel(e.target.value); // Reset model on brand change
     };
     const handleModelChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setSelectedModel(e.target.value);
@@ -153,9 +166,10 @@ const CarSearchForm: React.FC = () => {
         </div>
     );
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        console.log({
+
+        const searchRequest = {
             searchType,
             carType,
             selectedBrand,
@@ -164,7 +178,16 @@ const CarSearchForm: React.FC = () => {
             year,
             price,
             vinChecked
-        });
+        };
+
+        console.log(searchRequest); // Перевірка об'єкта запиту
+
+        try {
+            const response = await axios.post('http://localhost:5174/api/Car/search', searchRequest);
+            console.log(response.data); // Обробка отриманих даних
+        } catch (error) {
+            console.error('Error during axios request:', error);
+        }
     };
 
     return (
@@ -205,14 +228,14 @@ const CarSearchForm: React.FC = () => {
                                 <option key={option} value={option}>{option}</option>
                             ))}
                         </select>
-                        {renderSelect(optionsData.brands[1] ? optionsData.brands.map(b => b.name) : ['Оберіть'], selectedBrand, handleBrandChange)}
+                        {renderSelect(optionsData.brands.map(b => b.name), selectedBrand, handleBrandChange)}
                         {renderSelect(filteredModels, selectedModel, handleModelChange)}
                     </div>
                     <div>
                         <select value={region} onChange={(e) => setRegion(e.target.value)}>
                             {optionsData.regions[1] ? optionsData.regions.map(option => (
                                 <option key={option.id} value={option.name}>{option.name}</option>
-                            )) : <option key={0} value={"Оберіть"}>Оберіть</option>
+                            )) : <option key={0} value={"Всі"}>Оберіть</option>
 
                             }
                         </select>
