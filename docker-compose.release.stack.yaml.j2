@@ -12,7 +12,7 @@ services:
         ipv4_address: 10.0.0.2
 
   frontend:
-    image: {{ BACKEND_IMAGE_LATEST }}
+    image: {{ FRONTEND_IMAGE_LATEST }}
     ports:
       - "5173:5173"
     networks:
@@ -22,13 +22,13 @@ services:
     hostname: frontend
 
   backend:
-    image: {{ FRONTEND_IMAGE_LATEST }}
+    image: {{ BACKEND_IMAGE_LATEST }}
     networks:
       release_net:
         ipv4_address: 10.0.0.4
     ports:
       - "5174:5174"
-    container_name: wheeldeal_backend_b
+    container_name: wheeldeal_backend_r
     hostname: backend
 
 networks:
