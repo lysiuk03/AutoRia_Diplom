@@ -1,0 +1,14 @@
+pipeline {
+    agent any
+    stages {
+        stage('Start Grafana') {
+            steps {
+                script {
+                   dir('grafana-cluster') {
+                        sh "docker-compose -f docker-compose.grafana.yaml up -d"
+                    }
+                }
+            }
+        }
+    }
+}
