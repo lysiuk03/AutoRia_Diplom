@@ -1,110 +1,102 @@
+.font-karla{
+    font-family: "Karla", sans-serif;
+    color: #FFFFFF;
+}
+
+.footer-container{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    padding-right: 20px;
+}
+
+.box-gray,
+.gray-right,
+.gray-left{
+    background-color: #8C9BA9;
+}
 
 .box-gray {
     display: flex;
-    justify-content: center;
     align-items: center;
-    width: 100%;
+    width: 70%;
+    height: auto;
+    padding-bottom: 5vw;
+}
+
+.gray-right,
+.gray-left{
+    width: 15%;
     height: 510px;
-    border-radius: 11px 11px 0 0;
-    background-color: #8C9BA9;
+}
+
+.gray-left{
+    border-radius: 11px 0 0 0;
+}
+
+.gray-right{
+    border-radius: 0 11px 0 0;
 }
 
 .footer-sections {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1.2fr;
-    width: 1200px;
-    height: 166px;
-    gap: 82px;
-    position: absolute;
+    gap: 80px;
 }
 
 .footer-section {
     display: flex;
     flex-direction: column;
-    height: 166px;
     gap: 20px;
 }
 
-.main-menu {
-    font-family: "Karla", sans-serif;
+.main-menu,
+.footer-button{
     font-size: 18px;
     font-weight: 700;
-    font-style: normal;
-    color: #FFFFFF;
-    margin: 0;
-    line-height: 21px;
+    line-height: 22px;
     text-transform: uppercase;
+    margin: 0;
+}
+
+.footer-button
+{
+    font-family: 'Montserrat', sans-serif;
+    padding: 13px 28px;
+    border: 2px solid #FFFFFF;
+    background-color: transparent;
+    border-radius: 0;
 }
 
 .footer-sections ul {
-    font-family: "Karla", sans-serif;
     font-size: 16px;
     font-weight: 400;
     font-style: normal;
-    color: #FFFFFF;
     list-style-type: none;
-    padding: 0;
     line-height: 19px;
+    padding: 0;
     margin: 0 ;
 }
 
-.footer-sections ul li a {
-    text-decoration: none;
-    color: #FFFFFF;
-}
-
-.footer-sections ul li a:hover {
-    color: #FFFFFF;
-}
-
 .phone{
-    font-family: "Karla", sans-serif;
-    font-weight: 700;
-    font-style: normal;
-    color: #FFFFFF;
-    margin: 0;
     font-size: 28px;
+    font-weight: 700;
+    color: #FFFFFF;
     line-height: 33px;
-    text-align: left;
+    margin: 0;
 }
 
-.phone-container{
-    width: 270px;
-    height: 33px;
-}
-
-.social-media-container {
+.social-media-container{
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    width: 252px;
-    height: 39px;
-    gap: 40px;
+    gap: 30px;
 }
 
 .contacts-container{
     display: flex;
     justify-content: space-between;
     margin-top: 346px;
-    
     position: absolute;
-    width: 600px;
+    gap:60px;
 }
 
-.social-icon{
-    width: 39px;
-    height: 39px;
-}
-
-.footer-button
-{
-    padding: 13px 28px 13px 28px;
-    border: 2px solid #FFFFFF;
-    color: #ffffff;
-    background-color: transparent;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 18px;
-    font-weight: 700;
-    line-height: 22px;
-    text-transform: uppercase;
-    border-radius: 0;
-}
