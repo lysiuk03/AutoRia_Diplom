@@ -56,7 +56,7 @@ const Login: React.FC = () => {
             const { token } = await response.json(); // Отримуємо лише токен
 
             // Зберігаємо токен у Redux
-            dispatch(login({ token }));
+            dispatch(login(token));
 
             navigate('/search');
         } catch (error) {

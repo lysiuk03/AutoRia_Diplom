@@ -4,6 +4,7 @@ import React, {useEffect, useState} from "react";
 // Styles
 import './CarSearchForm.css';
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 
 
@@ -54,6 +55,7 @@ const defaultOptions: OptionData = {
 };
 
 const CarSearchForm: React.FC = () => {
+    const navigate = useNavigate();
     if(defaultOptions.years[1] == undefined)
     {
         for (let year = 2024; year >= 1991; year--) {
@@ -185,9 +187,13 @@ const CarSearchForm: React.FC = () => {
         try {
             const response = await axios.post('http://localhost:5174/api/Car/search', searchRequest);
             console.log(response.data); // Обробка отриманих даних
+            navigate("/search", {state: response.data});
         } catch (error) {
             console.error('Error during axios request:', error);
         }
+
+
+
     };
 
     return (

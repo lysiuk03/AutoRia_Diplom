@@ -1,7 +1,7 @@
 ﻿
 using WebBack.ViewModels.Car;
 using WebBack.ViewModels;
-using WebBack.SearchRequestClasses;
+using WebBack.SearchReauestClasses;
 
 namespace WebBack.Services.ControllerServices.Interfaces
 {
