@@ -31,7 +31,6 @@ const SearchContent: React.FC = () => {
                 setIsLoading(false);
             }
         };
-
         fetchCars();
     }, []);
 
