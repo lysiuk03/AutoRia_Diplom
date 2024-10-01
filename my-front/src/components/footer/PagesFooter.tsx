@@ -16,7 +16,6 @@ const PagesFooter: React.FC = () => {
 
         return (
             <div className="footer-container font-karla">
-                <div className="gray-left"/>
                 <div className="box-gray">
                     <div className="footer-sections">
                         <div className="footer-section">
@@ -68,7 +67,6 @@ const PagesFooter: React.FC = () => {
                     </div>
                     {isFormVisible && <FormWithCloseButton onClose={closeForm}/>}
                 </div>
-                <div className="gray-right"/>
             </div>
         );
     }
