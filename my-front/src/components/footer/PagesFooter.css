@@ -19,7 +19,6 @@
 .box-gray {
     display: flex;
     align-items: center;
-    justify-content: center;
     width: 70%;
     height: auto;
     padding-bottom: 5vw;
@@ -100,3 +99,4 @@
     position: absolute;
     gap:60px;
 }
+
