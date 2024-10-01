@@ -41,7 +41,10 @@
 }
 
 .auth-header{
-    background-color: #ffffff;
+    background-color: #5b6a76;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
 }
 
 .auth-layout .container-content{

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Pagination } from 'antd';
-import axios from 'axios';
+//import axios from 'axios';
 
 // Styles
 import './SearchContent.css';
@@ -10,30 +10,40 @@ import SearchCarCard from "./SearchContetComponents/SearchCarCard.tsx";
 
 // Data type for Car
 import { Car } from "../../../../interfaces/Car";
+import {useLocation} from "react-router-dom";
 
 const SearchContent: React.FC = () => {
+
+    const location = useLocation();
+    const searchRequest : Car[] = location.state;
+
     const [cars, setCars] = useState<Car[]>([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
+    // const [isLoading, setIsLoading] = useState(false);
+    // const [error, setError] = useState<string | null>(null);
     const [sortCriteria, setSortCriteria] = useState<string>('manufacturer'); // Default sort by model
     const itemsPerPage = 4;
 
     useEffect(() => {
-        const fetchCars = async () => {
-            setIsLoading(true);
-            try {
-                const response = await axios.get('http://localhost:5174/api/Car');
-                setCars(response.data);
-            } catch (err) {
-                setError('Не вдалося завантажити дані');
-            } finally {
-                setIsLoading(false);
-            }
-        };
+        // const fetchCars = async () => {
+        //     setIsLoading(true);
+        //     try {
+        //         const response = await axios.get('http://localhost:5174/api/Car');
+        //         setCars(response.data);
+        //     } catch (err) {
+        //         setError('Не вдалося завантажити дані');
+        //     } finally {
+        //         setIsLoading(false);
+        //     }
+        // };
+        //
+        // fetchCars();
 
-        fetchCars();
-    }, []);
+        console.log(searchRequest);
+        setCars(searchRequest);
+
+
+    }, [searchRequest]);
 
     const handlePageChange = (page: number) => {
         setCurrentPage(page);
@@ -56,13 +66,13 @@ const SearchContent: React.FC = () => {
      const startIndex = (currentPage - 1) * itemsPerPage;
      const currentCars = sortedCars.slice(startIndex, startIndex + itemsPerPage);
 
-    if (isLoading) {
-        return <div>Завантаження...</div>;
-    }
-
-    if (error) {
-        return <div>{error}</div>;
-    }
+    // if (isLoading) {
+    //     return <div>Завантаження...</div>;
+    // }
+    //
+    // if (error) {
+    //     return <div>{error}</div>;
+    // }
 
     return (
         <div className='search-container'>

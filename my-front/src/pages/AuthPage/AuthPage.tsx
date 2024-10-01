@@ -16,14 +16,15 @@ const { Header,Footer } = Layout;
 const AuthPage: React.FC = () => {
     return (
         <Layout className="auth-layout">
+            <Header className="auth-header" >
+                <Logo  />
+                <Navbar  additionalClass="auth-navbar "/>
 
+            </Header>
             <img src="/images/auth-fon-vector1.png" alt="Road" className="background-image-1"/>
             <img src="/images/auth-fon-vector2.png" alt="Fon1" className="background-image-2"/>
             <img src="/images/auth-footer-fon.png" alt="Fon2" className="background-image-3"/>
-            <Header className="auth-header">
-                <Navbar  additionalClass="auth-navbar"/>
-                <Logo dark={true} />
-            </Header>
+
             <div className="container-content">
                 <h1>Автівки, перевірені людьми</h1>
                 <Outlet/>

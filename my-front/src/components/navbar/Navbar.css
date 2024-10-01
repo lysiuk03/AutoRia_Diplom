@@ -46,7 +46,7 @@
 }
 
 .menu-container.auth-navbar .menu a {
-    color: #3B454E;
+    color: #ffffff;
 }
 
 .menu-container.auth-navbar .notif-icon {
@@ -63,6 +63,10 @@
 .menu-container.dark a,
 .menu-container.dark .profile-button {
     color: #3B454E;
+
+}
+.menu-container.light a
+{
 
 }
 

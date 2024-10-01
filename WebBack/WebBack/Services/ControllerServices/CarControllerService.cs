@@ -7,7 +7,7 @@ using WebBack.Services.Interfaces;
 using WebBack.ViewModels.Car;
 using WebBack.ViewModels;
 using AutoMapper.QueryableExtensions;
-using WebBack.SearchRequestClasses;
+using WebBack.SearchReauestClasses;
 
 namespace WebBack.Services.ControllerServices
 {
@@ -85,30 +85,12 @@ namespace WebBack.Services.ControllerServices
             await _carContext.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<CarVm>> SearchAsync(CarSearchRequest? searchRequest)
+        public async Task<IEnumerable<CarVm>> SearchAsync(CarSearchRequest searchRequest)
         {
             // Ініціалізуємо запит для фільтрації
-            IQueryable<CarEntity> query = _carContext.Cars;
+            IQueryable<CarEntity> query = _carContext.Cars
+                .Where(c => c.CarBrand.Name == searchRequest.SelectedBrand);
 
-            // Фільтрація за типом автомобіля
-           
-           
-                query = query.Where(c => c.TransportType.Name == searchRequest.CarType);
-
-                query = query.Where(c => c.City.Region.Name == searchRequest.Region);
-            
-                query = query.Where(c => c.CarBrand.Name == searchRequest.SelectedBrand);
-         
-                query = query.Where(c => c.CarModel.Name == searchRequest.SelectedModel);
-            
-            // Фільтрація за перевіркою VIN
-            if (searchRequest.VinChecked)
-            {
-                //query = query.Where(c => c.VinChecked == searchRequest.VinChecked);
-            }
-
-            
-                query = query.Where(c => c.Year == int.Parse(searchRequest.Year));
             
             // Повертаємо результати
             return await query.ProjectTo<CarVm>(_mapper.ConfigurationProvider).ToListAsync();
