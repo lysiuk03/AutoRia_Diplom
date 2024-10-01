@@ -1,6 +1,9 @@
 
 .box-gray {
-    width: 1919px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
     height: 510px;
     border-radius: 11px 11px 0 0;
     background-color: #8C9BA9;
@@ -11,8 +14,6 @@
     grid-template-columns: 1fr 1fr 1fr 1.2fr;
     width: 1200px;
     height: 166px;
-    margin-top: 86px;
-    margin-left: 198px;
     gap: 82px;
     position: absolute;
 }
@@ -84,7 +85,7 @@
     display: flex;
     justify-content: space-between;
     margin-top: 346px;
-    margin-left: 198px;
+    
     position: absolute;
     width: 600px;
 }

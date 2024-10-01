@@ -42,15 +42,23 @@ public class AccountsControllerService : IAccountsControllerService
 
         try
         {
-            user.Photo = await imageService.SaveImageAsync(vm.Image);
+            // Check if an image was provided before trying to save it
+            if (vm.Image != null)
+            {
+                user.Photo = await imageService.SaveImageAsync(vm.Image);
+            }
+
             await CreateUserAsync(user, vm.Password);
         }
         catch (Exception ex)
         {
             logger.LogError(ex, "Error occurred during user registration.");
 
-            // Cleanup the image if user creation fails
-            imageService.DeleteImageIfExists(user.Photo);
+            // Cleanup the image if user creation fails and it was saved
+            if (user.Photo != null)
+            {
+                imageService.DeleteImageIfExists(user.Photo);
+            }
 
             // Rethrow the exception to be handled by the controller
             throw;

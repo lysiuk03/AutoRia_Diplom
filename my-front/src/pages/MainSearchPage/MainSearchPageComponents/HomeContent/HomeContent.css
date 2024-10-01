@@ -1,62 +1,87 @@
+.main-comp {
+    position: relative;
+    width: 100%;
+    top: -40px;
+}
 
 .bg-img {
-    display: grid;
-    justify-content: end;
-    width: 100%;
-    position: relative;
-}
-
-.content-title{
     position: absolute;
-    left: 264px;
+    top: 0;
+    left: 50%;
+    width: 50%; /* Налаштуй розмір за потреби */
+    height: 100%;
+
 }
 
-.title-1{
-    top: 1203px;
+.bg-img img {
+    width: 100%;
+    height: 100%;
+
 }
 
-.title-2{
-    top: 2196px;
+.content-title, .carousel-container, .logo-container, .digest-container, .solid-container {
+    position: relative;
+
+    z-index: 1; /* Ensure these elements are above the background image */
 }
 
-.titles{
+
+.content-title {
+    text-align: left;
+    text-wrap: nowrap;
+    position: relative;
+    margin: 40px auto;
+    max-width: 1225px;
+    width: 90%;
+}
+
+.center-width {
+    margin: 0 auto;
+
+}
+
+.title-1 {
+    padding-top: 60px;
+}
+
+.titles {
     font-family: "Montserrat", sans-serif;
     font-size: 32px;
     font-weight: 700;
-    text-align: left;
     color: #3B454E;
-    line-height: 40px;
     text-transform: uppercase;
 }
 
-.center-width{
-    left: 50%;
-    transform: translateX(-50%);
+.carousel-container
+{
+    display: flex;
+
+    margin: 0 auto;
+    width: 90%; /* Адаптивна ширина */
+    max-width: 1225px;
 }
 
-.logo-container{
-    width: 1225px;
-    position: absolute;
-    top: 1851px;
+.logo-container {
+    margin: 0 auto;
+    width: 90%; /* Адаптивна ширина */
+    max-width: 1225px;
 }
 
-.digest-container{
-    position: absolute;
-    width: 1310px;
-    top: 2304px;
-    margin-top:63px;
+.digest-container {
+
+    width: 90%; /* Адаптивна ширина */
+    max-width: 1310px;
+    margin-top: 80px;
+    margin-bottom: 80px;
 }
 
-.solid-container{
-    position: absolute;
-    top: 2950px;
-    padding: 21px;
-    width: 100%;
-    height: 537px;
+.solid-container {
+    padding: 40px 20px;
     background-color: #3B454E;
-}
-
-.solid-container h3{
     color: #ffffff;
     text-align: center;
+}
+
+.solid-container h3 {
+    color: #ffffff;
 }

@@ -45,15 +45,15 @@ const SearchContent: React.FC = () => {
     // Функція сортування автомобілів
     const sortedCars = cars.sort((a, b) => {
         if (sortCriteria === 'model') {
-            return a.model.localeCompare(b.model);
+            return a.carModel.name.localeCompare(b.carModel.name);
         } else if (sortCriteria === 'manufacturer') {
-            return a.manufacturer.localeCompare(b.manufacturer);
+            return a.carBrand.name.localeCompare(b.carBrand.name);
         }
         return 0;
     });
 
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const currentCars = sortedCars.slice(startIndex, startIndex + itemsPerPage);
+     const startIndex = (currentPage - 1) * itemsPerPage;
+     const currentCars = sortedCars.slice(startIndex, startIndex + itemsPerPage);
 
     if (isLoading) {
         return <div>Завантаження...</div>;

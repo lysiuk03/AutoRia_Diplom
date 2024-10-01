@@ -20,9 +20,11 @@ const MainSearchPage: React.FC = () => {
             <Header className="header">
                 <MainSearchHeader/>
             </Header>
+
             <Content className="content">
                 <Outlet />
             </Content>
+
             <Footer className="footer">
                 <PagesFooter/>
             </Footer>

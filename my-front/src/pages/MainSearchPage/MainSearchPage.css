@@ -1,6 +1,6 @@
 .layout {
-    width: 1920px;
-    height: 4148px;
+    width: 100vw;
+
     margin: 0 auto;
     opacity: 1;
     position: relative;
@@ -8,14 +8,14 @@
 }
 
 .header{
-    width: 1919px;
+    width: 100vw;
     height: 1080px;
     background-color: #8C9BA9;
     padding: 0;
 }
 
 .footer{
-    width: 1919px;
+    width: 100vw;
     padding: 0;
     height: 510px;
 }

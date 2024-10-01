@@ -1,9 +1,14 @@
 
 .header-container {
+    display: flex;
+    justify-content: space-between;
     font-family: 'Montserrat', sans-serif;
     position: relative;
     height: 100%;
-    width: 100%;
+    width: 100vw;
+    padding-top: 1%;
+    padding-right: 5%;
+    padding-left: 5%;
     overflow: hidden;
 }
 

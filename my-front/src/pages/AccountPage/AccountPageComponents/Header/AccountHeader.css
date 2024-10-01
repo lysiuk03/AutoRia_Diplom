@@ -84,3 +84,15 @@
 .chat-button:focus {
     outline: none;
 }
+
+.accbaseheader
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 0 185px;
+}
+.nameheader
+{
+    background-color: #6c7a91;
+}

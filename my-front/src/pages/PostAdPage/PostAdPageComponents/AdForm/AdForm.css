@@ -95,7 +95,13 @@
     width: 90%;
     grid-template-columns: repeat(2, 520px);
     gap: 20px 200px;
-    margin: 60px 20px ;
+    margin: 60px 20px;
+}
+
+@media (max-width: 1500px) { /* Задає правило для екранів менших за 768px */
+    .ad-grid-container{
+        grid-template-columns: 1fr; /* Один стовпець */
+    }
 }
 .dropdown-container{
     display: flex;

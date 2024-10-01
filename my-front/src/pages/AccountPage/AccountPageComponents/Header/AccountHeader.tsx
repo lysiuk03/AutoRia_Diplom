@@ -1,71 +1,91 @@
-// Styles
 import './AccountHeader.css';
-
-// Standard libraries
 import React from 'react';
-import {Link, useLocation, useNavigate} from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import Navbar from '../../../../components/navbar/Navbar';
+import Logo from '../../../../components/logo/Logo';
+import ProfileCard from "./HeaderComponents/ProfileCard";
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../../redux/store';
+import { decodeJwt } from 'jose'; // Імпортуємо jose
 
-// Custom components
-import Navbar from '../../../../components/navbar/Navbar.tsx';
-import Logo from '../../../../components/logo/Logo.tsx';
-import ProfileCard from "./HeaderComponents/ProfileCard.tsx";
+// Інтерфейс для декодованого токена
+interface DecodedToken {
+    firstName?: string;
+    lastName?: string;
+    id?: string;
+    location?: string;
+    rating?: number;
+    photo?: string;
+}
 
+// Оновлений інтерфейс для ProfileCardProps
 interface ProfileCardProps {
     name: string;
-    id: number;
-    location: string;
-    rating: number;
+    id: string; // Змінено на string для id
+    location: string; // Додано поле location
+    rating: number; // Додано поле rating
     imageUrl: string[];
 }
 
 const AccountHeader: React.FC = () => {
+    const token = useSelector((state: RootState) => state.auth.token); // Отримуємо токен з Redux
 
-    const profileData:ProfileCardProps = {
-        name: 'Давид Войтко',
-        id: 14411374,
-        location: 'Рівне',
-        rating: 8.6,
-        imageUrl: ['/images/men.png']
+    // Декодуємо токен
+    let profileData: ProfileCardProps = {
+        name: 'Невідомий користувач',
+        id: '0',
+        location: 'Місце не вказано',
+        rating: 0,
+        imageUrl: ['/images/default.png'],
     };
+
+    if (token) {
+        const decodedToken = decodeJwt(token) as DecodedToken; // Вказуємо тип для decodedToken
+
+        // Використовуємо властивості з декодованого токена
+        profileData = {
+            name: decodedToken?.firstName ? `${decodedToken.firstName} ${decodedToken.lastName}` : 'Невідомий користувач',
+            id: decodedToken?.id || '0', // Використання id як рядка
+            location: decodedToken?.location || 'Місце не вказано',
+            rating: decodedToken?.rating || 0,
+            imageUrl: decodedToken?.photo ? [decodedToken.photo] : ['/images/default.png'],
+        };
+    }
 
     const location = useLocation();
     const isActive = (path: string) => location.pathname === path;
-    interface MenuItem {
-        key: string;
-        label: string;
-        path: string;
-    }
 
-    const menuItems: MenuItem[] = [
+    const menuItems = [
         { key: '1', label: 'Мої оголошення', path: '/account/ads' },
         { key: '2', label: 'Обране', path: '/account/favorites' },
-        { key: '3', label: 'Перевірки авто', path: '/account/auto-check' },
-        { key: '4', label: 'Рахунки', path: '/account/bills' },
     ];
+
     const navigate = useNavigate();
 
     const handleNavigate = () => {
         navigate('/edit-account');
     };
 
-
     return (
-        <>
-            <Logo left/>
-            <Navbar additionalClass="left" />
+        <div className="nameheader">
+            <div className="accbaseheader">
+                <Logo left />
+                <Navbar additionalClass="left" />
+            </div>
+
             <div className="profile-overview-container">
                 <div className="user-info-actions">
                     <ProfileCard {...profileData} />
                     <div className="btn-container">
                         <button className="chat-button none-line">Чат з покупцями</button>
                         <button className="edit-profile-button" onClick={handleNavigate}>
-                        <img src="/images/edit.png" alt="Edit"/>
+                            <img src="/images/edit.png" alt="Edit" />
                             Редагувати профіль
-                    </button>
+                        </button>
+                    </div>
                 </div>
-            </div>
-            <div>
-                    <hr/>
+                <div>
+                    <hr />
                     <nav className="account-menu">
                         {menuItems.map(item => (
                             <div key={item.key} className={`menu-item ${isActive(item.path) ? 'active' : ''}`}>
@@ -75,7 +95,7 @@ const AccountHeader: React.FC = () => {
                     </nav>
                 </div>
             </div>
-        </>
+        </div>
     );
 };
 
