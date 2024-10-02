@@ -18,11 +18,13 @@ public class AccountsControllerService : IAccountsControllerService
     private readonly IMapper mapper;
     private readonly IImageService imageService;
     private readonly ILogger<AccountsControllerService> logger;
+    private readonly SignInManager<UserEntity> signInManager;
 
     public AccountsControllerService(
         CarDbContext context,
         UserManager<UserEntity> userManager,
         RoleManager<RoleEntity> roleManager, // Inject RoleManager
+        SignInManager<UserEntity> signInManager,
         IMapper mapper,
         IImageService imageService,
         ILogger<AccountsControllerService> logger
@@ -120,5 +122,10 @@ public class AccountsControllerService : IAccountsControllerService
             return await userManager.CreateAsync(user);
 
         return await userManager.CreateAsync(user, password);
+    }
+
+    public async Task SignOutAsync()
+    {
+        await signInManager.SignOutAsync();
     }
 }

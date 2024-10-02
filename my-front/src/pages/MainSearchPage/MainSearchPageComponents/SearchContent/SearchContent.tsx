@@ -39,8 +39,14 @@ const SearchContent: React.FC = () => {
         //
         // fetchCars();
 
+        if (Array.isArray(searchRequest)) {
+            setCars(searchRequest);
+        } else {
+            setCars([]); // або будь-яка інша обробка помилки
+        }
+
         console.log(searchRequest);
-        setCars(searchRequest);
+        //setCars(searchRequest);
 
 
     }, [searchRequest]);
@@ -54,7 +60,7 @@ const SearchContent: React.FC = () => {
     };
 
     // Функція сортування автомобілів
-    const sortedCars = cars.sort((a, b) => {
+    const sortedCars = [...cars].sort((a, b) => {
         if (sortCriteria === 'model') {
             return a.carModel.name.localeCompare(b.carModel.name);
         } else if (sortCriteria === 'manufacturer') {

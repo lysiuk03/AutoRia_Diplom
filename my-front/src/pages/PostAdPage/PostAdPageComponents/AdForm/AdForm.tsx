@@ -219,7 +219,7 @@ const AdForm: React.FC = () => {
                     </div>
                 </div>
                 <div className="info-box">
-                    <img src="/images/info.png" alt="Info" />
+                    <img src="/images/info.png" alt="Info"/>
                     <a>Як правильно сфотографувати авто ?</a>
                 </div>
             </section>
@@ -252,12 +252,12 @@ const AdForm: React.FC = () => {
                 <div className="vin-container">
                     <div>
                         <label>VIN-код</label>
-                        <input type="text" name="vin" className="vin-input" placeholder="VIN-код" />
+                        <input type="text" name="vin" className="vin-input" placeholder="VIN-код"/>
                     </div>
                     <small className="vin-small">*авто з перевіреним VIN-кодом продаються швидше</small>
                 </div>
                 <div className="info-box">
-                    <img src="/images/info.png" alt="Info" />
+                    <img src="/images/info.png" alt="Info"/>
                     <a>Де знайти VIN-код ?</a>
                 </div>
             </section>
@@ -290,6 +290,62 @@ const AdForm: React.FC = () => {
                     {renderSelect("Технічний стан", optionsData.technicalStates, selectedTechnicalState, (e) => setSelectedTechnicalState(e.target.value))}
                     {renderSelect("Додаткові аксесуари", optionsData.accessories, selectedAccessory, (e) => setSelectedAccessory(e.target.value))}
                 </div>
+            </section>
+            <section>
+                <div className="ad-row">
+                    <div className="circle-number">5</div>
+                    <h3>Додатки</h3>
+                </div>
+                <div className="ad-grid-container grid-retreat">
+                    {renderSelect("Електроскло- підйомники", optionsData.accessories,selectedAccessory, (e) => setSelectedAccessory(e.target.value))}
+                    {renderSelect("Регулювання сидінь салону по висоті", optionsData.accessories, selectedAccessory, (e) => setSelectedAccessory(e.target.value))}
+                    {renderSelect("Кондиціонер", optionsData.accessories, selectedAccessory, (e) => setSelectedAccessory(e.target.value))}
+                    {renderSelect("Фари", optionsData.accessories, selectedAccessory, (e) => setSelectedAccessory(e.target.value))}
+                    {renderSelect("Матеріали салону", optionsData.accessories, selectedAccessory, (e) => setSelectedAccessory(e.target.value))}
+                    {renderSelect("Запасне колесо", optionsData.accessories,selectedAccessory, (e) => setSelectedAccessory(e.target.value))}
+                    {renderSelect("Колір салону", optionsData.accessories,selectedAccessory, (e)=> setSelectedAccessory(e.target.value))}
+                    {renderSelect("Пам'ять положення сидіння", optionsData.accessories, selectedAccessory, (e) => setSelectedAccessory(e.target.value))}
+                    {renderSelect("Підсилювач керма", optionsData.accessories, selectedAccessory, (e) => setSelectedAccessory(e.target.value))}
+                    {renderSelect("Підігрів сидінь", optionsData.accessories, selectedAccessory, (e) => setSelectedAccessory(e.target.value))}
+                    {renderSelect("Вентиляція сидінь", optionsData.accessories, selectedAccessory, (e) => setSelectedAccessory(e.target.value))}
+                </div>
+            </section>
+            <section>
+                <div className="ad-row">
+                    <div className="circle-number">6</div>
+                    <div className="ad-column">
+                        <h3>Вартість</h3>
+                        <p>ціна, валюта, торг, обмін</p>
+                    </div>
+                </div>
+                <div className="ad-row price-retreat">
+                    <label>Ціна</label>
+                    <input type="text" placeholder="Ціна" className="price-inp"/>
+                    <select className="price-select">
+                        <option value="$">USD</option>
+                    </select>
+                </div>
+                <div className="options">
+                    <label><input type="checkbox"/> Нерозмитнений</label>
+                    <label><input type="checkbox"/> Можливий торг</label>
+                    <label><input type="checkbox"/> Можливий обмін на авто</label>
+                    <label><input type="checkbox"/> Оплата частинами</label>
+                </div>
+                <div className="agreement-container">
+                    <div className="agreement">
+                        <div>
+                            <input type="checkbox" id="termsCheckbox"/>
+                            <label htmlFor="termsCheckbox">Я згоден(згодна) з умовами</label>
+                            <a href="#"> Угода про надання послуг</a>
+                        </div>
+                        <div>
+                            <label htmlFor="termsCheckbox">Ваші персональні дані будуть оброблені та захищені згідно
+                                з</label>
+                            <a href="#"> Політикою приватності</a>
+                        </div>
+                    </div>
+                </div>
+                <button className="ad-btn">Розмістити оголошення</button>
             </section>
         </form>
     );

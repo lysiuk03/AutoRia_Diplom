@@ -50,10 +50,16 @@ namespace WebBack.Data
                     {
                         FirstName = "Адмін",
                         LastName = "Адміністратор",
+                        MiddleName = "Адмінович",
                         Email = configuration["Admin:Email"]
                             ?? throw new NullReferenceException("Admin:Email"),
                         UserName = "admin",
                         Photo = await imageService.SaveImageAsync(base64Image)
+                        ,
+                        Rating = "0",
+                        City = "Омеляна",
+                        Region = "Heaven",
+
                     };
 
                     IdentityResult result = await userManager.CreateAsync(
@@ -96,7 +102,7 @@ namespace WebBack.Data
                     var faker = new Faker();
                     var fakeCars = new List<CarEntity>();
 
-                    for (int i = 0; i < 33; i++)
+                    for (int i = 0; i < 18; i++)
                     {
                         // Вибір випадкової моделі автомобіля, що містить інформацію про бренд
                         var carModel = await context.Models
