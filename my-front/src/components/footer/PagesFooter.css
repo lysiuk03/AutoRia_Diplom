@@ -81,3 +81,16 @@
     position: absolute;
     gap:60px;
 }
+
+.indent {
+  text-indent: 20px; 
+}
+
+.paper-icon{
+    width: 20px;
+}
+
+.contact-section{
+    display: flex;
+    flex-direction: row;
+}

@@ -6,16 +6,29 @@ import './PagesFooter.css';
 
 // Components
 import FormWithCloseButton from "../../components/footer/FooterComponents/FormWithCloseButton";
+import { Button, message, Modal } from 'antd';
 
 const PagesFooter: React.FC = () => {
-        const [isFormVisible, setIsFormVisible] = useState(false);
+    const [isWhoWeAreModalOpen, setIsWhoWeAreModalOpen] = useState(false);
+    const [isContactModalOpen, setIsContactModalOpen] = useState(false);
+    const [isFormVisible, setIsFormVisible] = useState(false);
 
-        const openForm = () => setIsFormVisible(true);
-        const closeForm = () => setIsFormVisible(false);
+    const showWhoWeAreModal = () => setIsWhoWeAreModalOpen(true);
+    const handleWhoWeAreOk = () => setIsWhoWeAreModalOpen(false);
 
+    const showContactModal = () => setIsContactModalOpen(true);
+    const handleContactOk = () => setIsContactModalOpen(false);
+
+    const openForm = () => setIsFormVisible(true);
+    const closeForm = () => setIsFormVisible(false);
+
+    const copyToClipboard = (text: string) => {
+        navigator.clipboard.writeText(text);
+        message.success('Контакт скопійовано!');
+    };
 
         return (
-            <div className="footer-container font-karla">
+            <div className="footer-container font-karla" id="footer">
                 <div className="box-gray">
                     <div className="footer-sections">
                         <div className="footer-section">
@@ -37,11 +50,67 @@ const PagesFooter: React.FC = () => {
                                 <li><a href="#">Як підготувати авто до зими?</a></li>
                             </ul>
                         </div>
-                        <div className="footer-section">
+                        <div className="footer-section" >
                             <h4 className="main-menu">Компанія</h4>
                             <ul>
-                                <li><a href="#">Хто ми?</a></li>
-                                <li><a href="#">Контакти</a></li>
+                                <li><a href="#footer" onClick={showWhoWeAreModal}>Хто ми?</a></li>
+                                <Modal
+                                    title="Хто ми?"
+                                    open={isWhoWeAreModalOpen}
+                                    onOk={handleWhoWeAreOk}
+                                     footer={[<Button key="ok" type="primary" onClick={handleWhoWeAreOk}>Ок</Button>]}
+                                    closable={false}
+                                >
+                                    <hr/>
+                                    <p className='indent'><strong>WheelDeal</strong> — це сучасна платформа для покупки та продажу автомобілів, створена для того, щоб зробити процес вибору та придбання автомобіля максимально зручним і прозорим. Ми об’єднуємо автолюбителів, дилерів та власників авто, пропонуючи їм простий інтерфейс для пошуку і обміну автомобілями на вигідних умовах.</p>
+
+                                     <p className='indent'><em>Наша мета</em> — забезпечити користувачів інструментами для легкого та безпечного пошуку автомобілів з урахуванням усіх індивідуальних побажань: від типу кузова та марки до пробігу та ціни. Користувачі можуть переглядати детальні оголошення, дізнаватись про стан автомобіля, перевіряти VIN-код і навіть отримувати кредитні пропозиції безпосередньо на нашій платформі.</p>
+
+                                          <p className='indent'>Ми прагнемо зробити ринок автомобілів доступнішим і прозорішим, надаючи можливість швидко та легко знайти або продати автомобіль своєї мрії.</p>
+                                </Modal>
+
+                                <li><a href="#footer" onClick={showContactModal}>Контакти</a></li>
+                                <Modal
+                                    title="Наші контакти"
+                                    open={isContactModalOpen}
+                                    onOk={handleContactOk}
+                                    footer={[<Button key="ok" type="primary" onClick={handleContactOk}>Ок</Button>]}
+                                    closable={false}
+                                >
+                                    <hr/>
+                                    <h4>Контактні номери WheelDeal:</h4>
+                                    <section className='contact-section'>
+                                        <p className='indent'><em>Основний: </em>+380-98-449-71-31</p>
+                                        <button onClick={() => copyToClipboard('+380-98-449-71-31')}>
+                                             <img src="images/copy.png" alt="Paper Icon" className='paper-icon'/>
+                                        </button>
+                                    </section>
+                                    <section className='contact-section'>
+                                        <p className='indent'><em>Додатковий: </em>+380-66-446-61-41</p>
+                                        <button onClick={() => copyToClipboard('+380-66-446-61-41')}>
+                                             <img src="images/copy.png" alt="Paper Icon" className='paper-icon'/>
+                                        </button>
+                                    </section>
+                                    <h4>Контакти розробників:</h4>
+                                    <section className='contact-section'>
+                                        <p className='indent'><em>Пророк В. Я. : </em>@isisisila</p>
+                                        <button onClick={() => copyToClipboard('@isisisila')}>
+                                             <img src="images/copy.png" alt="Paper Icon" className='paper-icon'/>
+                                        </button>
+                                    </section>
+                                    <section className='contact-section'>
+                                        <p className='indent'><em>Кісіль Д. Р. : </em>@d1mon_kiss</p>
+                                        <button onClick={() => copyToClipboard('@d1mon_kiss')}>
+                                             <img src="images/copy.png" alt="Paper Icon" className='paper-icon'/>
+                                        </button>
+                                    </section>
+                                    <section className='contact-section'>
+                                        <p className='indent'><em>Лисюк В. В. : </em>@bugisfeature</p>
+                                        <button onClick={() => copyToClipboard('@bugisfeature')}>
+                                             <img src="images/copy.png" alt="Paper Icon" className='paper-icon'/>
+                                        </button>
+                                    </section>
+                                </Modal>
                             </ul>
                             <h4 className="main-menu">Сервіси</h4>
                             <h4 className="main-menu">Послуги для авто</h4>
@@ -65,6 +134,7 @@ const PagesFooter: React.FC = () => {
                         </div>
                     </div>
                     {isFormVisible && <FormWithCloseButton onClose={closeForm}/>}
+                  
                 </div>
             </div>
         );
