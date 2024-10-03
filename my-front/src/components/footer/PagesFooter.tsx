@@ -49,10 +49,10 @@ const PagesFooter: React.FC = () => {
                         <div className="footer-section">
                             <button className="footer-button"  onClick={openForm}>Написати нам</button>
                             <div className="social-media-container">
-                                <a href="#"><img src="/images/viber.png" alt="Viber" className="social-icon"/></a>
-                                <a href="#"><img src="/images/telegram.png" alt="Telegram" className="social-icon"/></a>
-                                <a href="#"><img src="/images/instagram.png" alt="Instagram" className="social-icon"/></a>
-                                <a href="#"><img src="/images/facebook.png" alt="Facebook" className="social-icon"/></a>
+                                <a href="https://invite.viber.com/?g2=AQBDzvUbugbm81OTOuo8bEaclCzidca%2FZ3y7%2BTiC%2FYbqlg%2FuDV4SiZ5BHdVWtYV6"><img  src="/images/viber.png" alt="Viber" className="social-icon"/></a>
+                                <a href="https://t.me/+7lZMijtbBLRhZTQy"><img src="/images/telegram.png" alt="Telegram" className="social-icon"/></a>
+                                <a href="https://instagram.com"><img src="/images/instagram.png" alt="Instagram" className="social-icon"/></a>
+                                <a href="https://facebook.com"><img src="/images/facebook.png" alt="Facebook" className="social-icon"/></a>
                             </div>
                         </div>
                     </div>
