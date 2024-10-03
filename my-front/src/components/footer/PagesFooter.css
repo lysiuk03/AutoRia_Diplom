@@ -43,6 +43,7 @@
 .footer-button
 {
     font-family: 'Montserrat', sans-serif;
+     color: #FFFFFF;
     padding: 13px 28px;
     border: 2px solid #FFFFFF;
     background-color: transparent;
@@ -80,4 +81,3 @@
     position: absolute;
     gap:60px;
 }
-
