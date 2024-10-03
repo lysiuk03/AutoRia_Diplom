@@ -12,9 +12,11 @@ public class UserEntity : IdentityUser<int>
     public string? City { get; set; } = null!;
     
     public string? Rating { get; set; } = null!;
-    public ICollection<CarEntity> ChosenCars { get; set; } = new List<CarEntity>();
-    public ICollection<CarEntity> MyCars { get; set; } = new List<CarEntity>();
+   
+    // Зв'язок з власними автомобілями
+    public virtual ICollection<UserCarEntity> Cars { get; set; } = new List<UserCarEntity>();
     public string? Photo { get; set; } = null!;
+
 
     public virtual ICollection<UserRoleEntity> UserRoles { get; set; } = null!;
 }

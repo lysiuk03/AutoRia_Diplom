@@ -22,8 +22,6 @@ public class AppMapProfile : Profile
         // User
         CreateMap<RegisterVm, UserEntity>();
 
-        CreateMap<CarEntity, CarVm>();
-
 
         CreateMap<CarCreateVm, CarEntity>()
             .ForMember(c => c.Photos, opt => opt.Ignore());
@@ -33,7 +31,7 @@ public class AppMapProfile : Profile
 
         CreateMap<CarPhotoEntity, CarPhotoVm>();
 
-        
+
 
         // Map from RegionEntity to RegionVm
         CreateMap<RegionEntity, RegionVm>()
@@ -50,12 +48,14 @@ public class AppMapProfile : Profile
 
         CreateMap<CarBrandEntity, CarBrandCutVm>();
 
-        CreateMap<FuelTypesEntity,FuelTypeVm>();
-        CreateMap<EngineVolumeEntity,EngineVolumeVm>();
-        CreateMap<NumberOfSeatsEntity,NumberOfSeatsVm>();
+        CreateMap<FuelTypesEntity, FuelTypeVm>();
+        CreateMap<EngineVolumeEntity, EngineVolumeVm>();
+        CreateMap<NumberOfSeatsEntity, NumberOfSeatsVm>();
         CreateMap<TransmissionTypeEntity, TransmissionTypeVm>();
         CreateMap<BodyTypeEntity, BodyTypeVm>();
         CreateMap<TransportTypeEntity, TransportTypeVm>();
+
+
     }
 
 }

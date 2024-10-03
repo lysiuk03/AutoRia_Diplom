@@ -1,4 +1,5 @@
 ﻿using WebBack.Data.Entities;
+using WebBack.Data.Entities.Identity;
 using WebBack.ViewModels.BodyType;
 using WebBack.ViewModels.Brand;
 using WebBack.ViewModels.EngineVolume;
@@ -23,7 +24,8 @@ namespace WebBack.ViewModels.Car
         public string VIN { get; set; } = null!;
         public IEnumerable<CarPhotoVm> Photos { get; set; } = new List<CarPhotoVm>();
 
-
+        public UserEntity User { get; set; }
+        public int UserId { get; set; }
         public TransmissionTypeVm TransmissionType { get; set; }
         public NumberOfSeatsVm NumberOfSeats { get; set; }
         public FuelTypesEntity FuelTypes { get; set; }

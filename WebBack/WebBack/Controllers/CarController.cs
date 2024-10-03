@@ -74,7 +74,7 @@ namespace WebBack.Controllers
             var cars = await _context.Cars
                 .ProjectTo<CarVm>(_mapper.ConfigurationProvider)
                 .ToArrayAsync();
-            var car = cars.Where(c=>c.Id == id).FirstOrDefault();
+            var car = cars.Where(c => c.Id == id).FirstOrDefault();
 
             if (car == null)
             {
@@ -143,5 +143,63 @@ namespace WebBack.Controllers
         {
             return _context.Cars.Any(e => e.Id == id);
         }
+
+        // GET: api/cars/user/{userId}
+        [HttpGet("user/{userId}")]
+        public async Task<ActionResult<IEnumerable<CarEntity>>> GetCarsByUserId(int userId)
+        {
+            // Check if the user exists
+            var user = await _context.Users.FindAsync(userId);
+            if (user == null)
+            {
+                return NotFound($"User with ID {userId} not found.");
+            }
+
+            // Retrieve cars that belong to the user
+            var userCars = await _context.UserCars
+                .Include(uc => uc.Car) // Include CarEntity to fetch car details
+                .Where(uc => uc.UserId == userId)
+                .Select(uc => uc.Car)
+                .ToListAsync();
+
+            if (userCars == null || userCars.Count == 0)
+            {
+                return NotFound("No cars found for the specified user.");
+            }
+
+            return Ok(userCars);
+        }
+
+        //// GET: api/cars/user/{userId}
+        //[HttpGet("user/{userId}")]
+        //public async Task<ActionResult<IEnumerable<CarVm>>> GetCarsByUserId(int userId)
+        //{
+        //    // Check if the user exists
+        //    var user = await _context.Users.FindAsync(userId);
+        //    if (user == null)
+        //    {
+        //        return NotFound($"User with ID {userId} not found.");
+        //    }
+
+        //    // Retrieve cars that belong to the user
+        //    var userCars = await _context.UserCars
+        //        .Include(uc => uc.Car) // Include CarEntity to fetch car details
+        //        .ThenInclude(c => c.CarModel) // Include CarModel if needed
+        //        .Include(c => c.Car.CarBrand) // Include CarBrand if needed
+        //        .Where(uc => uc.UserId == userId)
+        //        .Select(uc => uc.Car)
+        //        .ToListAsync();
+
+        //    if (userCars == null || userCars.Count == 0)
+        //    {
+        //        return NotFound("No cars found for the specified user.");
+        //    }
+
+        //    // Map the CarEntity list to CarVm list
+        //    var carVms = _mapper.Map<List<CarVm>>(userCars);
+
+        //    return Ok(carVms);
+        //}
+
     }
 }

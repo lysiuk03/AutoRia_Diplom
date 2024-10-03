@@ -91,18 +91,18 @@ namespace WebBack.Data
                 await SeedTransmissionTypesAsync(context, configuration);
                 await SeedBodyTypesAsync(context, configuration);
                 await SeedRegionsAndCitiesAsync(context, configuration);
-                await SeedBodyTypesAsync(context,configuration);
+                await SeedBodyTypesAsync(context, configuration);
 
                 await context.SaveChangesAsync();
 
-               
+
                 // Seed Cars
                 if (await context.Cars.CountAsync() < 1)
                 {
                     var faker = new Faker();
                     var fakeCars = new List<CarEntity>();
 
-                    for (int i = 0; i < 18; i++)
+                    for (int i = 0; i < 1; i++)
                     {
                         // Вибір випадкової моделі автомобіля, що містить інформацію про бренд
                         var carModel = await context.Models
@@ -119,7 +119,7 @@ namespace WebBack.Data
 
                         for (int k = 0; k < numberOfPhotos; k++)
                         {
-                            var imageUrl = faker.Image.LoremFlickrUrl(keywords: "Car", width: 1000, height: 800);
+                            var imageUrl = faker.Image.LoremFlickrUrl(keywords: "Vehicle", width: 1000, height: 800);
                             var imageBase64 = await GetImageAsBase64Async(httpClient, imageUrl);
 
                             var carPhoto = new CarPhotoEntity
@@ -130,6 +130,7 @@ namespace WebBack.Data
 
                             carPhotos.Add(carPhoto);
                         }
+                        
 
                         var car = new CarEntity
                         {
@@ -162,7 +163,8 @@ namespace WebBack.Data
 
                             Photos = carPhotos,
 
-                            User = context.Users.FirstOrDefault(u => u.FirstName == "Адмін") 
+
+
                         };
 
                         // Додаємо автомобіль до списку
@@ -172,6 +174,21 @@ namespace WebBack.Data
                     // Зберігаємо згенеровані дані в базу
                     await context.Cars.AddRangeAsync(fakeCars);
                     await context.SaveChangesAsync();
+
+                    var user = await context.Users.FindAsync(1);
+                    var carS = await context.Cars.FindAsync(1);
+
+                    // Прив'язуємо автомобіль до адміністратора
+                    var userCar = new UserCarEntity
+                    {
+                        UserId = user.Id, // Ідентифікатор адміністратора
+                        CarId = carS.Id, // Ідентифікатор автомобіля
+                        //IsLiked = false // або true, якщо автомобіль сподобався
+                    };
+
+                    await context.UserCars.AddAsync(userCar);
+                    await context.SaveChangesAsync();
+
                 }
 
 

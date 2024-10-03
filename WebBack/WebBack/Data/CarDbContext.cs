@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using WebBack.Data.Entities.Identity;
+
 using Microsoft.EntityFrameworkCore;
 using WebBack.Data.Entities;
 
@@ -23,7 +24,7 @@ namespace WebBack.Data
         public DbSet<TransmissionTypeEntity> TransmissionTypes { get; set; }
         public DbSet<TransportTypeEntity> TransportTypes { get; set; }
         public DbSet<CarPhotoEntity> CarPhotos { get; set; } = null!;
-
+        public DbSet<UserCarEntity> UserCars { get; set; } = null!;
         public DbSet<RegionEntity> Regions { get; set; }
         public DbSet<CityEntity> Cities { get; set; }
 
@@ -45,6 +46,22 @@ namespace WebBack.Data
                     .IsRequired();
             });
 
+
+            // Налаштування зв'язку між UserEntity та CarEntity через UserCarEntity
+            modelBuilder.Entity<UserCarEntity>()
+                .HasKey(uc => new { uc.UserId, uc.CarId }); // Складаний ключ
+
+            modelBuilder.Entity<UserCarEntity>()
+                .HasOne(uc => uc.User) // Один UserCar належить одному користувачу
+                    .WithMany(u => u.Cars) // Один користувач може мати багато UserCars
+                    .HasForeignKey(uc => uc.UserId) // Вказання зовнішнього ключа
+                    .IsRequired();
+            modelBuilder.Entity<UserCarEntity>()
+                .HasOne(uc => uc.Car) // Один UserCar належить одному автомобілю
+                .WithMany(c => c.UserCars) // Один автомобіль може належати багатьом UserCars
+                .HasForeignKey(uc => uc.CarId); // Вказання зовнішнього ключа
+
+
             //RegionBuilder
             modelBuilder.Entity<CityEntity>()
             .HasOne(c => c.Region)
@@ -52,10 +69,6 @@ namespace WebBack.Data
             .HasForeignKey(c => c.RegionId)
             .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<CarEntity>()
-            .HasOne(c => c.User)  // Specify that CarEntity has one User
-            .WithMany(u => u.MyCars)  // Specify that UserEntity can have many cars
-            .HasForeignKey(c => c.UserId);  // Specify the foreign key property
 
 
         }

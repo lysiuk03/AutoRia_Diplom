@@ -34,11 +34,9 @@ namespace WebBack.Data.Entities
         [StringLength(2000)]
         public string Description { get; set; } = null!;
 
-        public int? UserId { get; set; }
-        public UserEntity? User { get; set; }
 
-        //possible entity 
-
+        // Зв'язок через UserCarEntity
+        public virtual ICollection<UserCarEntity> UserCars { get; set; } = new List<UserCarEntity>();
 
 
         public ICollection<CarPhotoEntity> Photos { get; set; } = new List<CarPhotoEntity>();
