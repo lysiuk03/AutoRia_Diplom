@@ -47,12 +47,11 @@ const PagesFooter: React.FC = () => {
                             <h4 className="main-menu">Послуги для авто</h4>
                         </div>
                         <div className="footer-section">
-                            <button className="footer-button" onClick={openForm}>Написати нам</button>
+                            <button className="footer-button"  onClick={openForm}>Написати нам</button>
                             <div className="social-media-container">
                                 <a href="#"><img src="/images/viber.png" alt="Viber" className="social-icon"/></a>
                                 <a href="#"><img src="/images/telegram.png" alt="Telegram" className="social-icon"/></a>
-                                <a href="#"><img src="/images/instagram.png" alt="Instagram"
-                                                 className="social-icon"/></a>
+                                <a href="#"><img src="/images/instagram.png" alt="Instagram" className="social-icon"/></a>
                                 <a href="#"><img src="/images/facebook.png" alt="Facebook" className="social-icon"/></a>
                             </div>
                         </div>

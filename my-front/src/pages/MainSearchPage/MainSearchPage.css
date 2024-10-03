@@ -1,10 +1,10 @@
 .layout {
     width: 100vw;
-
     margin: 0 auto;
     opacity: 1;
     position: relative;
     background-color: #FFFFFF;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .header{

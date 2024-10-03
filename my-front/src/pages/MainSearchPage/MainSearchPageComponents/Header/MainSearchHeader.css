@@ -2,14 +2,12 @@
 .header-container {
     display: flex;
     justify-content: space-between;
-    font-family: 'Montserrat', sans-serif;
     position: relative;
     height: 100%;
     width: 100vw;
-    padding-top: 1%;
-    padding-right: 5%;
-    padding-left: 5%;
-    overflow: hidden;
+    padding-top: 3%;
+    padding-right: 8%;
+    padding-left: 13%;
 }
 
 .background-image {
@@ -29,44 +27,23 @@
     left: 920px;
 }
 
-.auto-world-1{
-    position: absolute;
-    top: 746px;
-    left: 254px;
-}
-
-.auto-world-2{
-    position: absolute;
-    top: 870px;
-    left: 254px;
-    width: 232px;
-}
-
 .number-1 h3,h1{
     margin: 0;
-    font-family: 'Montserrat', sans-serif;
     color: #ffffff;
 }
 .number-1 h1{
     font-size: 128px !important;
     font-weight: 800;
     line-height: 156px;
-    text-align: left;
+    height: 120px;
 }
 .number-1 h3{
     font-size: 32px;
     font-weight: 500;
     text-align: center;
-
 }
 .auto-world-1 span{
     font-size: 80px;
-}
-
-.statistic-label{
-    position: absolute;
-    top: 826px;
-    left: 985px;
 }
 
 .grid-container {
@@ -75,10 +52,10 @@
     text-align: center;
     gap: 28px;
     color: #ffffff;
+    padding-bottom: 3%;
 }
 
 .grid-item span {
-    font-family: 'Montserrat', sans-serif;
     display: block;
     font-size: 20px;
     font-weight: 700;
@@ -87,10 +64,21 @@
 }
 
 .grid-item p {
-    font-family: 'Montserrat', sans-serif;
     font-size: 16px;
     font-weight: 500;
     line-height: 20px;
     text-align: center;
     margin: 12px 0 0 0;
+}
+
+.auto-info-labels{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+    position: absolute;
+    top: 746px;
+    left: 240px;
+    width: 65%;
+    min-width:980px;
 }
