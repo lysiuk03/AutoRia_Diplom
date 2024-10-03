@@ -51,6 +51,13 @@ namespace WebBack.Data
             .WithMany(r => r.Cities)
             .HasForeignKey(c => c.RegionId)
             .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<CarEntity>()
+            .HasOne(c => c.User)  // Specify that CarEntity has one User
+            .WithMany(u => u.MyCars)  // Specify that UserEntity can have many cars
+            .HasForeignKey(c => c.UserId);  // Specify the foreign key property
+
+
         }
     }
 

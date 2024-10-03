@@ -160,7 +160,9 @@ namespace WebBack.Data
                             // Appearance
                             Color = await context.Colors.OrderBy(r => Guid.NewGuid()).FirstOrDefaultAsync(),
 
-                            Photos = carPhotos
+                            Photos = carPhotos,
+
+                            User = context.Users.FirstOrDefault(u => u.FirstName == "Адмін") 
                         };
 
                         // Додаємо автомобіль до списку

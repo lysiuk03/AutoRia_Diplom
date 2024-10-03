@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using WebBack.Data.Entities.Identity;
 
 namespace WebBack.Data.Entities
 {
@@ -33,7 +34,8 @@ namespace WebBack.Data.Entities
         [StringLength(2000)]
         public string Description { get; set; } = null!;
 
-
+        public int? UserId { get; set; }
+        public UserEntity? User { get; set; }
 
         //possible entity 
 
