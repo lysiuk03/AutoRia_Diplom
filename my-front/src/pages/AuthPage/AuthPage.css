@@ -6,6 +6,7 @@
 }
 
 .auth-layout{
+    width: 100%;
     background-color: #ffffff;
     height: 1650px;
     display:flex;
@@ -19,7 +20,7 @@
     position: absolute;
     width: 1019px;
     height: 1078px;
-    left: 852px;
+    right:0;
     z-index:0;
 }
 
@@ -28,15 +29,15 @@
     width: 787px;
     height: 509px;
     top: 584px;
-    left: 842px;
+    right: 240px;
     z-index:0;
 }
 .background-image-3{
     position: absolute;
-    width: 1082px;
+    width: 857px;
     height: 550px;
-    top: 1093px;
-    left: 842px;
+    top: 1090px;
+    right: 170px;
     z-index:0;
 }
 
@@ -45,7 +46,7 @@
 }
 
 .auth-layout .container-content{
-    width: 1527px;
+    width: 80%;
     height: 740px;
     background-color:  #AAB9C8;
     z-index:1;
