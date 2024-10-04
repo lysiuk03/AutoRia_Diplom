@@ -79,7 +79,6 @@ namespace WebBack.Data.Entities
         public bool IsExchangeAvailable { get; set; } = false; // Можливий обмін на авто
         public bool IsInstallmentAvailable { get; set; } = false;
 
-        public int Likes {  get; set; } = 0;
-        public int Views { get; set; } = 0;
+
     }
 }
