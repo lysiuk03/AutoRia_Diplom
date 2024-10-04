@@ -56,14 +56,14 @@
 }
 
 .add-img-btn{
-    width: 55px;
-    height: 55px;
+    width: 30px;
+    height: 30px;
     background-color:#2E4F76;
     color: white;
     border-radius: 50%;
     text-align: center;
-    line-height: 40px;
-    font-size: 70px;
+    line-height: 30px;
+    font-size: 20px;
     padding: 0;
 }
 

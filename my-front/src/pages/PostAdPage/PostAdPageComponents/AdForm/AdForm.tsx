@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './AdForm.css';
 import axios from 'axios';
+import UploadPhoto from "../addphoto.tsx";
 
 interface CarModel {
     id: number;
@@ -214,9 +215,9 @@ const AdForm: React.FC = () => {
                         </div>
                     </div>
                     <div className="ad-row">
-                        <button className="add-img-btn">+</button>
-                        <label className="add-img-label"> Додати фото</label>
+                        <UploadPhoto/>
                     </div>
+
                 </div>
                 <div className="info-box">
                     <img src="/images/info.png" alt="Info" />
