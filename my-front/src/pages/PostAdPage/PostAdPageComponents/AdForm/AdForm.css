@@ -140,6 +140,7 @@
     border: 1px solid #909090;
     margin-left:20px;
     background-color: #ffffff;
+    color: black;
 }
 
 .vin-container{
@@ -166,6 +167,7 @@
     resize: none;
     overflow: auto;
     background-color: #ffffff;
+    color: black;
 }
 
 .description small{
@@ -200,6 +202,8 @@
     border-radius: 5px;
     border: 1px solid #909090;
     background-color: #ffffff;
+
+    color: black;
 }
 
 .price-select{
