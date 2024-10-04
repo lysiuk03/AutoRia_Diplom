@@ -40,14 +40,6 @@ const CarCard: React.FC<Car> = ({
                             alt="Default Car"
                         />
                     )}
-                    <div className="like-circle-1">
-                        <div className="like-circle-2">
-                            <div className="content">
-                                <img src="/images/heart.png" alt="Heart" />
-                                <span>2.1k</span>
-                            </div>
-                        </div>
-                    </div>
                 </div>
                 <div className="car-details">
                     <h3>
