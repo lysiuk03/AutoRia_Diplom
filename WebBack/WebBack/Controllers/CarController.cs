@@ -165,9 +165,11 @@ namespace WebBack.Controllers
 
             // Retrieve cars that belong to the user
             var userCars = await _context.UserCars
-                .Include(uc => uc.Car) // Include CarEntity to fetch car details
-                .ThenInclude(c => c.CarModel) // Include CarModel if needed
-                .Include(c => c.Car.CarBrand) // Include CarBrand if needed
+                .Include(uc => uc.Car)                      // Include CarEntity to fetch car details
+                    .ThenInclude(c => c.Photos)             // Include Photos related to the car
+                .Include(uc => uc.Car.CarModel)             // Include CarModel
+                .Include(uc => uc.Car.CarBrand)
+
                 .Where(uc => uc.UserId == userId)
                 .Select(uc => uc.Car)
                 .ToListAsync();

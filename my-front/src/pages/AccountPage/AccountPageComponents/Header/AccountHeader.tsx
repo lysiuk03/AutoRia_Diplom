@@ -36,7 +36,7 @@ const AccountHeader: React.FC = () => {
         id: '0',
         phoneNumber: 'Місце не вказано',
         rating: 0,
-        imageUrl: ['/images/default.png'],
+        imageUrl: [''],
     };
 
     if (token) {
@@ -48,8 +48,9 @@ const AccountHeader: React.FC = () => {
             id: decodedToken?.id || '0', // Використання id як рядка
             phoneNumber: decodedToken?.location || 'Місце не вказано',
             rating: decodedToken?.rating || 0,
-            imageUrl: decodedToken?.photo ? [decodedToken.photo] : ['/images/default.png'],
+            imageUrl: decodedToken?.photo ? [`http://localhost:5174/images/800_${decodedToken.photo}`] : ['http://localhost:5174/images/'],
         };
+        console.log(profileData)
     }
 
     const location = useLocation();

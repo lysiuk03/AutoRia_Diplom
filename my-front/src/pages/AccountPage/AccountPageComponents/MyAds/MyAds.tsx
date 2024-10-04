@@ -24,7 +24,7 @@ const MyAds: React.FC = () => {
 
     let profileData = {
         name: 'Невідомий користувач',
-        id: '0',
+        id: '1',
         location: 'Місце не вказано',
         rating: 0,
         imageUrl: ['/images/default.png'],
@@ -37,7 +37,7 @@ const MyAds: React.FC = () => {
 
         profileData = {
             name: decodedToken?.firstName ? `${decodedToken.firstName} ${decodedToken.lastName}` : 'Невідомий користувач',
-            id: decodedToken?.id || '0',
+            id: decodedToken?.id || '1',
             location: decodedToken?.location || 'Місце не вказано',
             rating: decodedToken?.rating || 0,
             imageUrl: decodedToken?.photo ? [decodedToken.photo] : ['/images/default.png'],
