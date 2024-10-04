@@ -1,14 +1,12 @@
 import React from 'react';
-
-// Interfaces
-import { Car } from "../../interfaces/Car";
-
-// Styles
+import { Car } from "../../interfaces/Car"; // Ensure this interface matches the structure
 import './CarCard.css';
 
+
+
 const CarCard: React.FC<Car> = ({
-                                    carBrand,
-                                    carModel,
+                                    carBrand, // This is an object, not a string.
+                                    carModel, // This is also an object.
                                     year,
                                     city,
                                     mileage,
@@ -29,8 +27,7 @@ const CarCard: React.FC<Car> = ({
         <div className="car-card" style={{ width: `${width}px`, height: `${height}px` }}>
             <div className="content">
                 <div>
-                    {/* Перевіряємо наявність фотографій і властивість name */}
-                    {photos && photos[0] && photos[0].name ? (
+                    {photos && photos[0]?.name ? (
                         <img
                             className="img-car"
                             src={`http://localhost:5174/images/200_${photos[0].name}`}
@@ -39,7 +36,7 @@ const CarCard: React.FC<Car> = ({
                     ) : (
                         <img
                             className="img-car"
-                            src="/images/default-car.png" // Дефолтне зображення, якщо фото відсутнє
+                            src="/images/default-car.png"
                             alt="Default Car"
                         />
                     )}
@@ -54,15 +51,14 @@ const CarCard: React.FC<Car> = ({
                 </div>
                 <div className="car-details">
                     <h3>
-                        {/* Умовне рендерування властивостей name */}
                         {carBrand?.name || 'Невідомий бренд'} {carModel?.name || 'Невідома модель'} {year}
                     </h3>
                     <p>
                         {transmissionType?.name || 'Невідома трансмісія'} &#8729; {formatMileage(mileage)}
                     </p>
-                    <hr/>
+                    <hr />
                     <p>
-                        <img src="/images/geo.png" alt="Geo" className="geo-image"/>
+                        <img src="/images/geo.png" alt="Geo" className="geo-image" />
                         {city?.name || 'Невідоме місто'}
                     </p>
                 </div>

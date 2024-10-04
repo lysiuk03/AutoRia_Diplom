@@ -12,6 +12,10 @@ public class UserEntity : IdentityUser<int>
     public string? City { get; set; } = null!;
     
     public string? Rating { get; set; } = null!;
+    
+    public string? PhoneNumber { get; set; } = null!;
+    
+    
    
     // Зв'язок з власними автомобілями
     public virtual ICollection<UserCarEntity> Cars { get; set; } = new List<UserCarEntity>();

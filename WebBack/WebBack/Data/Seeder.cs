@@ -56,6 +56,7 @@ namespace WebBack.Data
                         UserName = "admin",
                         Photo = await imageService.SaveImageAsync(base64Image)
                         ,
+                        PhoneNumber = "+380936584957",
                         Rating = "0",
                         City = "Омеляна",
                         Region = "Heaven",

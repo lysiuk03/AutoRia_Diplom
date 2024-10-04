@@ -92,15 +92,16 @@ namespace WebBack.Controllers
             return Ok(users);
         }
 
-        [HttpGet("{email}")]
-        public async Task<IActionResult> GetUserByEmail(string email)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetUserById(string id)
         {
-            var user = await userManager.FindByEmailAsync(email);
+            var user = await userManager.FindByIdAsync(id);
             if (user == null)
                 return NotFound(new { Message = "User not found." });
 
             return Ok(user);
         }
+
 
         [HttpPut("update-profile")]
         public async Task<IActionResult> UpdateProfile([FromBody] UpdateUserProfileModel model)

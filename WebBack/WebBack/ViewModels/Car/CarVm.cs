@@ -13,31 +13,29 @@ namespace WebBack.ViewModels.Car
 {
     public class CarVm
     {
-        public int Year {  get; set; }
-        public int Id { get; set; } // Assuming CarEntity has an Id property in BaseEntity
-        public CarModelVm CarModel { get; set; }
-        public CarBrandCutVm CarBrand { get; set; }
-        public BodyTypeVm BodyType { get; set; }
+        public int Year { get; set; }
+        public int Id { get; set; } // Припускаючи, що CarEntity має властивість Id у BaseEntity
+        public CarModelVm CarModel { get; set; } = null!;
+        public CarBrandCutVm CarBrand { get; set; } = null!;
+        public BodyTypeVm BodyType { get; set; } = null!;
         public string Description { get; set; } = null!;
         public string Stage { get; set; } = null!;
         public decimal Mileage { get; set; }
         public string VIN { get; set; } = null!;
         public IEnumerable<CarPhotoVm> Photos { get; set; } = new List<CarPhotoVm>();
 
-        public UserEntity User { get; set; }
-        public int UserId { get; set; }
-        public TransmissionTypeVm TransmissionType { get; set; }
-        public NumberOfSeatsVm NumberOfSeats { get; set; }
-        public FuelTypesEntity FuelTypes { get; set; }
-        public EngineVolumeVm EngineVolume { get; set; }
-        public TransportTypeVm TransportType { get; set; }
-        public CityVm City { get; set; }
+        public TransmissionTypeVm TransmissionType { get; set; } = null!;
+        public NumberOfSeatsVm NumberOfSeats { get; set; } = null!;
+        public FuelTypesEntity FuelTypes { get; set; } = null!;
+        public EngineVolumeVm EngineVolume { get; set; } = null!;
+        public TransportTypeVm TransportType { get; set; } = null!;
+        public CityVm City { get; set; } = null!;
         public decimal? Price { get; set; }
-        public ColorEntity Color { get; set; }
+        public ColorEntity Color { get; set; } = null!;
         public bool Metallic { get; set; }
         public bool AccidentParticipation { get; set; }
 
-
-        public DateTime DateCreated { get; set; } // Assuming CarEntity has a DateCreated property in BaseEntity
+        // Дата створення, припускаючи, що CarEntity має властивість DateCreated у BaseEntity
+        public DateTime DateCreated { get; set; }
     }
 }

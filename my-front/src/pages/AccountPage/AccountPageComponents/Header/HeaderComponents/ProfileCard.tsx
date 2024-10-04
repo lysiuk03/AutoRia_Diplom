@@ -9,12 +9,12 @@ import {renderStars} from "../../../../../components/starRating/StarRating.tsx";
 type ProfileCardProps = {
     name: string;
     id: string;
-    location: string;
+    phoneNumber: string;
     rating: number;
     imageUrl: string[];
 };
 
-const ProfileCard: React.FC<ProfileCardProps> = ({ name, id, location, rating, imageUrl }) => {
+const ProfileCard: React.FC<ProfileCardProps> = ({ name, id, phoneNumber, rating, imageUrl }) => {
 
 
     return (
@@ -22,7 +22,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ name, id, location, rating, i
             <img src={imageUrl[0]} alt={name} className="profile-image" />
             <div className="profile-details">
                 <h2>{name}</h2>
-                <p>ID: {id} • {location}</p>
+                <p>ID: {id} • {phoneNumber}</p>
                 <div className="rating">
                     {renderStars(rating)}
                     <p>{rating}</p>

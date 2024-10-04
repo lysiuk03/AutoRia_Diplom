@@ -22,7 +22,7 @@ interface DecodedToken {
 interface ProfileCardProps {
     name: string;
     id: string; // Змінено на string для id
-    location: string; // Додано поле location
+    phoneNumber: string; // Додано поле location
     rating: number; // Додано поле rating
     imageUrl: string[];
 }
@@ -34,7 +34,7 @@ const AccountHeader: React.FC = () => {
     let profileData: ProfileCardProps = {
         name: 'Невідомий користувач',
         id: '0',
-        location: 'Місце не вказано',
+        phoneNumber: 'Місце не вказано',
         rating: 0,
         imageUrl: ['/images/default.png'],
     };
@@ -46,7 +46,7 @@ const AccountHeader: React.FC = () => {
         profileData = {
             name: decodedToken?.firstName ? `${decodedToken.firstName} ${decodedToken.lastName}` : 'Невідомий користувач',
             id: decodedToken?.id || '0', // Використання id як рядка
-            location: decodedToken?.location || 'Місце не вказано',
+            phoneNumber: decodedToken?.location || 'Місце не вказано',
             rating: decodedToken?.rating || 0,
             imageUrl: decodedToken?.photo ? [decodedToken.photo] : ['/images/default.png'],
         };
