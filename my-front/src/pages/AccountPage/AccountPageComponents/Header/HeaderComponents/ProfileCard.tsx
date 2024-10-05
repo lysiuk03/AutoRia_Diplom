@@ -23,10 +23,6 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ name, id, phoneNumber, rating
             <div className="profile-details">
                 <h2>{name}</h2>
                 <p>ID: {id} • {phoneNumber}</p>
-                <div className="rating">
-                    {renderStars(rating)}
-                    <p>{rating}</p>
-                </div>
             </div>
         </div>
     );

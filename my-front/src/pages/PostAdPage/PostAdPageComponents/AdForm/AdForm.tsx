@@ -1,354 +1,224 @@
-import React, { useEffect, useState } from 'react';
-import './AdForm.css';
+import React, { useState } from 'react';
 import axios from 'axios';
 
-interface CarModel {
-    id: number;
-    name: string;
-}
+const CarCreateForm = () => {
+    const [formData, setFormData] = useState({
+        description: '',
+        stage: '',
+        mileage: 0,
+        vin: '',
+        year: new Date().getFullYear(),
+        price: 0,
+        metallic: false,
+        accidentParticipation: false,
+        hasPowerWindows: false,
+        hasAirConditioning: false,
+        hasLeatherInterior: false,
+        hasPremiumInteriorColor: false,
+        hasPowerSteering: false,
+        hasHeightAdjustableSeats: false,
+        hasHeadlights: false,
+        hasSpareWheel: false,
+        hasSeatMemory: false,
+        hasHeatedSeats: false,
+        hasSeatVentilation: false,
+        isNotCustomsCleared: false,
+        isBargainAvailable: false,
+        isExchangeAvailable: false,
+        isInstallmentAvailable: false,
+        carBrandId: null,
+        transportTypeId: null,
+        carModelId: null,
+        bodyTypeId: null,
+        transmissionTypeId: null,
+        numberOfSeatsId: null,
+        fuelTypesId: null,
+        engineVolumeId: null,
+        cityId: null,
+        colorId: null,
+        photos: []
+    });
 
-interface CarBrand {
-    id: number;
-    name: string;
-    models: CarModel[];
-}
+    const handleChange = (e) => {
+        const { name, value, type, checked } = e.target;
+        setFormData({
+            ...formData,
+            [name]: type === 'checkbox' ? checked : value
+        });
+    };
 
-interface City {
-    id: number;
-    name: string;
-}
+    const handleFileChange = (e) => {
+        setFormData({
+            ...formData,
+            photos: Array.from(e.target.files)
+        });
+    };
 
-interface Region {
-    id: number;
-    name: string;
-    cities: City[];
-}
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const form = new FormData();
 
-interface OptionData {
-    brands: CarBrand[];
-    models: CarModel[];
-    bodyTypes: string[];
-    fuelTypes: string[];
-    engineVolumes: string[];
-    numberOfSeats: string[];
-    transmissionTypes: string[];
-    transportTypes: string[];
-    modifications: string[];
-    countries: string[];
-    mileages: string[];
-    regions: Region[];
-    years: string[];
-    cities: string[];
-    paintTypes: string[];
-    colors: string[];
-    accidentStatuses: string[];
-    technicalStates: string[];
-    accessories: string[];
-}
-
-const defaultOptions: OptionData = {
-    bodyTypes: ['Оберіть'],
-    fuelTypes: ['Оберіть'],
-    engineVolumes: ['Оберіть'],
-    numberOfSeats: ['Оберіть'],
-    transmissionTypes: ['Оберіть'],
-    transportTypes: ["Оберіть", "Легковий", "Вантажний", "Мотоцикл"],
-    modifications: ["Оберіть", "Базова", "Комфорт", "Спортивна"],
-    countries: ["Оберіть", "Україна", "США", "Німеччина"],
-    brands: [],
-    models: [],
-    mileages: ["Оберіть", "0-50,000 км", "50,000-100,000 км", "100,000+ км"],
-    regions: [],
-    years: ["Оберіть", "2024", "2023", "2022"],
-    cities: ["Оберіть"],
-    paintTypes: ["Оберіть", "Металіз", "Перламутр", "Мат"],
-    colors: ["Оберіть", "Червоний", "Синій", "Чорний"],
-    accidentStatuses: ["Оберіть", "Не був в ДТП", "Був в ДТП"],
-    technicalStates: ["Оберіть", "Відмінний", "Добрий", "Задовільний"],
-    accessories: ["Оберіть", "Є", "Немає"]
-};
-
-
-
-const AdForm: React.FC = () => {
-    const [optionsData, setOptionsData] = useState<OptionData>(defaultOptions);
-    const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
-
-    // State variables for selected options
-    const [selectedBrand, setSelectedBrand] = useState<string>('');
-    const [selectedModel, setSelectedModel] = useState<string>("");
-    const [selectedRegion, setSelectedRegion] = useState<string>("Оберіть");
-    const [selectedCity, setSelectedCity] = useState<string>("");
-
-
-    const [selectedBodyType, setSelectedBodyType] = useState<string>("");
-    const [selectedFuelType, setSelectedFuelType] = useState<string>("");
-    const [selectedEngineVolume, setSelectedEngineVolume] = useState<string>("");
-    const [selectedNumberOfSeats, setSelectedNumberOfSeats] = useState<string>("");
-    const [selectedTransmissionType, setSelectedTransmissionType] = useState<string>("");
-    const [selectedTransportType, setSelectedTransportType] = useState<string>("");
-    const [selectedModification, setSelectedModification] = useState<string>("");
-    const [selectedCountry, setSelectedCountry] = useState<string>("");
-    const [selectedMileage, setSelectedMileage] = useState<string>("");
-
-    const [selectedYear, setSelectedYear] = useState<string>("");
-
-    const [selectedPaintType, setSelectedPaintType] = useState<string>("");
-    const [selectedColor, setSelectedColor] = useState<string>("");
-    const [selectedAccidentStatus, setSelectedAccidentStatus] = useState<string>("");
-    const [selectedTechnicalState, setSelectedTechnicalState] = useState<string>("");
-    const [selectedAccessory, setSelectedAccessory] = useState<string>("");
-
-    const [filteredModels, setFilteredModels] = useState<string[]>(['Оберіть']);
-    const [filteredCities, setFilteredCities] = useState<string[]>(['Оберіть']);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            setIsLoading(true);
-            try {
-                const [
-                    bodyTypesResponse,
-                    fuelTypesResponse,
-                    engineVolumesResponse,
-                    numberOfSeatsResponse,
-                    transmissionTypesResponse,
-                    brandsAndModelsResponse,
-                    transportTypesResponse,
-                    regionsResponse
-                ] = await Promise.all([
-                    axios.get('http://localhost:5174/api/TechnicalSpecifications/bodytypes'),
-                    axios.get('http://localhost:5174/api/TechnicalSpecifications/fueltypes'),
-                    axios.get('http://localhost:5174/api/TechnicalSpecifications/enginevolumes'),
-                    axios.get('http://localhost:5174/api/TechnicalSpecifications/numberofseats'),
-                    axios.get('http://localhost:5174/api/TechnicalSpecifications/transmissiontypes'),
-                    axios.get('http://localhost:5174/api/TechnicalSpecifications/brandsandmodels'),
-                    axios.get('http://localhost:5174/api/TechnicalSpecifications/transporttypes'),
-                    axios.get('http://localhost:5174/api/RegionalAndPricing')
-                ]);
-
-                setOptionsData(prev => ({
-                    ...prev,
-                    bodyTypes: ['Оберіть', ...bodyTypesResponse.data.map((bt: { name: string }) => bt.name)],
-                    fuelTypes: ['Оберіть', ...fuelTypesResponse.data.map((ft: { name: string }) => ft.name)],
-                    engineVolumes: ['Оберіть', ...engineVolumesResponse.data.map((ev: { volume: string }) => String(ev.volume))],
-                    numberOfSeats: ['Оберіть', ...numberOfSeatsResponse.data.map((ns: { number: string }) => ns.number)],
-                    transmissionTypes: ['Оберіть', ...transmissionTypesResponse.data.map((tt: { name: string }) => tt.name)],
-                    brands: brandsAndModelsResponse.data.map((brand: { id: number; name: string; models: { name: string }[] }) => ({
-                        id: brand.id,
-                        name: brand.name,
-                        models: brand.models.map((model: { name: string }) => model)
-                    })),
-                    transportTypes : ['Оберіть', ...transportTypesResponse.data.map((bt: { name: string }) => bt.name)],
-                    regions: regionsResponse.data
-                }));
-            } catch (err) {
-                setError('Не вдалося завантажити дані');
-            } finally {
-                setIsLoading(false);
+        for (const key in formData) {
+            if (key === 'photos') {
+                formData.photos.forEach((file) => {
+                    form.append('photos', file);
+                });
+            } else {
+                form.append(key, formData[key]);
             }
-        };
+        }
 
-        fetchData();
-    }, []);
-
-    if (isLoading) {
-        return <div>Завантаження...</div>;
-    }
-
-    if (error) {
-    }
-
-    const renderSelect = (
-        label: string,
-        options: string[],
-        value: string,
-        onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void
-    ) => (
-        <div className="dropdown-container">
-            <label>{label}</label>
-            <select value={value} onChange={onChange}>
-                {options.map(option => (
-                    <option key={option} value={option}>{option}</option>
-                ))}
-            </select>
-        </div>
-    );
-
-    const handleBrandChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const brandName = e.target.value;
-        setSelectedBrand(brandName);
-        const selectedBrand = optionsData.brands.find(b => b.name === brandName);
-        setFilteredModels(selectedBrand ? selectedBrand.models.map((model) => model.name) : []);
-        setSelectedModel(""); // Reset model on brand change
+        try {
+            const response = await axios.post('http://localhost:5174/api/Car', form);
+            console.log(form);
+            console.log(response.status);
+            // Можна додати логіку для скидання форми або переходу на іншу сторінку
+        } catch (error) {
+            // Обробка помилок
+            console.error('Error adding car:', error.response?.data || error.message);
+            alert('Помилка при додаванні автомобіля: ' + (error.response?.data || error.message));
+        }
     };
-
-    const handleModelChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        setSelectedModel(e.target.value);
-    };
-
-    const handleBodyTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        setSelectedBodyType(e.target.value);
-    };
-
-    const handleRegionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const regionName = e.target.value;
-        setSelectedRegion(regionName);
-
-        const selectedRegion = optionsData.regions.find(region => region.name === regionName);
-        setFilteredCities(selectedRegion ? selectedRegion.cities.map(city => city.name) : ['Оберіть']);
-    };
-
-    // Add other change handlers for the remaining selects...
 
     return (
-        <form className="ad-form-container">
-            <h2>Додавання оголошення</h2>
-            <section>
-                <div className="add-img-auto">
-                    <div className="ad-row">
-                        <div className="circle-number">1</div>
-                        <div className="ad-column">
-                            <h3>Додайте 3 фото авто з відкритим держ. номером</h3>
-                            <p>WheelDeal автоматично підтягне інформацію про автомобіль</p>
-                        </div>
-                    </div>
-                    <div className="ad-row">
-                        <button className="add-img-btn">+</button>
-                        <label className="add-img-label"> Додати фото</label>
-                    </div>
-                </div>
-                <div className="info-box">
-                    <img src="/images/info.png" alt="Info"/>
-                    <a>Як правильно сфотографувати авто ?</a>
-                </div>
-            </section>
-            <section>
-                <div className="ad-row">
-                    <div className="circle-number">2</div>
-                    <h3>Основна інформація</h3>
-                </div>
-                <div className="ad-grid-container grid-retreat">
-                    {renderSelect("Тип кузова", optionsData.bodyTypes, selectedBodyType, handleBodyTypeChange)}
-                    {renderSelect("Тип палива", optionsData.fuelTypes, selectedFuelType, (e) => setSelectedFuelType(e.target.value))}
-                    {renderSelect("Об'єм двигуна", optionsData.engineVolumes, selectedEngineVolume, (e) => setSelectedEngineVolume(e.target.value))}
-                    {renderSelect("Кількість місць", optionsData.numberOfSeats, selectedNumberOfSeats, (e) => setSelectedNumberOfSeats(e.target.value))}
-                    {renderSelect("Тип трансмісії", optionsData.transmissionTypes, selectedTransmissionType, (e) => setSelectedTransmissionType(e.target.value))}
-                    {renderSelect("Тип транспорту", optionsData.transportTypes, selectedTransportType, (e) => setSelectedTransportType(e.target.value))}
-                    {renderSelect("Модифікація", optionsData.modifications, selectedModification, (e) => setSelectedModification(e.target.value))}
-                    {renderSelect("Країна виробник", optionsData.countries, selectedCountry, (e) => setSelectedCountry(e.target.value))}
-                    {/* Render brand select */}
-                    {renderSelect("Марка", optionsData.brands[1] ? optionsData.brands.map(b => b.name) : ['Оберіть'], selectedBrand, handleBrandChange)}
-                    {/* Render model select based on filteredModels */}
-                    {renderSelect("Модель авто", filteredModels, selectedModel, handleModelChange)}
-                    {renderSelect("Пробіг", optionsData.mileages, selectedMileage, (e) => setSelectedMileage(e.target.value))}
-                    {renderSelect("Регіон", ["Оберіть", ...optionsData.regions.map(region => region.name)], selectedRegion, handleRegionChange)}
-                    {renderSelect("Місто", filteredCities, selectedCity, (e) => setSelectedCity(e.target.value))}
-                    {renderSelect("Рік випуску", optionsData.years, selectedYear, (e) => setSelectedYear(e.target.value))}
-
-
-                </div>
-
-                <div className="vin-container">
-                    <div>
-                        <label>VIN-код</label>
-                        <input type="text" name="vin" className="vin-input" placeholder="VIN-код"/>
-                    </div>
-                    <small className="vin-small">*авто з перевіреним VIN-кодом продаються швидше</small>
-                </div>
-                <div className="info-box">
-                    <img src="/images/info.png" alt="Info"/>
-                    <a>Де знайти VIN-код ?</a>
-                </div>
-            </section>
-            <section>
-                <div className="ad-row">
-                    <div className="circle-number">3</div>
-                    <h3>Опис авто</h3>
-                </div>
-                <div className="ad-row">
-                    <div className="ad-column description-container">
-                        <textarea className="description-input" placeholder="Опис українською"></textarea>
-                        <span className="char-limit">Доступно 2000 символів</span>
-                    </div>
-                    <div className="ad-column description">
-                        <small>В даному полі забороняється:</small>
-                        <small><span>!</span>Залишати посилання або контактні дані</small>
-                        <small><span>!</span>Пропонувати послуги (прижену під замовлення, є інші авто, допоможу вибрати)</small>
-                    </div>
-                </div>
-            </section>
-            <section>
-                <div className="ad-row">
-                    <div className="circle-number">4</div>
-                    <h3>Характерисика</h3>
-                </div>
-                <div className="ad-column characteristic-container">
-                    {renderSelect("Лакофарбоване покриття", optionsData.paintTypes, selectedPaintType, (e) => setSelectedPaintType(e.target.value))}
-                    {renderSelect("Колір", optionsData.colors, selectedColor, (e) => setSelectedColor(e.target.value))}
-                    {renderSelect("Участь в ДТП", optionsData.accidentStatuses, selectedAccidentStatus, (e) => setSelectedAccidentStatus(e.target.value))}
-                    {renderSelect("Технічний стан", optionsData.technicalStates, selectedTechnicalState, (e) => setSelectedTechnicalState(e.target.value))}
-                    {renderSelect("Додаткові аксесуари", optionsData.accessories, selectedAccessory, (e) => setSelectedAccessory(e.target.value))}
-                </div>
-            </section>
-            <section>
-                <div className="ad-row">
-                    <div className="circle-number">5</div>
-                    <h3>Додатки</h3>
-                </div>
-                <div className="ad-grid-container grid-retreat">
-                    {renderSelect("Електроскло- підйомники", optionsData.accessories,selectedAccessory, (e) => setSelectedAccessory(e.target.value))}
-                    {renderSelect("Регулювання сидінь салону по висоті", optionsData.accessories, selectedAccessory, (e) => setSelectedAccessory(e.target.value))}
-                    {renderSelect("Кондиціонер", optionsData.accessories, selectedAccessory, (e) => setSelectedAccessory(e.target.value))}
-                    {renderSelect("Фари", optionsData.accessories, selectedAccessory, (e) => setSelectedAccessory(e.target.value))}
-                    {renderSelect("Матеріали салону", optionsData.accessories, selectedAccessory, (e) => setSelectedAccessory(e.target.value))}
-                    {renderSelect("Запасне колесо", optionsData.accessories,selectedAccessory, (e) => setSelectedAccessory(e.target.value))}
-                    {renderSelect("Колір салону", optionsData.accessories,selectedAccessory, (e)=> setSelectedAccessory(e.target.value))}
-                    {renderSelect("Пам'ять положення сидіння", optionsData.accessories, selectedAccessory, (e) => setSelectedAccessory(e.target.value))}
-                    {renderSelect("Підсилювач керма", optionsData.accessories, selectedAccessory, (e) => setSelectedAccessory(e.target.value))}
-                    {renderSelect("Підігрів сидінь", optionsData.accessories, selectedAccessory, (e) => setSelectedAccessory(e.target.value))}
-                    {renderSelect("Вентиляція сидінь", optionsData.accessories, selectedAccessory, (e) => setSelectedAccessory(e.target.value))}
-                </div>
-            </section>
-            <section>
-                <div className="ad-row">
-                    <div className="circle-number">6</div>
-                    <div className="ad-column">
-                        <h3>Вартість</h3>
-                        <p>ціна, валюта, торг, обмін</p>
-                    </div>
-                </div>
-                <div className="ad-row price-retreat">
-                    <label>Ціна</label>
-                    <input type="text" placeholder="Ціна" className="price-inp"/>
-                    <select className="price-select">
-                        <option value="$">USD</option>
-                    </select>
-                </div>
-                <div className="options">
-                    <label><input type="checkbox"/> Нерозмитнений</label>
-                    <label><input type="checkbox"/> Можливий торг</label>
-                    <label><input type="checkbox"/> Можливий обмін на авто</label>
-                    <label><input type="checkbox"/> Оплата частинами</label>
-                </div>
-                <div className="agreement-container">
-                    <div className="agreement">
-                        <div>
-                            <input type="checkbox" id="termsCheckbox"/>
-                            <label htmlFor="termsCheckbox">Я згоден(згодна) з умовами</label>
-                            <a href="#"> Угода про надання послуг</a>
-                        </div>
-                        <div>
-                            <label htmlFor="termsCheckbox">Ваші персональні дані будуть оброблені та захищені згідно
-                                з</label>
-                            <a href="#"> Політикою приватності</a>
-                        </div>
-                    </div>
-                </div>
-                <button className="ad-btn">Розмістити оголошення</button>
-            </section>
+        <form onSubmit={handleSubmit}>
+            <div>
+                <label>Description:</label>
+                <input type="text" name="description" value={formData.description} onChange={handleChange} required />
+            </div>
+            <div>
+                <label>Stage:</label>
+                <input type="text" name="stage" value={formData.stage} onChange={handleChange} required />
+            </div>
+            <div>
+                <label>Mileage:</label>
+                <input type="number" name="mileage" value={formData.mileage} onChange={handleChange} required />
+            </div>
+            <div>
+                <label>VIN:</label>
+                <input type="text" name="vin" value={formData.vin} onChange={handleChange} required />
+            </div>
+            <div>
+                <label>Year:</label>
+                <input type="number" name="year" value={formData.year} onChange={handleChange} required />
+            </div>
+            <div>
+                <label>Price:</label>
+                <input type="number" name="price" value={formData.price} onChange={handleChange} required />
+            </div>
+            <div>
+                <label>Accident Participation:</label>
+                <input type="checkbox" name="accidentParticipation" checked={formData.accidentParticipation} onChange={handleChange} />
+            </div>
+            <div>
+                <label>Has Power Windows:</label>
+                <input type="checkbox" name="hasPowerWindows" checked={formData.hasPowerWindows} onChange={handleChange} />
+            </div>
+            <div>
+                <label>Has Air Conditioning:</label>
+                <input type="checkbox" name="hasAirConditioning" checked={formData.hasAirConditioning} onChange={handleChange} />
+            </div>
+            <div>
+                <label>Has Leather Interior:</label>
+                <input type="checkbox" name="hasLeatherInterior" checked={formData.hasLeatherInterior} onChange={handleChange} />
+            </div>
+            <div>
+                <label>Has Premium Interior Color:</label>
+                <input type="checkbox" name="hasPremiumInteriorColor" checked={formData.hasPremiumInteriorColor} onChange={handleChange} />
+            </div>
+            <div>
+                <label>Has Power Steering:</label>
+                <input type="checkbox" name="hasPowerSteering" checked={formData.hasPowerSteering} onChange={handleChange} />
+            </div>
+            <div>
+                <label>Has Height Adjustable Seats:</label>
+                <input type="checkbox" name="hasHeightAdjustableSeats" checked={formData.hasHeightAdjustableSeats} onChange={handleChange} />
+            </div>
+            <div>
+                <label>Has Headlights:</label>
+                <input type="checkbox" name="hasHeadlights" checked={formData.hasHeadlights} onChange={handleChange} />
+            </div>
+            <div>
+                <label>Has Spare Wheel:</label>
+                <input type="checkbox" name="hasSpareWheel" checked={formData.hasSpareWheel} onChange={handleChange} />
+            </div>
+            <div>
+                <label>Has Seat Memory:</label>
+                <input type="checkbox" name="hasSeatMemory" checked={formData.hasSeatMemory} onChange={handleChange} />
+            </div>
+            <div>
+                <label>Has Heated Seats:</label>
+                <input type="checkbox" name="hasHeatedSeats" checked={formData.hasHeatedSeats} onChange={handleChange} />
+            </div>
+            <div>
+                <label>Has Seat Ventilation:</label>
+                <input type="checkbox" name="hasSeatVentilation" checked={formData.hasSeatVentilation} onChange={handleChange} />
+            </div>
+            <div>
+                <label>Is Not Customs Cleared:</label>
+                <input type="checkbox" name="isNotCustomsCleared" checked={formData.isNotCustomsCleared} onChange={handleChange} />
+            </div>
+            <div>
+                <label>Is Bargain Available:</label>
+                <input type="checkbox" name="isBargainAvailable" checked={formData.isBargainAvailable} onChange={handleChange} />
+            </div>
+            <div>
+                <label>Is Exchange Available:</label>
+                <input type="checkbox" name="isExchangeAvailable" checked={formData.isExchangeAvailable} onChange={handleChange} />
+            </div>
+            <div>
+                <label>Is Installment Available:</label>
+                <input type="checkbox" name="isInstallmentAvailable" checked={formData.isInstallmentAvailable} onChange={handleChange} />
+            </div>
+            <div>
+                <label>Car Brand ID:</label>
+                <input type="number" name="carBrandId" value={formData.carBrandId || ''} onChange={handleChange} />
+            </div>
+            <div>
+                <label>Transport Type ID:</label>
+                <input type="number" name="transportTypeId" value={formData.transportTypeId || ''} onChange={handleChange} />
+            </div>
+            <div>
+                <label>Car Model ID:</label>
+                <input type="number" name="carModelId" value={formData.carModelId || ''} onChange={handleChange} />
+            </div>
+            <div>
+                <label>Body Type ID:</label>
+                <input type="number" name="bodyTypeId" value={formData.bodyTypeId || ''} onChange={handleChange} />
+            </div>
+            <div>
+                <label>Transmission Type ID:</label>
+                <input type="number" name="transmissionTypeId" value={formData.transmissionTypeId || ''} onChange={handleChange} />
+            </div>
+            <div>
+                <label>Number Of Seats ID:</label>
+                <input type="number" name="numberOfSeatsId" value={formData.numberOfSeatsId || ''} onChange={handleChange} />
+            </div>
+            <div>
+                <label>Fuel Types ID:</label>
+                <input type="number" name="fuelTypesId" value={formData.fuelTypesId || ''} onChange={handleChange} />
+            </div>
+            <div>
+                <label>Engine Volume ID:</label>
+                <input type="number" name="engineVolumeId" value={formData.engineVolumeId || ''} onChange={handleChange} />
+            </div>
+            <div>
+                <label>City ID:</label>
+                <input type="number" name="cityId" value={formData.cityId || ''} onChange={handleChange} />
+            </div>
+            <div>
+                <label>Color ID:</label>
+                <input type="number" name="colorId" value={formData.colorId || ''} onChange={handleChange} />
+            </div>
+            <div>
+                <label>Photos:</label>
+                <input type="file" name="photos" multiple onChange={handleFileChange} />
+            </div>
+            <div>
+                <button type="submit">Add Car</button>
+            </div>
         </form>
     );
 };
 
-export default AdForm;
+export default CarCreateForm;

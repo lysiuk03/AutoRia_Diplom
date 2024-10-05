@@ -9,6 +9,8 @@
         public string VIN { get; set; } = null!;
         public int Year { get; set; }
         public decimal Price { get; set; }
+        
+        
         public bool Metallic { get; set; } = false!;
         public bool AccidentParticipation { get; set; } = false!;
         public bool HasPowerWindows { get; set; } = false;
