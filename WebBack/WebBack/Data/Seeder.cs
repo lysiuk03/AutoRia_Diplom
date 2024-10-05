@@ -50,10 +50,17 @@ namespace WebBack.Data
                     {
                         FirstName = "Адмін",
                         LastName = "Адміністратор",
+                        MiddleName = "Адмінович",
                         Email = configuration["Admin:Email"]
                             ?? throw new NullReferenceException("Admin:Email"),
                         UserName = "admin",
                         Photo = await imageService.SaveImageAsync(base64Image)
+                        ,
+                        PhoneNumber = "+380936584957",
+                        Rating = "0",
+                        City = "Омеляна",
+                        Region = "Heaven",
+
                     };
 
                     IdentityResult result = await userManager.CreateAsync(
@@ -85,18 +92,18 @@ namespace WebBack.Data
                 await SeedTransmissionTypesAsync(context, configuration);
                 await SeedBodyTypesAsync(context, configuration);
                 await SeedRegionsAndCitiesAsync(context, configuration);
-                await SeedBodyTypesAsync(context,configuration);
+                await SeedBodyTypesAsync(context, configuration);
 
                 await context.SaveChangesAsync();
 
-               
+
                 // Seed Cars
                 if (await context.Cars.CountAsync() < 1)
                 {
                     var faker = new Faker();
                     var fakeCars = new List<CarEntity>();
 
-                    for (int i = 0; i < 33; i++)
+                    for (int i = 0; i < 1; i++)
                     {
                         // Вибір випадкової моделі автомобіля, що містить інформацію про бренд
                         var carModel = await context.Models
@@ -113,7 +120,7 @@ namespace WebBack.Data
 
                         for (int k = 0; k < numberOfPhotos; k++)
                         {
-                            var imageUrl = faker.Image.LoremFlickrUrl(keywords: "Car", width: 1000, height: 800);
+                            var imageUrl = faker.Image.LoremFlickrUrl(keywords: "Vehicle", width: 1000, height: 800);
                             var imageBase64 = await GetImageAsBase64Async(httpClient, imageUrl);
 
                             var carPhoto = new CarPhotoEntity
@@ -124,6 +131,7 @@ namespace WebBack.Data
 
                             carPhotos.Add(carPhoto);
                         }
+                        
 
                         var car = new CarEntity
                         {
@@ -154,7 +162,10 @@ namespace WebBack.Data
                             // Appearance
                             Color = await context.Colors.OrderBy(r => Guid.NewGuid()).FirstOrDefaultAsync(),
 
-                            Photos = carPhotos
+                            Photos = carPhotos,
+
+
+
                         };
 
                         // Додаємо автомобіль до списку
@@ -164,6 +175,21 @@ namespace WebBack.Data
                     // Зберігаємо згенеровані дані в базу
                     await context.Cars.AddRangeAsync(fakeCars);
                     await context.SaveChangesAsync();
+
+                    var user = await context.Users.FindAsync(1);
+                    var carS = await context.Cars.FindAsync(1);
+
+                    // Прив'язуємо автомобіль до адміністратора
+                    var userCar = new UserCarEntity
+                    {
+                        UserId = user.Id, // Ідентифікатор адміністратора
+                        CarId = carS.Id, // Ідентифікатор автомобіля
+                        //IsLiked = false // або true, якщо автомобіль сподобався
+                    };
+
+                    await context.UserCars.AddAsync(userCar);
+                    await context.SaveChangesAsync();
+
                 }
 
 

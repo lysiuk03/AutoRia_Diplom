@@ -21,7 +21,7 @@ interface DecodedToken {
 interface ProfileCardProps {
     name: string;
     id: string; // Змінено на string для id
-    location: string; // Додано поле location
+    phoneNumber: string; // Додано поле location
     rating: number; // Додано поле rating
     imageUrl: string[];
 }
@@ -33,9 +33,9 @@ const AccountHeader: React.FC = () => {
     let profileData: ProfileCardProps = {
         name: 'Невідомий користувач',
         id: '0',
-        location: 'Місце не вказано',
+        phoneNumber: 'Місце не вказано',
         rating: 0,
-        imageUrl: ['/images/default.png'],
+        imageUrl: [''],
     };
 
     if (token) {
@@ -45,19 +45,17 @@ const AccountHeader: React.FC = () => {
         profileData = {
             name: decodedToken?.firstName ? `${decodedToken.firstName} ${decodedToken.lastName}` : 'Невідомий користувач',
             id: decodedToken?.id || '0', // Використання id як рядка
-            location: decodedToken?.location || 'Місце не вказано',
+            phoneNumber: decodedToken?.location || 'Місце не вказано',
             rating: decodedToken?.rating || 0,
-            imageUrl: decodedToken?.photo ? [decodedToken.photo] : ['/images/default.png'],
+            imageUrl: decodedToken?.photo ? [`http://localhost:5174/images/800_${decodedToken.photo}`] : ['http://localhost:5174/images/'],
         };
+        console.log(profileData)
     }
 
     const location = useLocation();
     const isActive = (path: string) => location.pathname === path;
 
-    const menuItems = [
-        { key: '1', label: 'Мої оголошення', path: '/account/ads' },
-        { key: '2', label: 'Обране', path: '/account/favorites' },
-    ];
+
 
     const navigate = useNavigate();
 
@@ -78,16 +76,6 @@ const AccountHeader: React.FC = () => {
                             Редагувати профіль
                         </button>
                     </div>
-                </div>
-                <div>
-                    <hr />
-                    <nav className="account-menu">
-                        {menuItems.map(item => (
-                            <div key={item.key} className={`menu-item ${isActive(item.path) ? 'active' : ''}`}>
-                                <Link to={item.path}>{item.label}</Link>
-                            </div>
-                        ))}
-                    </nav>
                 </div>
             </div>
         </div>

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using WebBack.Data;
@@ -11,9 +12,11 @@ using WebBack.Data;
 namespace WebBack.Migrations
 {
     [DbContext(typeof(CarDbContext))]
-    partial class CarDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241003154837_upd_seeder")]
+    partial class upd_seeder
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -276,6 +279,12 @@ namespace WebBack.Migrations
                     b.Property<int?>("TransportTypeId")
                         .HasColumnType("integer");
 
+                    b.Property<int?>("UserEntityId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("VIN")
                         .IsRequired()
                         .HasMaxLength(17)
@@ -308,6 +317,10 @@ namespace WebBack.Migrations
                     b.HasIndex("TransmissionTypeId");
 
                     b.HasIndex("TransportTypeId");
+
+                    b.HasIndex("UserEntityId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("tbl_cars");
                 });
@@ -496,21 +509,6 @@ namespace WebBack.Migrations
                         .HasDatabaseName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles", (string)null);
-                });
-
-            modelBuilder.Entity("WebBack.Data.Entities.Identity.UserCarEntity", b =>
-                {
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("CarId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("UserId", "CarId");
-
-                    b.HasIndex("CarId");
-
-                    b.ToTable("UserCars");
                 });
 
             modelBuilder.Entity("WebBack.Data.Entities.Identity.UserEntity", b =>
@@ -794,6 +792,14 @@ namespace WebBack.Migrations
                         .WithMany()
                         .HasForeignKey("TransportTypeId");
 
+                    b.HasOne("WebBack.Data.Entities.Identity.UserEntity", null)
+                        .WithMany("ChosenCars")
+                        .HasForeignKey("UserEntityId");
+
+                    b.HasOne("WebBack.Data.Entities.Identity.UserEntity", "User")
+                        .WithMany("MyCars")
+                        .HasForeignKey("UserId");
+
                     b.Navigation("BodyType");
 
                     b.Navigation("CarBrand");
@@ -813,6 +819,8 @@ namespace WebBack.Migrations
                     b.Navigation("TransmissionType");
 
                     b.Navigation("TransportType");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("WebBack.Data.Entities.CarModelEntity", b =>
@@ -848,25 +856,6 @@ namespace WebBack.Migrations
                     b.Navigation("Region");
                 });
 
-            modelBuilder.Entity("WebBack.Data.Entities.Identity.UserCarEntity", b =>
-                {
-                    b.HasOne("WebBack.Data.Entities.CarEntity", "Car")
-                        .WithMany("UserCars")
-                        .HasForeignKey("CarId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebBack.Data.Entities.Identity.UserEntity", "User")
-                        .WithMany("Cars")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Car");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("WebBack.Data.Entities.Identity.UserRoleEntity", b =>
                 {
                     b.HasOne("WebBack.Data.Entities.Identity.RoleEntity", "Role")
@@ -894,8 +883,6 @@ namespace WebBack.Migrations
             modelBuilder.Entity("WebBack.Data.Entities.CarEntity", b =>
                 {
                     b.Navigation("Photos");
-
-                    b.Navigation("UserCars");
                 });
 
             modelBuilder.Entity("WebBack.Data.Entities.Identity.RoleEntity", b =>
@@ -905,7 +892,9 @@ namespace WebBack.Migrations
 
             modelBuilder.Entity("WebBack.Data.Entities.Identity.UserEntity", b =>
                 {
-                    b.Navigation("Cars");
+                    b.Navigation("ChosenCars");
+
+                    b.Navigation("MyCars");
 
                     b.Navigation("UserRoles");
                 });

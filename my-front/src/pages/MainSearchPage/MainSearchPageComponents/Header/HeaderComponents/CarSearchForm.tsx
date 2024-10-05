@@ -148,8 +148,13 @@ const CarSearchForm: React.FC = () => {
         const brandName = e.target.value;
         setSelectedBrand(brandName);
         const selectedBrand = optionsData.brands.find(b => b.name === brandName);
-        setFilteredModels(selectedBrand ? selectedBrand.models.map((model) => model.name) : []);
-        setSelectedModel(e.target.value); // Reset model on brand change
+
+        // Оновлюємо список моделей для вибраного бренду
+        const models = selectedBrand ? selectedBrand.models.map((model) => model.name) : [];
+        setFilteredModels(models);
+
+        // Встановлюємо першу модель зі списку або "Всі", якщо список порожній
+        setSelectedModel(models.length > 0 ? models[0] : 'Всі');
     };
     const handleModelChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setSelectedModel(e.target.value);
@@ -187,13 +192,10 @@ const CarSearchForm: React.FC = () => {
         try {
             const response = await axios.post('http://localhost:5174/api/Car/search', searchRequest);
             console.log(response.data); // Обробка отриманих даних
-            navigate("/search", {state: response.data});
+            navigate("/search", { state: { cars: response.data, text: searchRequest } });
         } catch (error) {
             console.error('Error during axios request:', error);
         }
-
-
-
     };
 
     return (

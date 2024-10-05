@@ -10,6 +10,15 @@ using WebBack.Services.Interfaces;
 using WebBack.ViewModels.Car;
 using WebBack.ViewModels;
 using WebBack.SearchReauestClasses;
+using WebBack.ViewModels.BodyType;
+using WebBack.ViewModels.Brand;
+using WebBack.ViewModels.EngineVolume;
+using WebBack.ViewModels.Model;
+using WebBack.ViewModels.NumberOfSeats;
+using WebBack.ViewModels.Region_City;
+using WebBack.ViewModels.TransmissionType;
+using WebBack.ViewModels.TransportType;
+using WebBack.ViewModels.Account;
 
 
 namespace WebBack.Controllers
@@ -71,10 +80,15 @@ namespace WebBack.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<CarVm>> GetCar(int id)
         {
-            var cars = await _context.Cars
-                .ProjectTo<CarVm>(_mapper.ConfigurationProvider)
-                .ToArrayAsync();
-            var car = cars.Where(c=>c.Id == id).FirstOrDefault();
+            var carUser = await _context.UserCars.Where(uc=>uc.CarId == id).FirstOrDefaultAsync();
+
+            var car = await _context.Cars
+                .Where(c => c.Id == id)
+                .ProjectTo<CarVm>(_mapper.ConfigurationProvider) // Project to CarVm using AutoMapper
+                .FirstOrDefaultAsync();
+            car.user = _context.Users
+                .Where(u=>u.Id == carUser.UserId)
+                .ProjectTo<ProfileVm>(_mapper.ConfigurationProvider).FirstOrDefault();
 
             if (car == null)
             {
@@ -143,5 +157,39 @@ namespace WebBack.Controllers
         {
             return _context.Cars.Any(e => e.Id == id);
         }
+
+        // GET: api/cars/user/{userId}
+        [HttpGet("user/{userId}")]
+        public async Task<ActionResult<IEnumerable<CarVm>>> GetCarsByUserId(int userId)
+        {
+            // Check if the user exists
+            var user = await _context.Users.FindAsync(userId);
+            if (user == null)
+            {
+                return NotFound($"User with ID {userId} not found.");
+            }
+
+            // Retrieve cars that belong to the user
+            var userCars = await _context.UserCars
+                .Include(uc => uc.Car)                      // Include CarEntity to fetch car details
+                    .ThenInclude(c => c.Photos)             // Include Photos related to the car
+                .Include(uc => uc.Car.CarModel)             // Include CarModel
+                .Include(uc => uc.Car.CarBrand)
+
+                .Where(uc => uc.UserId == userId)
+                .Select(uc => uc.Car)
+                .ToListAsync();
+
+            if (userCars == null || userCars.Count == 0)
+            {
+                return NotFound("No cars found for the specified user.");
+            }
+
+            // Map the CarEntity list to CarVm list
+            var carVms = _mapper.Map<List<CarVm>>(userCars);
+
+            return Ok(carVms);
+        }
+
     }
 }

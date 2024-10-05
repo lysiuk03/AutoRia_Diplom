@@ -1,15 +1,15 @@
 import React from 'react';
-
-// Interfaces
-import { Car } from "../../interfaces/Car";
-
-// Styles
+import { Car } from "../../interfaces/Car"; // Ensure this interface matches the structure
 import './CarCard.css';
+import {useNavigate} from "react-router-dom";
+
+
 
 const CarCard: React.FC<Car> = ({
-                                    carBrand,
-                                    carModel,
+                                    carBrand, // This is an object, not a string.
+                                    carModel, // This is also an object.
                                     year,
+                                    id,
                                     city,
                                     mileage,
                                     transmissionType,
@@ -17,6 +17,9 @@ const CarCard: React.FC<Car> = ({
                                     height = 386,
                                     width = 290
                                 }) => {
+
+    const navigate = useNavigate();
+
     function formatMileage(mileage: number): string {
         if (mileage >= 1000) {
             const kilometers = mileage / 1000;
@@ -25,12 +28,17 @@ const CarCard: React.FC<Car> = ({
         return `${mileage} км пробіг`;
     }
 
+    // Function to handle card click
+    const handleClick = () => {
+        navigate(`/carproduct/${id}`); // Navigate to the car product page with the car ID
+    };
+
+
     return (
-        <div className="car-card" style={{ width: `${width}px`, height: `${height}px` }}>
+        <div className="car-card" onClick={handleClick} style={{ width: `${width}px`, height: `${height}px` }}>
             <div className="content">
                 <div>
-                    {/* Перевіряємо наявність фотографій і властивість name */}
-                    {photos && photos[0] && photos[0].name ? (
+                    {photos && photos[0]?.name ? (
                         <img
                             className="img-car"
                             src={`http://localhost:5174/images/200_${photos[0].name}`}
@@ -39,30 +47,21 @@ const CarCard: React.FC<Car> = ({
                     ) : (
                         <img
                             className="img-car"
-                            src="/images/default-car.png" // Дефолтне зображення, якщо фото відсутнє
+                            src="/images/default-car.png"
                             alt="Default Car"
                         />
                     )}
-                    <div className="like-circle-1">
-                        <div className="like-circle-2">
-                            <div className="content">
-                                <img src="/images/heart.png" alt="Heart" />
-                                <span>2.1k</span>
-                            </div>
-                        </div>
-                    </div>
                 </div>
                 <div className="car-details">
                     <h3>
-                        {/* Умовне рендерування властивостей name */}
                         {carBrand?.name || 'Невідомий бренд'} {carModel?.name || 'Невідома модель'} {year}
                     </h3>
                     <p>
                         {transmissionType?.name || 'Невідома трансмісія'} &#8729; {formatMileage(mileage)}
                     </p>
-                    <hr/>
+                    <hr />
                     <p>
-                        <img src="/images/geo.png" alt="Geo" className="geo-image"/>
+                        <img src="/images/geo.png" alt="Geo" className="geo-image" />
                         {city?.name || 'Невідоме місто'}
                     </p>
                 </div>
