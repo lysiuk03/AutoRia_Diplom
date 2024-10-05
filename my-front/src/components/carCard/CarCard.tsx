@@ -1,6 +1,7 @@
 import React from 'react';
 import { Car } from "../../interfaces/Car"; // Ensure this interface matches the structure
 import './CarCard.css';
+import {useNavigate} from "react-router-dom";
 
 
 
@@ -8,6 +9,7 @@ const CarCard: React.FC<Car> = ({
                                     carBrand, // This is an object, not a string.
                                     carModel, // This is also an object.
                                     year,
+                                    id,
                                     city,
                                     mileage,
                                     transmissionType,
@@ -15,6 +17,9 @@ const CarCard: React.FC<Car> = ({
                                     height = 386,
                                     width = 290
                                 }) => {
+
+    const navigate = useNavigate();
+
     function formatMileage(mileage: number): string {
         if (mileage >= 1000) {
             const kilometers = mileage / 1000;
@@ -23,8 +28,14 @@ const CarCard: React.FC<Car> = ({
         return `${mileage} км пробіг`;
     }
 
+    // Function to handle card click
+    const handleClick = () => {
+        navigate(`/carproduct/${id}`); // Navigate to the car product page with the car ID
+    };
+
+
     return (
-        <div className="car-card" style={{ width: `${width}px`, height: `${height}px` }}>
+        <div className="car-card" onClick={handleClick} style={{ width: `${width}px`, height: `${height}px` }}>
             <div className="content">
                 <div>
                     {photos && photos[0]?.name ? (

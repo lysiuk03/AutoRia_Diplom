@@ -69,7 +69,7 @@ const App: React.FC = () => {
                     <Route index element={<HomeNews />} />
                     <Route path="home" element={<HomeNews />} />
                 </Route>
-                <Route path="/product" element={<ProductPage/>}></Route>
+                <Route path="/carproduct/:id" element={<ProductPage/>}></Route>
             </Routes>
         </BrowserRouter>
     );
