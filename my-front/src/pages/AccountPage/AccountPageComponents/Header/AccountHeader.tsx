@@ -1,12 +1,11 @@
 import './AccountHeader.css';
 import React from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import Navbar from '../../../../components/navbar/Navbar';
-import Logo from '../../../../components/logo/Logo';
 import ProfileCard from "./HeaderComponents/ProfileCard";
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../redux/store';
 import { decodeJwt } from 'jose'; // Імпортуємо jose
+import Navbar from '../../../../components/navbar/Navbar';
 
 // Інтерфейс для декодованого токена
 interface DecodedToken {
@@ -68,11 +67,7 @@ const AccountHeader: React.FC = () => {
 
     return (
         <div className="nameheader">
-            <div className="accbaseheader">
-                <Logo left />
-                <Navbar additionalClass="left" />
-            </div>
-
+            <Navbar/>
             <div className="profile-overview-container">
                 <div className="user-info-actions">
                     <ProfileCard {...profileData} />

@@ -1,128 +1,78 @@
-.menu-container {
-    display: flex;
-    width: 50%;
-    justify-content: flex-end;
-    align-items: flex-start;
-    text-wrap: nowrap;
-    z-index: 1;
+
+.nav-section{
+    display:flex;
 }
 
-.menu-container.left {
-    left: 0;
+.menu-container {
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+    margin: 0 auto;
+    height: 120px;
+    z-index: 1000;
+    background-color: transparent; 
+}
+
+.menu-container a {
+  display: flex;
+  align-items: center;
+  margin-right: 36px;
+  color: #ffffff;
+  text-decoration: none;
 }
 
 .menu,
 .user-actions {
-    display: flex;
-    align-items: center;
-}
-
-.menu-container a {
-    display: flex;
-    align-items: center;
-    margin-right: 36px;
-    color: #ffffff;
-    text-decoration: none;
-}
-
-.menu-container a:hover {
-    color: #ffffff;
-}
-
-.user-actions img {
-    margin-right: 16px;
+  display: flex;
+  align-items: center;
 }
 
 .sell-car-btn {
-    border-radius: 5px;
-    background-color: #FFFFFF;
-    font-size: 18px;
-    font-weight: 600;
-    color: #2E4F76 !important;
-    padding: 12px 24px;
-    text-align: center;
-    text-transform: uppercase;
-    height: 46px;
-}
-
-.menu-container.auth-navbar .menu a {
-    color: #ffffff;
-}
-
-.menu-container.auth-navbar .notif-icon {
-    display: none;
+   border-radius: 5px;
+   background-color: #FFFFFF;
+   font-size: 18px;
+   font-weight: 600;
+   color: #2E4F76 !important;
+   padding: 12px 24px;
+   text-align: center;
+   text-transform: uppercase;
+   height: 46px;
 }
 
 .profile-button {
-    background-color: transparent;
-    display: flex;
-    align-items: center;
-    color: #ffffff;
+   background-color: transparent;
+   display: flex;
+   align-items: center;
+   color: #ffffff;
 }
 
+.user-actions img {
+   margin-right: 16px;
+}
+
+.menu-container.darkly a {
+    color:#3B454E;
+    text-shadow: 
+        0 0 10px rgba(255, 255, 255, 1), 
+        0 0 10px rgba(255, 255, 255, 1); 
+}
 .menu-container.dark a,
-.menu-container.dark .profile-button {
-    color: #3B454E;
-
+.menu-container.dark button{
+    color:#3B454E;
 }
-.menu-container.light a
-{
-
-}
-
 .menu-container.dark .sell-car-btn {
     color: #ffffff !important;
     background-color: #2E4F76;
 }
 
-/* Адаптивні стилі для планшетів */
-@media (max-width: 1024px) {
+@media (max-width: 1300px) {
     .menu-container {
-        width: 90%;
-        left: 5%;
-    }
-
-    .menu-container a {
-        margin-right: 20px;
-        font-size: 16px;
-    }
-
-    .sell-car-btn {
-        font-size: 16px;
-        padding: 10px 20px;
+        width: 90%; 
     }
 }
 
-/* Адаптивні стилі для мобільних пристроїв */
-@media (max-width: 768px) {
+@media (max-width: 1150px) {
     .menu-container {
-        flex-direction: column;
-        align-items: flex-start;
-        height: auto;
-        top: 10px;
-        left: 0;
-    }
-
-    .menu-container a {
-        margin-right: 10px;
-        font-size: 14px;
-    }
-
-    .sell-car-btn {
-        font-size: 14px;
-        padding: 8px 16px;
-        width: 100%;
-        margin-top: 10px;
-    }
-
-    .menu,
-    .user-actions {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .user-actions img {
-        margin-right: 0;
-        margin-bottom: 10px;
+        width: 100%; 
     }
 }

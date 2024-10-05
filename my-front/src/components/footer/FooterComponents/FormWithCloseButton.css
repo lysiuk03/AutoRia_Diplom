@@ -1,4 +1,17 @@
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5); 
+    z-index: 10;
+}
+
+
 .contact-form {
+    z-index: 20;
     font-family: "Montserrat", sans-serif;
     display: grid;
     justify-content: center;
@@ -9,10 +22,11 @@
     height: 690px;
     padding: 30px 0;
     position: fixed;
-    bottom:20px;
-    left:1460px;
+    bottom: 20px;
+    right: 5vw;
     border: 1px solid #000000;
 }
+
 .contact-form h2{
     font-family: "Karla", sans-serif;
     font-size: 22px;

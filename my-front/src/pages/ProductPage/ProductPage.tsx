@@ -5,8 +5,6 @@ import './ProductPage.css';
 
 // Components
 import PagesFooter from "../../components/footer/PagesFooter";
-import Navbar from "../../components/navbar/Navbar";
-import Logo from "../../components/logo/Logo";
 import ProductInfo from "./ProductPageComponents/DescriptionInfo/ProductInfo.tsx";
 import ImageGallery from "./ProductPageComponents/ImageGallery/ImageGallery.tsx";
 import CompanyInfo from "./ProductPageComponents/CompanyInfo/CompanyInfo.tsx";
@@ -14,18 +12,16 @@ import CreditVinSection from "./ProductPageComponents/CreditVinSection/CreditVin
 import CarSalonDescription from "./ProductPageComponents/DescriptionInfo/CarSalonDescription.tsx";
 import CarList from "./ProductPageComponents/CarList/CarList.tsx";
 import BankFinancing from "./ProductPageComponents/BankFinancing/BankFinancing.tsx";
+import Navbar from "../../components/navbar/Navbar.tsx";
 
-const { Header, Content, Footer } = Layout;
+const {Content, Footer } = Layout;
 
 
 const ProductPage: React.FC = () => {
 
     return (
         <Layout className="base-layout">
-            <Header className="base-header">
-                <Logo dark left />
-                <Navbar additionalClass="dark" />
-            </Header>
+            <Navbar additionalClass="dark"/>
             <Content className="base-content product-container">
                 <p className="path">Головна/<span>каталог</span></p>
                 <div className="up-btn-container">
