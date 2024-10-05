@@ -1,5 +1,6 @@
 ﻿using WebBack.Data.Entities;
 using WebBack.Data.Entities.Identity;
+using WebBack.ViewModels.Account;
 using WebBack.ViewModels.BodyType;
 using WebBack.ViewModels.Brand;
 using WebBack.ViewModels.EngineVolume;
@@ -37,5 +38,6 @@ namespace WebBack.ViewModels.Car
 
         // Дата створення, припускаючи, що CarEntity має властивість DateCreated у BaseEntity
         public DateTime DateCreated { get; set; }
+        public ProfileVm user { get; set; } = null!;
     }
 }

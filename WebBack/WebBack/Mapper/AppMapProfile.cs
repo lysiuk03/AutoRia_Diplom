@@ -55,6 +55,17 @@ public class AppMapProfile : Profile
 
 
 
+        CreateMap<UserEntity, ProfileVm>()
+            .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.Id)) // Map the user ID
+            .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.UserName)) // Map the username
+            .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.FirstName))
+            .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.LastName))
+            .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
+            .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => src.PhoneNumber))
+            .ForMember(dest => dest.Photo, opt => opt.MapFrom(src => src.Photo)); // Assuming the `UserEntity` has a Photo property
+
+
+
         // Map from RegionEntity to RegionVm
         CreateMap<RegionEntity, RegionVm>()
             .ForMember(dest => dest.Cities, opt => opt.MapFrom(src => src.Cities));

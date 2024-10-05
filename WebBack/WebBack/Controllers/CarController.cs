@@ -18,6 +18,7 @@ using WebBack.ViewModels.NumberOfSeats;
 using WebBack.ViewModels.Region_City;
 using WebBack.ViewModels.TransmissionType;
 using WebBack.ViewModels.TransportType;
+using WebBack.ViewModels.Account;
 
 
 namespace WebBack.Controllers
@@ -79,10 +80,15 @@ namespace WebBack.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<CarVm>> GetCar(int id)
         {
-            var cars = await _context.Cars
-                .ProjectTo<CarVm>(_mapper.ConfigurationProvider)
-                .ToArrayAsync();
-            var car = cars.Where(c => c.Id == id).FirstOrDefault();
+            var carUser = await _context.UserCars.Where(uc=>uc.CarId == id).FirstOrDefaultAsync();
+
+            var car = await _context.Cars
+                .Where(c => c.Id == id)
+                .ProjectTo<CarVm>(_mapper.ConfigurationProvider) // Project to CarVm using AutoMapper
+                .FirstOrDefaultAsync();
+            car.user = _context.Users
+                .Where(u=>u.Id == carUser.UserId)
+                .ProjectTo<ProfileVm>(_mapper.ConfigurationProvider).FirstOrDefault();
 
             if (car == null)
             {
