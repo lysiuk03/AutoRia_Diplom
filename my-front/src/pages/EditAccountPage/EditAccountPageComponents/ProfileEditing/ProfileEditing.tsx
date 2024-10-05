@@ -1,108 +1,161 @@
-import React, {useState} from 'react';
-import {Link} from 'react-router-dom';
-import './ProfileEditing.css';
-import "../../../AccountPage/AccountPageComponents/Header/HeaderComponents/ProfileCard.css";
-import {renderStars} from "../../../../components/starRating/StarRating.tsx";
+import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux'; // Для отримання userId з Redux
+import { useNavigate } from 'react-router-dom'; // Імпортуємо useNavigate
+import axios from 'axios';
 
+const ProfileEditing = () => {
+    const userId = useSelector((state) => state.auth.userId); // Отримання userId з Redux
+    const [profileData, setProfileData] = useState({
+        firstName: '',
+        middleName: '',
+        lastName: '',
+        city: '',
+        region: '',
+        photo: '',
+        email: '',
+        phoneNumber: '',
+        userName: ''
+    });
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+    const [success, setSuccess] = useState(null);
+    const navigate = useNavigate(); // Ініціалізуємо useNavigate
 
+    useEffect(() => {
+        // Функція для отримання поточних даних профілю
+        const fetchProfileData = async () => {
+            try {
+                const response = await axios.get(`/api/users/${userId}`);
+                setProfileData(response.data);
+            } catch (error) {
+                console.error('Помилка завантаження профілю:', error); // Виведення помилки в консоль
+                setError('Помилка завантаження профілю');
+            }
+        };
 
-const ProfileEditing: React.FC = () => {
-    const [fullName, setFullName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [middleName, setMiddleName] = useState('');
-    const [region, setRegion] = useState('');
-    const [city, setCity] = useState('');
-    const [email, setEmail] = useState('');
-    const [phone, setPhone] = useState('');
-    const handleClick = () => {
-        alert('Image button clicked!');
+        fetchProfileData();
+    }, [userId]);
+
+    const handleChange = (e) => {
+        setProfileData({
+            ...profileData,
+            [e.target.name]: e.target.value,
+        });
     };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        setError(null);
+        setSuccess(null);
+
+        try {
+            await axios.put(`http://localhost:5174/api/Accounts/UpdateProfile/update-profile/${1}`, profileData, {
+                headers: {
+                    'Content-Type': 'application/json' // Встановлення заголовка
+                }
+            });
+            setSuccess('Профіль успішно оновлено');
+            // Перенаправлення на головну сторінку
+            navigate('/'); // Змінюємо на ваш шлях до головної сторінки
+        } catch (error) {
+            console.error('Помилка оновлення профілю:', error.response ? error.response.data : error.message); // Виведення помилки в консоль
+            setError('Помилка оновлення профілю');
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return (
-        <div className="edit-account-container">
-            <h2 className='edit-account-h2'>Редагування профілю</h2>
-            <div className="edit-account-details">
-                <button className="profile-image-button" onClick={handleClick}>
-                    <img src="/images/men.png" alt="Profile" className="profile-image"/>
-                </button>
-                <div className="container-mg-left">
-                    <div>
-                        <p>Ваш клієнтський ID: ________</p>
-                        <p>dava*******06@gmail.com</p>
-                        <div className="edit-account-rating">
-                            <p>Ваш рейтинг</p>
-                            {renderStars(8)}
-                            <p><span>8</span></p>
-                        </div>
-                        <Link to='password' className="edit-password-link">Натисніть, щоб змінити пароль</Link>
-                    </div>
-
-                </div>
-            </div>
-
-            <form className="edit-account-form">
-                <div className="form-row">
-                    <label>Ім'я</label>
+        <div>
+            <h2>Редагування профілю</h2>
+            {error && <p style={{ color: 'red' }}>{error}</p>}
+            {success && <p style={{ color: 'green' }}>{success}</p>}
+            <form onSubmit={handleSubmit}>
+                <div>
+                    <label>Ім'я:</label>
                     <input
                         type="text"
-                        placeholder="Давид"
-                        value={fullName}
-                        onChange={(e) => setFullName(e.target.value)}
+                        name="firstName"
+                        value={profileData.firstName}
+                        onChange={handleChange}
                     />
                 </div>
-                <div className="form-row">
-                    <label>Прізвище</label>
+                <div>
+                    <label>По-батькові:</label>
                     <input
                         type="text"
-                        placeholder="Войтко"
-                        value={lastName}
-                        onChange={(e) => setLastName(e.target.value)}
+                        name="middleName"
+                        value={profileData.middleName}
+                        onChange={handleChange}
                     />
                 </div>
-                <div className="form-row">
-                    <label>По батькові</label>
+                <div>
+                    <label>Прізвище:</label>
                     <input
                         type="text"
-                        placeholder="Андрійович"
-                        value={middleName}
-                        onChange={(e) => setMiddleName(e.target.value)}
+                        name="lastName"
+                        value={profileData.lastName}
+                        onChange={handleChange}
                     />
                 </div>
-                <div className="form-row">
-                    <label>Область</label>
+                <div>
+                    <label>Місто:</label>
                     <input
                         type="text"
-                        placeholder="Рівненська"
-                        value={region}
-                        onChange={(e) => setRegion(e.target.value)}
+                        name="city"
+                        value={profileData.city}
+                        onChange={handleChange}
                     />
                 </div>
-                <div className="form-row">
-                    <label>Місто</label>
+                <div>
+                    <label>Регіон:</label>
                     <input
                         type="text"
-                        placeholder="Рівне"
-                        value={city}
-                        onChange={(e) => setCity(e.target.value)}
+                        name="region"
+                        value={profileData.region}
+                        onChange={handleChange}
                     />
                 </div>
-                <div className="form-row">
-                    <label>E-mail</label>
+                <div>
+                    <label>Фото (URL):</label>
+                    <input
+                        type="text"
+                        name="photo"
+                        value={profileData.photo}
+                        onChange={handleChange}
+                    />
+                </div>
+                <div>
+                    <label>Email:</label>
                     <input
                         type="email"
-                        placeholder="dava*******06@gmail.com"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        name="email"
+                        value={profileData.email}
+                        onChange={handleChange}
                     />
                 </div>
-                <div className="form-row">
-                    <label>Телефон</label>
+                <div>
+                    <label>Номер телефону:</label>
                     <input
-                        type="tel"
-                        placeholder="+380"
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
+                        type="text"
+                        name="phoneNumber"
+                        value={profileData.phoneNumber}
+                        onChange={handleChange}
                     />
                 </div>
+                <div>
+                    <label>Ім'я користувача:</label>
+                    <input
+                        type="text"
+                        name="userName"
+                        value={profileData.userName}
+                        onChange={handleChange}
+                    />
+                </div>
+                <button type="submit" disabled={loading}>
+                    {loading ? 'Оновлення...' : 'Оновити профіль'}
+                </button>
             </form>
         </div>
     );

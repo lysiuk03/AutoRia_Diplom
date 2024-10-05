@@ -102,43 +102,49 @@ namespace WebBack.Controllers
             return Ok(user);
         }
 
-
-        [HttpPut("update-profile")]
-        public async Task<IActionResult> UpdateProfile([FromBody] UpdateUserProfileModel model)
+        [HttpPut("update-profile/{userId}")]
+        public async Task<IActionResult> UpdateProfile(string userId, [FromBody] UpdateUserProfileModel model)
         {
-            // Отримання поточного користувача
-            var user = await userManager.GetUserAsync(User);
-            if (user == null)
-            {
-                return NotFound("Користувач не знайдений");
-            }
+                if (model == null)
+                {
+                    return BadRequest("Дані профілю не можуть бути порожніми");
+                }
 
-            // Оновлення полів користувача
-            user.FirstName = model.FirstName;
-            user.MiddleName = model.MiddleName;
-            user.LastName = model.LastName;
-            user.City = model.City;
-            user.Region = model.Region;
-            user.Photo = model.Photo;
-            user.Email = model.Email;
-            user.PhoneNumber = model.PhoneNumber;
-            user.UserName = model.UserName;
-            // Оновлення рейтингу, якщо необхідно
-            //user.Rating = model.Rating;
+                var user = await userManager.FindByIdAsync(userId);
+                if (user == null)
+                {
+                    return NotFound("Користувач не знайдений");
+                }
 
-            // Спроба збереження змін
-            var result = await userManager.UpdateAsync(user);
+                user.FirstName = model.FirstName ?? user.FirstName;
+                user.MiddleName = model.MiddleName ?? user.MiddleName;
+                user.LastName = model.LastName ?? user.LastName;
+                user.City = model.City ?? user.City;
+                user.Region = model.Region ?? user.Region;
+                user.Photo = model.Photo ?? user.Photo;
+                user.Email = model.Email ?? user.Email;
+                user.PhoneNumber = model.PhoneNumber ?? user.PhoneNumber;
+                user.UserName = model.UserName ?? user.UserName;
 
-            if (!result.Succeeded)
-            {
-                // Якщо щось пішло не так, повертаємо помилки
-                return BadRequest(result.Errors);
-            }
+                var result = await userManager.UpdateAsync(user);
+                if (!result.Succeeded)
+                {
+                    return BadRequest(result.Errors);
+                }
 
-            // Якщо зміни успішно застосовані, оновлюємо сесію користувача (якщо необхідно)
-            await signInManager.RefreshSignInAsync(user);
+                if (signInManager != null)
+                {
+                    await signInManager.RefreshSignInAsync(user);
+                }
 
-            return Ok("Профіль успішно оновлено");
+                return Ok("Профіль успішно оновлено");
+
+ 
         }
+
+
+
+        
+        
     }
 }
