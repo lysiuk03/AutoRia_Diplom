@@ -56,10 +56,7 @@ const AccountHeader: React.FC = () => {
     const location = useLocation();
     const isActive = (path: string) => location.pathname === path;
 
-    const menuItems = [
-        { key: '1', label: 'Мої оголошення', path: '/account/ads' },
-        { key: '2', label: 'Обране', path: '/account/favorites' },
-    ];
+
 
     const navigate = useNavigate();
 
@@ -84,16 +81,6 @@ const AccountHeader: React.FC = () => {
                             Редагувати профіль
                         </button>
                     </div>
-                </div>
-                <div>
-                    <hr />
-                    <nav className="account-menu">
-                        {menuItems.map(item => (
-                            <div key={item.key} className={`menu-item ${isActive(item.path) ? 'active' : ''}`}>
-                                <Link to={item.path}>{item.label}</Link>
-                            </div>
-                        ))}
-                    </nav>
                 </div>
             </div>
         </div>
