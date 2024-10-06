@@ -70,6 +70,7 @@ const AccountHeader: React.FC = () => {
                 <div className="user-info-actions">
                     <ProfileCard {...profileData} />
                     <div className="btn-container">
+                        <button className="chat-button none-line">Чат з покупцями</button>
                         <button className="edit-profile-button" onClick={handleNavigate}>
                             <img src="/images/edit.png" alt="Edit" />
                             Редагувати профіль
