@@ -49,6 +49,21 @@ namespace WebBack.Services.ControllerServices
                     priorityIndex++;
                 }
             }
+            
+            car.CarModel = await _carContext.Models.Where(m => m.Id == vm.CarModelId).FirstOrDefaultAsync();
+            car.CarBrand = await _carContext.Brands.Where(b => b.Id == vm.CarBrandId).FirstOrDefaultAsync();
+            
+            car.City = await _carContext.Cities.Where(c => c.Id == vm.CityId).FirstOrDefaultAsync();
+            
+            car.TransportType = await _carContext.TransportTypes.Where(tt => tt.Id == vm.TransportTypeId).FirstOrDefaultAsync();
+            car.BodyType = await _carContext.BodyTypes.Where(bt => bt.Id == vm.BodyTypeId).FirstOrDefaultAsync();
+            car.TransmissionType = await _carContext.TransmissionTypes.Where(tt => tt.Id == vm.TransmissionTypeId).FirstOrDefaultAsync();
+            car.NumberOfSeats = await _carContext.numbersOfSeats.Where(ns => ns.Id == vm.NumberOfSeatsId).FirstOrDefaultAsync();
+            car.FuelTypes = await _carContext.FuelTypes.Where(ft => ft.Id == vm.FuelTypesId).FirstOrDefaultAsync();
+            car.EngineVolume = await _carContext.EngineVolumes.Where(ev => ev.Id == vm.EngineVolumeId).FirstOrDefaultAsync();
+            car.Color = await _carContext.Colors.Where(cl => cl.Id == vm.ColorId).FirstOrDefaultAsync();
+
+
 
             try
             {
