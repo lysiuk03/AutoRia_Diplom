@@ -35,6 +35,22 @@ namespace WebBack.ViewModels.Car
         public ColorEntity Color { get; set; } = null!;
         public bool Metallic { get; set; }
         public bool AccidentParticipation { get; set; }
+        public bool HasPowerWindows { get; set; } = false; // Електросклопідйомники
+        public bool HasAirConditioning { get; set; } = false; // Кондиціонер
+        public bool HasLeatherInterior { get; set; } = false; // Матеріали салону
+        public bool HasPremiumInteriorColor { get; set; } = false; // Колір салону
+        public bool HasPowerSteering { get; set; } = false; // Підсилювач керма
+        public bool HasHeightAdjustableSeats { get; set; } = false; // Регулювання сидіння салону по висоті
+        public bool HasHeadlights { get; set; } = false; // Фари
+        public bool HasSpareWheel { get; set; } = false; // Запасне колесо
+        public bool HasSeatMemory { get; set; } = false; // Пам'ять положення сидіння
+        public bool HasHeatedSeats { get; set; } = false; // Підігрів сидінь
+        public bool HasSeatVentilation { get; set; } = false; // Вентиляція сидінь
+        public bool IsNotCustomsCleared { get; set; } = false; // Нерозмитнений
+        public bool IsBargainAvailable { get; set; } = false; // Можливий торг
+        public bool IsExchangeAvailable { get; set; } = false; // Можливий обмін на авто
+        public bool IsInstallmentAvailable { get; set; } = false;
+
 
         // Дата створення, припускаючи, що CarEntity має властивість DateCreated у BaseEntity
         public DateTime DateCreated { get; set; }

@@ -4,6 +4,7 @@
     {
         public int UserId { get; set; } // User ID from UserEntity
         public string? UserName { get; set; } // Username or Login name
+        public string? MiddleName  { get; set; }
         public string? FirstName { get; set; } // First name of the user
         public string? LastName { get; set; } // Last name of the user
         public string? Email { get; set; } // Email address

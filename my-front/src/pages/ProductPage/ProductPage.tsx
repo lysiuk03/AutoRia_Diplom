@@ -2,7 +2,7 @@
 import React, {useEffect, useState} from "react";
 import { Layout } from 'antd';
 import './ProductPage.css';
-import {Car} from '../../interfaces/Car';
+import { UserCar} from '../../interfaces/Car';
 
 // Components
 import PagesFooter from "../../components/footer/PagesFooter";
@@ -23,7 +23,7 @@ const {Content, Footer } = Layout;
 const ProductPage: React.FC = () => {
 
     const { id } = useParams<{ id: string }>();
-    const [car, setCar] = useState<Car>();
+    const [car, setCar] = useState<UserCar>();
     const [loading, setLoading] = useState<boolean>(true); // Loading state
     const [error, setError] = useState<string | null>(null); // Error state}
 
@@ -31,10 +31,10 @@ const ProductPage: React.FC = () => {
         const fetchCar = async () => {
             try {
                 setLoading(true);
-                const response = await axios.get<Car>(`http://localhost:5174/api/Car/${id}`); // Replace with your actual API URL
-                setCar(response.data);
+                const response = await axios.get(`http://localhost:5174/api/Car/${id}`); // Replace with your actual API URL
+                //setCar(response.data);
                 setLoading(false);
-               console.log(response.data);
+                console.log(response.data);
             } catch (err) {
                 console.error('Failed to fetch car data', err);
                 setError('Failed to load car data.');
@@ -42,7 +42,8 @@ const ProductPage: React.FC = () => {
             }
         };
 
-        if (id) {
+
+        if(id){
             fetchCar();
         }
     }, [id]);
@@ -52,11 +53,10 @@ const ProductPage: React.FC = () => {
     }
 
     if (error) {
-        return <div>{error}</div>;
+        //return <div>{error}</div>;
     }
 
     if (!car) {
-        return <div>Car not found</div>;
     }
 
     return (
