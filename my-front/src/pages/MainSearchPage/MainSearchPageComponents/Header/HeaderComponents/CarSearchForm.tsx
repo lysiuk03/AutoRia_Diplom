@@ -5,6 +5,7 @@ import React, {useEffect, useState} from "react";
 import './CarSearchForm.css';
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
+import {Car} from "../../../../../interfaces/Car";
 
 
 
@@ -43,12 +44,11 @@ interface OptionData {
 }
 
 const defaultOptions: OptionData = {
-    bodyTypes: ["Оберіть"],
-    transportTypes: ["Оберіть"],
-    countries: ["Оберіть", "Україна", "США", "Німеччина"],
+    bodyTypes: [],
+    transportTypes: [],
+    countries: [],
     brands: [],
     models: [],
-
     regions: [],
     years: [],
 
@@ -56,8 +56,9 @@ const defaultOptions: OptionData = {
 
 const CarSearchForm: React.FC = () => {
     const navigate = useNavigate();
-    if(defaultOptions.years[1] == undefined)
+    if(defaultOptions.years[0] == undefined)
     {
+        defaultOptions.years.push("Будь-який")
         for (let year = 2024; year >= 1991; year--) {
             defaultOptions.years.push(year.toString());
         }
@@ -65,25 +66,22 @@ const CarSearchForm: React.FC = () => {
     }
 
 
-    const [searchType, setSearchType] = useState<string>('Всі');
-    const [carType, setCarType] = useState<string>('Будь-який');
+    const [searchType, setSearchType] = useState<string>("Будь-який");
+    const [carType, setCarType] = useState<string>("Будь-який");
     //const [make, setMake] = useState<string>('');
     //const [model, setModel] = useState<string>('');
-    const [region, setRegion] = useState<string>('Київ');
-    const [year, setYear] = useState<string>('2024');
-    const [price, setPrice] = useState<string>('Всі');
+    const [region, setRegion] = useState<string>("Будь-який");
+    const [year, setYear] = useState<string>("Будь-який");
+    const [price, setPrice] = useState<string>("Будь-який");
     const [vinChecked, setVinChecked] = useState<boolean>(false);
 
     const [optionsData, setOptionsData] = useState<OptionData>(defaultOptions);
-    const [filteredModels, setFilteredModels] = useState<string[]>(['Всі']);
-    const [selectedModel, setSelectedModel] = useState<string>("Всі");
-    const [selectedBrand, setSelectedBrand] = useState<string>('Всі');
+    const [filteredModels, setFilteredModels] = useState<string[]>(["Будь-який"]);
+    const [selectedModel, setSelectedModel] = useState<string>("Будь-який");
+    const [selectedBrand, setSelectedBrand] = useState<string>("Будь-який");
 
     useEffect(() => {
-
-
         const fetchData = async () => {
-            //setIsLoading(true);
             try {
                 const [
                     bodyTypesResponse,
@@ -104,45 +102,46 @@ const CarSearchForm: React.FC = () => {
                     axios.get('http://localhost:5174/api/TechnicalSpecifications/transporttypes'),
                     axios.get('http://localhost:5174/api/RegionalAndPricing')
                 ]);
-                const updatedBrands = brandsAndModelsResponse.data.map((brand: { id: number; name: string; models: { name: string }[] }) => ({
-                    id: brand.id,
-                    name: brand.name,
-                    models: brand.models.map((model: { name: string }) => model)
-                }));
-                setOptionsData(prev => ({
-                    ...prev,
-                    bodyTypes: [...bodyTypesResponse.data.map((bt: { name: string }) => bt.name)],
-                    fuelTypes: [...fuelTypesResponse.data.map((ft: { name: string }) => ft.name)],
-                    engineVolumes: [...engineVolumesResponse.data.map((ev: { volume: string }) => String(ev.volume))],
-                    numberOfSeats: [...numberOfSeatsResponse.data.map((ns: { number: string }) => ns.number)],
-                    transmissionTypes: [...transmissionTypesResponse.data.map((tt: { name: string }) => tt.name)],
-                    brands: brandsAndModelsResponse.data.map((brand: { id: number; name: string; models: { name: string }[] }) => ({
+
+                const updatedBrands = [
+                    { id: 0, name: "Будь-який", models: [{ name: "Будь-який" }] },
+                    ...brandsAndModelsResponse.data.map((brand: { id: number; name: string; models: { name: string }[] }) => ({
                         id: brand.id,
                         name: brand.name,
-                        models: brand.models.map((model: { name: string }) => model)
-                    })),
-                    //models: [brandsAndModelsResponse.data.models.map((model: { name: string }) => model)],
-                    transportTypes : [...transportTypesResponse.data.map((bt: { name: string }) => bt.name)],
-                    regions: regionsResponse.data
+                        models: [{ name: "Будь-який" }, ...brand.models]
+                    }))
+                ];
+
+                const updatedRegions = [
+                    { id: 0, name: "Будь-який", cities: [{ id: 0, name: "Будь-який" }] },
+                    ...regionsResponse.data.map((region: { id: number; name: string; cities: { id: number; name: string }[] }) => ({
+                        id: region.id,
+                        name: region.name,
+                        cities: [{ id: 0, name: "Будь-який" }, ...region.cities]
+                    }))
+                ];
+
+                setOptionsData(prev => ({
+                    ...prev,
+                    bodyTypes: ["Будь-який", ...bodyTypesResponse.data.map((bt: { name: string }) => bt.name)],
+                    fuelTypes: ["Будь-який", ...fuelTypesResponse.data.map((ft: { name: string }) => ft.name)],
+                    engineVolumes: ["Будь-який", ...engineVolumesResponse.data.map((ev: { volume: string }) => String(ev.volume))],
+                    numberOfSeats: ["Будь-який", ...numberOfSeatsResponse.data.map((ns: { number: string }) => ns.number)],
+                    transmissionTypes: ["Будь-який", ...transmissionTypesResponse.data.map((tt: { name: string }) => tt.name)],
+                    brands: updatedBrands,
+                    transportTypes: ["Будь-який", ...transportTypesResponse.data.map((tt: { name: string }) => tt.name)],
+                    regions: updatedRegions
                 }));
-                const audiBrand = updatedBrands.find((brand: CarBrand) => brand.name === 'Audi');
-                if (audiBrand) {
-                    setSelectedBrand(audiBrand.name);
-                    setFilteredModels(audiBrand.models.map((model: { name: string; }) => model.name));
-                    setSelectedModel(audiBrand.models.length > 0 ? audiBrand.models[0].name : 'Всі');
-                }
+
+                setFilteredModels(updatedBrands[0].models.map((model: { name: string }) => model.name));
             } catch (err) {
-                //setError('Не вдалося завантажити дані');
-            } finally {
-                //setIsLoading(false);
+                console.error('Не вдалося завантажити дані');
             }
         };
 
         fetchData();
-// Встановити "Audi" як бренд за замовчуванням
-
-       // setFilteredModels(optionsData.brands[0].models.map((bt: { name: string }) => bt.name));
     }, []);
+
 
     const handleBrandChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const brandName = e.target.value;
@@ -154,7 +153,7 @@ const CarSearchForm: React.FC = () => {
         setFilteredModels(models);
 
         // Встановлюємо першу модель зі списку або "Всі", якщо список порожній
-        setSelectedModel(models.length > 0 ? models[0] : 'Всі');
+        setSelectedModel(models[0]);
     };
     const handleModelChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setSelectedModel(e.target.value);
@@ -190,7 +189,7 @@ const CarSearchForm: React.FC = () => {
         console.log(searchRequest); // Перевірка об'єкта запиту
 
         try {
-            const response = await axios.post('http://localhost:5174/api/Car/search', searchRequest);
+            const response = await axios.post<Car[]>('http://localhost:5174/api/Car/search', searchRequest);
             console.log(response.data); // Обробка отриманих даних
             navigate("/search", { state: { cars: response.data, text: searchRequest } });
         } catch (error) {
@@ -241,9 +240,9 @@ const CarSearchForm: React.FC = () => {
                     </div>
                     <div>
                         <select value={region} onChange={(e) => setRegion(e.target.value)}>
-                            {optionsData.regions[1] ? optionsData.regions.map(option => (
+                            {optionsData.regions.map(option => (
                                 <option key={option.id} value={option.name}>{option.name}</option>
-                            )) : <option key={0} value={"Всі"}>Оберіть</option>
+                            ))
 
                             }
                         </select>

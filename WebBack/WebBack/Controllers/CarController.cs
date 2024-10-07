@@ -162,6 +162,10 @@ namespace WebBack.Controllers
         [HttpGet("user/{userId}")]
         public async Task<ActionResult<IEnumerable<CarVm>>> GetCarsByUserId(int userId)
         {
+
+            
+
+
             // Check if the user exists
             var user = await _context.Users.FindAsync(userId);
             if (user == null)
@@ -169,26 +173,19 @@ namespace WebBack.Controllers
                 return NotFound($"User with ID {userId} not found.");
             }
 
-            // Retrieve cars that belong to the user
-            var userCars = await _context.UserCars
-                .Include(uc => uc.Car)                      // Include CarEntity to fetch car details
-                    .ThenInclude(c => c.Photos)             // Include Photos related to the car
-                .Include(uc => uc.Car.CarModel)             // Include CarModel
-                .Include(uc => uc.Car.CarBrand)
 
+            var userCars = await _context.UserCars
                 .Where(uc => uc.UserId == userId)
-                .Select(uc => uc.Car)
+                .Select(uc => uc.CarId) // вибираємо тільки CarId
                 .ToListAsync();
 
-            if (userCars == null || userCars.Count == 0)
-            {
-                return NotFound("No cars found for the specified user.");
-            }
+            var cars = await _context.Cars
+                .Where(c => userCars.Contains(c.Id)) // відбираємо машини, де Id входить у список
+                .ProjectTo<CarVm>(_mapper.ConfigurationProvider) // проекція у CarVm
+                .ToArrayAsync();
 
-            // Map the CarEntity list to CarVm list
-            var carVms = _mapper.Map<List<CarVm>>(userCars);
 
-            return Ok(carVms);
+            return Ok(cars);
         }
 
     }

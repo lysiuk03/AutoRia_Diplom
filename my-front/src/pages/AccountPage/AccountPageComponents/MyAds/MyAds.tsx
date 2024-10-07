@@ -4,9 +4,10 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux"; // Імпортуємо useSelector
 import './MyAds.css';
 import CarCard from "../../../../components/carCard/CarCard";
-import { Car } from "../../../../interfaces/Car"; // Інтерфейс Car для типізації
+import {Car} from "../../../../interfaces/Car"; // Інтерфейс Car для типізації
 import { RootState } from '../../../../redux/store';
 import { decodeJwt } from "jose";
+import axios from "axios";
 
 interface DecodedToken {
     firstName?: string;
@@ -20,7 +21,7 @@ interface DecodedToken {
 const MyAds: React.FC = () => {
     const [cars, setCars] = useState<Car[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null);
+
 
     let profileData = {
         name: 'Невідомий користувач',
@@ -50,7 +51,7 @@ const MyAds: React.FC = () => {
         const fetchCars = async () => {
             setLoading(true);
             try {
-                const response = await fetch(`http://localhost:5174/api/Car/user/${userId}`, {
+                const response = await axios.get(`http://localhost:5174/api/Car/user/${userId}`, {
                     headers: {
                         "Content-Type": "application/json",
                         "Authorization": `Bearer ${token}`,
@@ -58,16 +59,16 @@ const MyAds: React.FC = () => {
                 });
 
                 console.log("Response status:", response.status);
-                const responseBody = await response.json();
-                console.log("Response body:", responseBody);
+                console.log("Response body:", response.data);
 
-                if (!response.ok) {
+                if (response.status !== 200) {
                     throw new Error(`Error fetching cars: ${response.status}`);
                 }
 
-                setCars(responseBody);
-            } catch (err: any) {
-                setError(err.message);
+                setCars(response.data);
+            } catch (err) {
+                console.error("Error:", err);
+
             } finally {
                 setLoading(false);
             }
@@ -78,13 +79,11 @@ const MyAds: React.FC = () => {
         }
     }, [userId]);
 
+
     if (loading) {
         return <p>Loading...</p>;
     }
 
-    if (error) {
-        return <p>Error: {error}</p>;
-    }
 
     return (
         <div className="my-ads-container">

@@ -202,8 +202,12 @@ const AdForm: React.FC = () => {
 
     // Add other change handlers for the remaining selects...
 
+    function handleOnSubmit() {
+        console.log("Submit");
+    }
+
     return (
-        <form className="ad-form-container">
+        <form className="ad-form-container" onSubmit={()=>handleOnSubmit()}>
             <h2>Додавання оголошення</h2>
             <section>
                 <div className="add-img-auto">
@@ -213,11 +217,11 @@ const AdForm: React.FC = () => {
                             <h3>Додайте 3 фото авто з відкритим держ. номером</h3>
                             <p>WheelDeal автоматично підтягне інформацію про автомобіль</p>
                         </div>
+
                     </div>
                     <div className="ad-row">
                         <UploadPhoto/>
                     </div>
-
                 </div>
                 <div className="info-box">
                     <img src="/images/info.png" alt="Info"/>
@@ -298,13 +302,13 @@ const AdForm: React.FC = () => {
                     <h3>Додатки</h3>
                 </div>
                 <div className="ad-grid-container grid-retreat">
-                    {renderSelect("Електроскло- підйомники", optionsData.accessories,selectedAccessory, (e) => setSelectedAccessory(e.target.value))}
+                    {renderSelect("Електроскло- підйомники", optionsData.accessories, selectedAccessory, (e) => setSelectedAccessory(e.target.value))}
                     {renderSelect("Регулювання сидінь салону по висоті", optionsData.accessories, selectedAccessory, (e) => setSelectedAccessory(e.target.value))}
                     {renderSelect("Кондиціонер", optionsData.accessories, selectedAccessory, (e) => setSelectedAccessory(e.target.value))}
                     {renderSelect("Фари", optionsData.accessories, selectedAccessory, (e) => setSelectedAccessory(e.target.value))}
                     {renderSelect("Матеріали салону", optionsData.accessories, selectedAccessory, (e) => setSelectedAccessory(e.target.value))}
-                    {renderSelect("Запасне колесо", optionsData.accessories,selectedAccessory, (e) => setSelectedAccessory(e.target.value))}
-                    {renderSelect("Колір салону", optionsData.accessories,selectedAccessory, (e)=> setSelectedAccessory(e.target.value))}
+                    {renderSelect("Запасне колесо", optionsData.accessories, selectedAccessory, (e) => setSelectedAccessory(e.target.value))}
+                    {renderSelect("Колір салону", optionsData.accessories, selectedAccessory, (e) => setSelectedAccessory(e.target.value))}
                     {renderSelect("Пам'ять положення сидіння", optionsData.accessories, selectedAccessory, (e) => setSelectedAccessory(e.target.value))}
                     {renderSelect("Підсилювач керма", optionsData.accessories, selectedAccessory, (e) => setSelectedAccessory(e.target.value))}
                     {renderSelect("Підігрів сидінь", optionsData.accessories, selectedAccessory, (e) => setSelectedAccessory(e.target.value))}
@@ -346,7 +350,7 @@ const AdForm: React.FC = () => {
                         </div>
                     </div>
                 </div>
-                <button className="ad-btn">Розмістити оголошення</button>
+                <button className="ad-btn" type={"submit"}>Розмістити оголошення</button>
             </section>
         </form>
     );

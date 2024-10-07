@@ -103,13 +103,51 @@ namespace WebBack.Services.ControllerServices
         public async Task<IEnumerable<CarVm>> SearchAsync(CarSearchRequest searchRequest)
         {
             // Ініціалізуємо запит для фільтрації
-            IQueryable<CarEntity> query = _carContext.Cars
-                .Where(c => c.CarBrand.Name == searchRequest.SelectedBrand);
+            IQueryable<CarEntity> query = _carContext.Cars;
 
-            
+            // Фільтрація за брендом
+            if (searchRequest.SelectedBrand != "Будь-який")
+            {
+                query = query.Where(c => c.CarBrand.Name == searchRequest.SelectedBrand);
+            }
+
+            // Фільтрація за моделлю
+            if (searchRequest.SelectedModel != "Будь-який")
+            {
+                query = query.Where(c => c.CarModel.Name == searchRequest.SelectedModel);
+            }
+
+            // Фільтрація за типом кузова (BodyType)
+            if (searchRequest.CarType != "Будь-який")
+            {
+                query = query.Where(c => c.BodyType.Name == searchRequest.CarType);
+            }
+
+            // Фільтрація за роком
+            if (searchRequest.Year != "Будь-який")
+            {
+                if (int.TryParse(searchRequest.Year, out int year))
+                {
+                    query = query.Where(c => c.Year == year);
+                }
+            }
+
+            // Фільтрація за регіоном
+            if (searchRequest.Region != "Будь-який")
+            {
+                query = query.Where(c => c.City.Region.Name == searchRequest.Region);
+            }
+
+            // Фільтрація за VIN (якщо ввімкнено перевірку VIN)
+            if (searchRequest.VinChecked)
+            {
+                query = query.Where(c => !string.IsNullOrEmpty(c.VIN));
+            }
+
             // Повертаємо результати
             return await query.ProjectTo<CarVm>(_mapper.ConfigurationProvider).ToListAsync();
         }
+
 
 
         // Uncomment and complete the following methods as needed
