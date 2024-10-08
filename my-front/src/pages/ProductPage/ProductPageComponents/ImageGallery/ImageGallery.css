@@ -41,29 +41,19 @@
     border-radius: 11px;
 }
 
-
-.arrow.left {
-    left: 10px;
-    transform: rotate(180deg);
-}
-
-
-.arrow.right {
-    right: 10px;
-}
-
-
-
-
 .arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
     background: transparent;
     border: none;
     cursor: pointer;
 }
 
-.btn-none-styles{
-    background: none;
-    border:none;
-    padding: 0;
+.arrow.left {
+    left: 10px;
 }
 
+.arrow.right {
+    right: 10px;
+}

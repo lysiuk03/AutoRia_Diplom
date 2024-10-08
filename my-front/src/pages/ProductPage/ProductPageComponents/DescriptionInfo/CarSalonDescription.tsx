@@ -1,39 +1,62 @@
 import React from 'react';
 import "./DescriptionInfo.css"
+import { ProductInfoProps } from '../../../../interfaces/Car';
 
-const CarSalonDescription: React.FC = () => {
+const CarSalonDescription: React.FC<ProductInfoProps> = ({ car }) => {
+    if (!car) {
+        return <div>Loading...</div>; 
+    }
+
+    const {
+        metallic,
+        accidentParticipation,
+        hasPowerWindows,
+        hasAirConditioning,
+        hasLeatherInterior,
+        hasPremiumInteriorColor,
+        hasPowerSteering,
+        hasHeadlights,
+        hasSpareWheel,
+        hasSeatMemory,
+        hasHeatedSeats,
+        hasSeatVentilation,
+        isNotCustomsCleared,
+        isBargainAvailable,
+        isExchangeAvailable,
+        isInstallmentAvailable,
+
+    } = car;
+
+     const descriptions: Record<string, { value: boolean; trueText: string; falseText: string }> = {
+        metallic: { value: metallic, trueText: "Металеве покриття", falseText: "Не металеве покриття" },
+        accidentParticipation: { value: accidentParticipation, trueText: "Брав участь в аварії", falseText: "Не брав участі в аваріях" },
+        hasPowerWindows: { value: hasPowerWindows, trueText: "Електросклопідйомники", falseText: "Без електросклопідйомників" },
+        hasAirConditioning: { value: hasAirConditioning, trueText: "Кондиціонер", falseText: "Без кондиціонера" },
+        hasLeatherInterior: { value: hasLeatherInterior, trueText: "Шкіряний салон", falseText: "Не шкіряний салон" },
+        hasPremiumInteriorColor: { value: hasPremiumInteriorColor, trueText: "Преміум колір інтер'єру", falseText: "Звичайний колір інтер'єру" },
+        hasPowerSteering: { value: hasPowerSteering, trueText: "Підсилювач керма", falseText: "Без підсилювача керма" },
+        hasHeadlights: { value: hasHeadlights, trueText: "Фари", falseText: "Без фар" },
+        hasSpareWheel: { value: hasSpareWheel, trueText: "Запасне колесо", falseText: "Без запасного колеса" },
+        hasSeatMemory: { value: hasSeatMemory, trueText: "Пам'ять сидінь", falseText: "Без пам'яті сидінь" },
+        hasHeatedSeats: { value: hasHeatedSeats, trueText: "Підігрів сидінь", falseText: "Без підігріву сидінь" },
+        hasSeatVentilation: { value: hasSeatVentilation, trueText: "Вентиляція сидінь", falseText: "Без вентиляції сидінь" },
+        isNotCustomsCleared: { value: isNotCustomsCleared, trueText: "Не розмитнений", falseText: "Розмитнений" },
+        isBargainAvailable: { value: isBargainAvailable, trueText: "Доступний торг", falseText: "Торг недоступний" },
+        isExchangeAvailable: { value: isExchangeAvailable, trueText: "Доступний обмін", falseText: "Обмін недоступний" },
+        isInstallmentAvailable: { value: isInstallmentAvailable, trueText: "Доступна розстрочка", falseText: "Розстрочка недоступна" },
+    };
+
+    const getDescriptionText = (value: boolean, trueText: string, falseText: string) => 
+        value ? trueText : falseText;
+
     return (
+    
         <div className="description-container">
-            <h4>КОМЕНТАР АВТОСАЛОНУ:</h4>
+            <h4>КОМЕНТАР:</h4>
             <ul>
-                <li>1CR Дистанційний запуск двигуна</li>
-                <li>1EZ 21"/22'' легкосплавні M диски Star-spoke style 818</li>
-                <li>M Black з шинами змішаного типу</li>
-                <li>2PA Болти-секретки для коліс</li>
-                <li>2VB Індикатор тиску в покришках</li>
-                <li>302 Протиугінна система із сканером салону</li>
-                <li>322 Система комфортного доступу</li>
-                <li>323 Автоматичні доводчики дверей</li>
-                <li>3KA Акустичне скління</li>
-                <li>3M5 M Compound гальма червоного кольору</li>
-                <li>3ME M Carbon дзеркала</li>
-                <li>407 Панорамний скляний дах 'Sky Lounge'</li>
-                <li>417 Сонцезахисні шторки вікон задніх дверей</li>
-                <li>418 Пакет кріплень для багажного відділення</li>
-                <li>420 Сонцезахисне скління</li>
-                <li>423 Велюрові килимки</li>
-                <li>428 Знак аварійної зупинки і аптечка</li>
-                <li>453 Активна вентиляція передніх сидінь</li>
-                <li>4FL Система "Travel & Comfort"</li>
-                <li>4GQ M паски безпеки</li>
-                <li>4MC Обробні планки в салоні Carbon Fibre</li>
-                <li>4NB Автоматичний 4-зонний клімат-контроль</li>
-                <li>4NM Пакет 'Ambient Air'</li>
-                <li>4T7 Функція масажу для передніх місць</li>
-                <li>552 Адаптивні світлодіодні фари</li>
-                <li>5AU Driving Assistant Professional</li>
-                <li>5DW Допомога при паркуванні Professional</li>
-                <li>6AC Інтелектуальний екстренний виклик</li>
+            {Object.values(descriptions).map((item, index) => (
+                    <li key={index}>{getDescriptionText(item.value, item.trueText, item.falseText)}</li>
+                ))}
             </ul>
         </div>
     );

@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
-import "./ImageGallery.css"
+import './ImageGallery.css';
+import { ProductInfoProps } from '../../../../interfaces/Car';
 
-const images = [
-    '/images/men.png',
-    '/images/car-2.png',
-    '/images/defcar.png',
-    '/images/road.png'
-];
+const ImageGallery: React.FC<ProductInfoProps> = ({ car }) => {
+    if (!car) {
+        return <div>Loading...</div>;
+    }
 
-const ImageGallery: React.FC = () => {
+    const { photos } = car;
+
     const [currentIndex, setCurrentIndex] = useState<number>(0);
+
+    const images = photos.length > 0 ? photos.map(photo => `/images/${photo.toString()}`) : [];
 
     const nextImage = () => {
         setCurrentIndex((prevIndex) => (prevIndex === images.length - 1 ? 0 : prevIndex + 1));
@@ -22,11 +24,15 @@ const ImageGallery: React.FC = () => {
     return (
         <div className="photo">
             <div className="main-photo">
-                <button className="arrow left" onClick={prevImage}>
+                <button className="arrow left" onClick={prevImage} disabled={images.length === 0}>
                     <img src="/images/left-white.png" alt="Left" />
                 </button>
-                <img src={images[currentIndex]} alt="Car" />
-                <button className="arrow right" onClick={nextImage}>
+                {images.length > 0 ? (
+                    <img src={images[currentIndex]} alt="Car" />
+                ) : (
+                    <p>No images available</p>
+                )}
+                <button className="arrow right" onClick={nextImage} disabled={images.length === 0}>
                     <img src="/images/right.png" alt="Right" />
                 </button>
             </div>
@@ -37,6 +43,7 @@ const ImageGallery: React.FC = () => {
                         src={image}
                         alt={`Thumbnail ${index}`}
                         onClick={() => setCurrentIndex(index)}
+                        className={index === currentIndex ? 'active' : ''}
                     />
                 ))}
             </div>
