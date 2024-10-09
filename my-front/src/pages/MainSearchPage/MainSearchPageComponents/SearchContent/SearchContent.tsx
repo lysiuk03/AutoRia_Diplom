@@ -13,12 +13,15 @@ interface SearchRequest {
     vinChecked: string
 }
 
+
+
 // Components
 import SearchCarCard from "./SearchContetComponents/SearchCarCard.tsx";
 
 // Data type for Car
 import { Car } from "../../../../interfaces/Car";
 import { useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const SearchContent: React.FC = () => {
     const location = useLocation();
@@ -26,7 +29,7 @@ const SearchContent: React.FC = () => {
 
     const initialSearchRequest: Car[] = location.state?.cars || []; // Handle case where state might be undefined
     const initialSearchParams: SearchRequest = location.state?.text || {
-        searchType: '',
+        searchType: 'Всі',
         carType: '',
         selectedBrand: '',
         selectedModel: '',
@@ -76,25 +79,25 @@ const SearchContent: React.FC = () => {
     const removeTag = (key: keyof SearchRequest) => {
         const updatedParams = {
             ...searchParams,
-            [key]: "" // Clear the value of the removed tag
+            [key]: "Будь-який" // Clear the value of the removed tag
         };
         setSearchParams(updatedParams);
         // Perform the new search and update the URL state
         performSearch(updatedParams);
     };
 
-    const performSearch = (updatedParams: SearchRequest) => {
-        // Update the search results and navigate with new state
-        console.log('Performing search with updated parameters: ', updatedParams);
-        // Example: navigate to update state with new cars and search parameters
-        navigate("/search", { state: { cars, text: updatedParams } });
-        // Assume search API is called and `cars` gets updated
+    const performSearch = async (updatedParams: SearchRequest) => {
+
+        const response = await axios.post<Car[]>('http://localhost:5174/api/Car/search', updatedParams);
+        console.log(response.data); // Обробка отриманих даних
+        navigate("/search", { state: { cars: response.data, text: updatedParams } });
+
     };
 
     const renderSearchTags = () => {
         const tags = [];
         for (const [key, value] of Object.entries(searchParams)) {
-            if (value) {
+            if (value && value !== "Будь-який") { // Перевірка на "Будь-який"
                 tags.push(
                     <div className="search-tag" key={key}>
                         {value}
@@ -102,14 +105,15 @@ const SearchContent: React.FC = () => {
                             className="remove-tag"
                             onClick={() => removeTag(key as keyof SearchRequest)}
                         >
-                            ✕
-                        </span>
+                        ✕
+                    </span>
                     </div>
                 );
             }
         }
         return tags;
     };
+
 
     return (
         <div className='search-container'>

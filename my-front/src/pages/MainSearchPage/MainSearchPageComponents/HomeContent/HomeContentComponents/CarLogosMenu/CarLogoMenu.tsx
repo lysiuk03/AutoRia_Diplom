@@ -3,7 +3,9 @@ import React from 'react';
 
 // Styles
 import './CarLogoMenu.css';
-
+import axios from 'axios';
+import { Car } from '../../../../../../interfaces/Car';
+import { useNavigate } from 'react-router-dom';
 
 const logos = [
     { name: 'Volkswagen', src: './images/carslogos/volkswagen.png' },
@@ -27,12 +29,47 @@ const logos = [
 ];
 
 const CarLogoMenu: React.FC = () => {
-    const handleClick = (name: string) => {
-        alert(`You clicked on ${name}`);
+    const navigate = useNavigate();
+
+    const searchType = 'Будь-який';
+    const carType = 'Будь-який';
+    const selectedBrand: string = "";
+    const region = 'Будь-який';
+    const year = 'Будь-який';
+    const price = 'Будь-який';
+    const vinChecked = false;
+    const selectedModel = 'Будь-який';
+
+
+    const handleClick = async (name: string) => {
+
+        const searchRequest = {
+            searchType,
+            carType,
+            selectedBrand ,  // Use the clicked logo's brand
+            selectedModel,
+            region,
+            year,
+            price,
+            vinChecked,
+        };
+
+        console.log('Selected brand:', name);
+        searchRequest.selectedBrand = name;
+        console.log('Search request:', searchRequest); // Check the search request
+
+        try {
+            const response = await axios.post<Car[]>('http://localhost:5174/api/Car/search', searchRequest);
+            console.log(response.data); // Обробка отриманих даних
+            navigate("/search", { state: { cars: response.data, text: searchRequest } });
+        } catch (error) {
+            console.error('Error during axios request:', error);
+        }
     };
 
     const handleButtonClick = () => {
-        alert('You clicked the button!');
+        // Logic for handling the "Більше" button can go here
+        console.log('More button clicked');
     };
 
     return (

@@ -3,7 +3,13 @@
     font-family: 'Montserrat', sans-serif;
 }
 
-.search-options-container,
+.search-options-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    margin-bottom: 50px;
+
+}
 .sort-filtr-container{
     display:flex;
     flex-direction:row;
@@ -115,4 +121,9 @@
     cursor: pointer;
     margin-left: 10px;
     line-height: 1;
+}
+
+.search-tag
+{
+    margin-inline : 20px;
 }

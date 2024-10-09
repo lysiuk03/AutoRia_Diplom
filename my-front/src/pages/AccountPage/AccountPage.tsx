@@ -1,5 +1,6 @@
 // src/pages/AccountPage/AccountPage.tsx
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+
 import { Layout } from 'antd';
 import { Outlet } from "react-router-dom";
 import './AccountPage.css';
@@ -12,7 +13,7 @@ import PagesFooter from "../../components/footer/PagesFooter";
 const { Header, Content, Footer } = Layout;
 
 const AccountPage: React.FC = () => {
-    const [profile, setProfile] = useState(null);
+    //const [profile, setProfile] = useState(null);
 
     useEffect(() => {
         fetchProfile();
@@ -30,8 +31,8 @@ const AccountPage: React.FC = () => {
             });
 
             if (response.ok) {
-                const data = await response.json();
-                setProfile(data);
+                //const data = await response.json();
+                //setProfile(data);
             } else {
                 console.log('Помилка доступу до профілю');
             }

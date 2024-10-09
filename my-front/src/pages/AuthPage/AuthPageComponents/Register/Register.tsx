@@ -60,6 +60,7 @@ const Register: React.FC = () => {
 
         const formData = new FormData();
         formData.append("FirstName", firstName);
+        formData.append("MiddleName", lastName);
         formData.append("LastName", lastName);
         formData.append("Email", email);
         formData.append("UserName", username);
@@ -67,11 +68,12 @@ const Register: React.FC = () => {
         if (image) {
             formData.append("Image", image); // Include the image file if present
         }
-
+        console.log(FormData.toString());
         try {
             const response = await fetch('http://localhost:5174/api/Accounts/Registration', {
                 method: 'POST',
                 body: formData,
+
             });
 
             if (response.ok) {
@@ -111,7 +113,6 @@ const Register: React.FC = () => {
                     className={errors.fullName ? 'input-error' : ''}
                 />
                 {errors.fullName && <p className="error-message">{errors.fullName}</p>}
-
                 <input
                     type="email"
                     placeholder="Електронна адреса"
