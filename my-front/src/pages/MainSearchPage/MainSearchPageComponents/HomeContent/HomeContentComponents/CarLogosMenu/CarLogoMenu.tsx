@@ -54,13 +54,13 @@ const CarLogoMenu: React.FC = () => {
             vinChecked,
         };
 
-        console.log('Selected brand:', name);
+        //console.log('Selected brand:', name);
         searchRequest.selectedBrand = name;
-        console.log('Search request:', searchRequest); // Check the search request
+        //console.log('Search request:', searchRequest); // Check the search request
 
         try {
             const response = await axios.post<Car[]>('http://localhost:5174/api/Car/search', searchRequest);
-            console.log(response.data); // Обробка отриманих даних
+            //console.log(response.data); // Обробка отриманих даних
             navigate("/search", { state: { cars: response.data, text: searchRequest } });
         } catch (error) {
             console.error('Error during axios request:', error);

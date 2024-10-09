@@ -1,6 +1,6 @@
 import './AccountHeader.css';
 import React from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import ProfileCard from "./HeaderComponents/ProfileCard";
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../redux/store';
@@ -52,8 +52,8 @@ const AccountHeader: React.FC = () => {
         console.log(profileData)
     }
 
-    const location = useLocation();
-    const isActive = (path: string) => location.pathname === path;
+    //const location = useLocation();
+    //const isActive = (path: string) => location.pathname === path;
 
 
 

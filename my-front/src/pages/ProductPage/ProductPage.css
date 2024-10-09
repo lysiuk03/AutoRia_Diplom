@@ -60,3 +60,33 @@
     justify-content: space-between;
     align-items: center;
 }
+
+.rotated1 {
+    transform: rotate(180deg);
+    transition: transform 0.3s ease-in-out;
+}
+
+.rotated2 {
+    transform: rotate(0deg);
+    transition: transform 0.3s ease-in-out;
+}
+
+.prod-details{
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 22px;
+}
+.prod-details span{
+    font-weight: 700;
+}
+.prod-details li{
+    display: flex;
+    justify-content: space-between;
+}
+
+.desc-finansing{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding-top: 30px;
+}

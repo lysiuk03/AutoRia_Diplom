@@ -1,26 +1,56 @@
 import React from 'react';
-import "./DescriptionInfo.css"
+import "./DescriptionInfo.css";
+import { ProductInfoProps } from '../../../../interfaces/Car';
 
-const ProductInfo: React.FC = () => {
+
+const convertToUAH = (price: number): string => {
+    const exchangeRate = 40;
+    return (price * exchangeRate).toLocaleString('uk-UA', {
+        style: 'currency',
+        currency: 'UAH',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+    });
+};
+
+const ProductInfo: React.FC<ProductInfoProps> = ({ car }) => {
+
+    if (!car) {
+        return <div>Loading...</div>;
+    }
+
+    const {
+        carBrand,
+        carModel,
+        engineVolume,
+        stage,
+        numberOfSeats,
+        year,
+        price,
+        fuelTypes,
+        transmissionType,
+        color,
+        bodyType,
+        transportType,
+    } = car;
+
     return (
         <div className="info">
-            <h2>BMW X6 M Competition</h2>
-            <p>4.4 M-Steptronic (625 к.с.) M-xDrive Base 2024</p>
+            <h2>{carBrand.name} {carModel.name}</h2>
+            <p>{engineVolume.volume} л {stage} {numberOfSeats.number} місць {year}</p>
             <div className="like-price-container">
                 <div className="price-container">
-                    128 000 $ <span className="currency-span">· 5 171 200 грн</span>
+                    {price} $ <span className="currency-span">· {convertToUAH(price)}</span>
                 </div>
-                <img src="/images/n-solid-like.png" alt="Like" className="like-image" />
             </div>
             <div className="description-container">
                 <h4>Опис:</h4>
                 <ul>
-                    <li>Двигун - Бензин • 13.1 л на 100 км</li>
-                    <li>Коробка передач - Автомат • 8-ст</li>
-                    <li>Повний привід</li>
-                    <li>Покоління - F96 (FL)</li>
-                    <li>Колір кузова - Black Sapphire metallic</li>
-                    <li>Кросовер-купе • 5 дверей • 5 місць</li>
+                    <li>Двигун - {fuelTypes.name}</li>
+                    <li>Коробка передач - {transmissionType.name}</li>
+                    <li>Покоління - {carModel.name}</li>
+                    <li>Колір кузова - {color.color}</li>
+                    <li>{bodyType.name} • {transportType.name} • кількість місць - {numberOfSeats.number}</li>
                 </ul>
             </div>
         </div>

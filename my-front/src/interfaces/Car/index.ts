@@ -138,13 +138,23 @@ export interface UserCar {
     transportType: {
         name: string;
     };
-    photos: string[];
+    photos: {
+        // Приклад структури для фотографій (можливо, потрібно буде адаптувати залежно від конкретних даних)
+        name:string;
+        priority: number;
+        id: number;
+        url: string;
+        description?: string;
+    }[];
     user: {
         userId: number;
         userName: string;
-        firstName: string;
         middleName: string;
+        firstName: string;
         lastName: string;
+        email: string;
+        phoneNumber :number;
+        photo:string;
     };
 
     // Car-specific details
@@ -177,3 +187,6 @@ export interface UserCar {
 }
 
 
+export interface ProductInfoProps {
+    car?: UserCar;
+}

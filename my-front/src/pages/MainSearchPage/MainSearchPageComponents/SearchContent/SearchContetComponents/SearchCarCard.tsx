@@ -6,12 +6,14 @@ import './SearchCarCard.css';
 
 // Interfaces
 import { Car } from '../../../../../interfaces/Car';
+import {useNavigate} from "react-router-dom";
 
 
 
 const SearchCarCard: React.FC<Car> = ({
                                           carBrand,
                                           carModel,
+                                          id,
                                           year,
                                           description,
                                           city,
@@ -20,6 +22,7 @@ const SearchCarCard: React.FC<Car> = ({
                                           photos,
 
                                       }) => {
+    const navigate = useNavigate();
     function formatMileage(mileage: number): string {
         if (mileage >= 1000) {
             const kilometers = mileage / 1000;
@@ -34,8 +37,12 @@ const SearchCarCard: React.FC<Car> = ({
     //     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
     // }
 
+    function handleClick() {
+        navigate(`/carproduct/${id}`);
+    }
+
     return (
-        <div className="search-car-card">
+        <div className="search-car-card" onClick={handleClick}>
 
             <div className="search-car-card-img-container">
                 <img className="car-card-img" src={`http://localhost:5174/images/1200_${photos[0].name}`}  alt={`${carBrand.name} ${carModel.name} ${year}`}/>
