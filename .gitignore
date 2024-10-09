@@ -6,4 +6,4 @@
 .terraform*
 .tf*
 **/*.tfstate
-**/*.sh
+#**/*.sh
