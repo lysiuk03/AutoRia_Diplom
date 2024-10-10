@@ -2,7 +2,7 @@
 {
     public class UserCarEntity
     {
-        public int UserId { get; set; } // Зовнішній ключ для користувача
+        public int? UserId { get; set; } // Зовнішній ключ для користувача
         public virtual UserEntity User { get; set; } = null!; // Навігаційна властивість
 
         public int CarId { get; set; } // Зовнішній ключ для автомобіля

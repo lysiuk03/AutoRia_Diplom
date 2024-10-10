@@ -8,6 +8,7 @@ using WebBack.ViewModels.Car;
 using WebBack.ViewModels;
 using AutoMapper.QueryableExtensions;
 using WebBack.SearchReauestClasses;
+using WebBack.Data.Entities.Identity;
 
 namespace WebBack.Services.ControllerServices
 {
@@ -28,7 +29,7 @@ namespace WebBack.Services.ControllerServices
             _imageService = imageService ?? throw new ArgumentNullException(nameof(imageService));
         }
 
-        public async Task CreateAsync(CarCreateVm vm)
+        public async Task CreateAsync(CarCreateVm vm, int? UserID)
         {
             var car = _mapper.Map<CarEntity>(vm);
             car.DateCreated = DateTime.UtcNow;
@@ -67,8 +68,21 @@ namespace WebBack.Services.ControllerServices
 
             try
             {
+                // Додаємо автомобіль в таблицю Cars і зберігаємо зміни, щоб отримати згенерований CarId
                 await _carContext.Cars.AddAsync(car);
-                await _carContext.SaveChangesAsync();
+                await _carContext.SaveChangesAsync(); // Зберігаємо, щоб Id було згенеровано
+                // Створюємо запис для таблиці UserCars
+                var userCar = new UserCarEntity
+                {
+                    UserId = UserID, // Id користувача
+                    CarId = car.Id // Використовуємо згенерований Id автомобіля
+                };
+                // Додаємо запис в таблицю UserCars
+                if (userCar != null)
+                {
+                    await _carContext.UserCars.AddAsync(userCar);
+                    await _carContext.SaveChangesAsync();
+                }
             }
             catch (Exception ex)
             {

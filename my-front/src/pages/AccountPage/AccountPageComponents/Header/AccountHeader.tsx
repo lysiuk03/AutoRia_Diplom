@@ -1,11 +1,12 @@
 import './AccountHeader.css';
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import Navbar from '../../../../components/navbar/Navbar';
 import ProfileCard from "./HeaderComponents/ProfileCard";
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../../redux/store';
-import { decodeJwt } from 'jose'; // Імпортуємо jose
-import Navbar from '../../../../components/navbar/Navbar';
+import { decodeJwt } from 'jose';
+
 
 // Інтерфейс для декодованого токена
 interface DecodedToken {
@@ -21,8 +22,6 @@ interface DecodedToken {
 interface ProfileCardProps {
     name: string;
     id: string; // Змінено на string для id
-    phoneNumber: string; // Додано поле location
-    rating: number; // Додано поле rating
     imageUrl: string[];
 }
 
@@ -33,9 +32,7 @@ const AccountHeader: React.FC = () => {
     let profileData: ProfileCardProps = {
         name: 'Невідомий користувач',
         id: '0',
-        phoneNumber: 'Місце не вказано',
-        rating: 0,
-        imageUrl: [''],
+        imageUrl: ['/images/default.png'],
     };
 
     if (token) {
@@ -45,37 +42,40 @@ const AccountHeader: React.FC = () => {
         profileData = {
             name: decodedToken?.firstName ? `${decodedToken.firstName} ${decodedToken.lastName}` : 'Невідомий користувач',
             id: decodedToken?.id || '0', // Використання id як рядка
-            phoneNumber: decodedToken?.location || 'Місце не вказано',
-            rating: decodedToken?.rating || 0,
-            imageUrl: decodedToken?.photo ? [`http://localhost:5174/images/800_${decodedToken.photo}`] : ['http://localhost:5174/images/'],
+            imageUrl: decodedToken?.photo ? [decodedToken.photo] : ['/images/default.png'],
         };
-        console.log(profileData)
+        console.log(profileData);
     }
 
-    //const location = useLocation();
-    //const isActive = (path: string) => location.pathname === path;
+    const location = useLocation();
+    const isActive = (path: string) => location.pathname === path;
+
+    const menuItems = [
+        { key: '1', label: 'Мої оголошення', path: '/account/ads' },
+        { key: '2', label: 'Обране', path: '/account/favorites' },
+    ];
 
 
-
-    const navigate = useNavigate();
-
-    const handleNavigate = () => {
-        navigate('/edit-account');
-    };
 
     return (
         <div className="nameheader">
+
             <Navbar/>
+
+
             <div className="profile-overview-container">
                 <div className="user-info-actions">
                     <ProfileCard {...profileData} />
-                    <div className="btn-container">
-                        <button className="chat-button none-line">Чат з покупцями</button>
-                        <button className="edit-profile-button" onClick={handleNavigate}>
-                            <img src="/images/edit.png" alt="Edit" />
-                            Редагувати профіль
-                        </button>
-                    </div>
+                </div>
+                <div>
+                    <hr />
+                    <nav className="account-menu">
+                        {menuItems.map(item => (
+                            <div key={item.key} className={`menu-item ${isActive(item.path) ? 'active' : ''}`}>
+                                <Link to={item.path}>{item.label}</Link>
+                            </div>
+                        ))}
+                    </nav>
                 </div>
             </div>
         </div>

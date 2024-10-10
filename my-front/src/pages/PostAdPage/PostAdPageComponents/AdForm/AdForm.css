@@ -2,17 +2,28 @@
     font-family: 'Montserrat', sans-serif;
 }
 
-.add-img-auto{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
 .ad-form-container h2{
     font-size: 32px;
     font-weight: 500;
     line-height: 22px;
     text-align: left;
 }
+
+.add-img-auto{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.ad-row{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}
+
+
+
 
 .circle-number {
     display: inline-block;
@@ -28,49 +39,11 @@
     margin-right: 7px;
 }
 
-.ad-row{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 10px;
-}
 .ad-column{
     display: flex;
     flex-direction: column;
     justify-content: center;
     gap: 10px;
-}
-
-.ad-form-container h3{
-    font-size: 24px;
-    font-weight: 400;
-    line-height: 22px;
-    margin: 0;
-}
-
-.ad-form-container p{
-    font-size: 16px;
-    line-height: 22px;
-    text-align: left;
-    margin: 0;
-}
-
-.add-img-btn{
-    width: 30px;
-    height: 30px;
-    background-color:#2E4F76;
-    color: white;
-    border-radius: 50%;
-    text-align: center;
-    line-height: 30px;
-    font-size: 20px;
-    padding: 0;
-}
-
-.add-img-label{
-    font-size: 16px;
-    font-weight: 600;
-    line-height: 22px;
 }
 
 .info-box {
@@ -90,6 +63,39 @@
     color: #2E4F76;
 }
 
+.ad-form-container h3{
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 22px;
+    margin: 0;
+}
+
+.ad-form-container p{
+    font-size: 16px;
+    line-height: 22px;
+    text-align: left;
+    margin: 0;
+}
+
+.upload-button {
+    display: inline-block;
+    width: 55px;
+    height: 55px;
+    background-color: #2E4F76;
+    color: white;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 55px;
+    font-size: 60px;
+    cursor: pointer;
+}
+
+.add-img-label{
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 22px;
+}
+.options-grid-container,
 .ad-grid-container{
     display: grid;
     width: 90%;
@@ -98,18 +104,18 @@
     margin: 60px 20px;
 }
 
-@media (max-width: 1500px) { /* Задає правило для екранів менших за 768px */
-    .ad-grid-container{
-        grid-template-columns: 1fr; /* Один стовпець */
-    }
+.price-retreat{
+    margin: 50px 30px;
 }
+
 .dropdown-container{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
 }
 
-.dropdown-container select {
+.dropdown-container select,
+.dropdown-container input{
     width: 300px;
     height: 36px;
     gap: 12px;
@@ -122,14 +128,31 @@
     padding-left: 20px;
 }
 
-.ad-form-container label{
+.ad-form-container select,
+.dropdown-container input {
+    appearance: none;
+    background: url('/images/triangle.png') no-repeat right 10px center;
+    background-size: 21px 13px;
+    padding-right: 30px;
+}
+
+.num-5 label,
+.num-4 label,
+.num-2 label{
     font-size: 18px;
     font-weight: 400;
     line-height: 22px;
     color: black;
     width: 200px;
     text-align: left;
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+}
 
+.options-grid-container label{
+    width: 100%;
 }
 
 .vin-input{
@@ -154,7 +177,8 @@
     margin-left: 75px;
 }
 
-.description-container{
+
+.desc-container{
     margin: 40px 0 80px 0;
 }
 
@@ -192,9 +216,7 @@
 .grid-retreat{
     margin-left: 50px;
 }
-.price-retreat{
-    margin: 50px 30px;
-}
+
 .price-inp{
     width:178px;
     height: 36px;
@@ -214,12 +236,14 @@
     border: 1px solid #909090;
 }
 
+
 .options {
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
 
+.options-grid-container,
 .options label {
     font-size: 18px;
     font-weight: 400;
@@ -227,7 +251,7 @@
     color: #2E4F76;
     width: 300px;
 }
-
+.options-grid-container input[type="checkbox"] ,
 .options input[type="checkbox"] {
     width: 40px;
     height: 40px;
@@ -240,6 +264,7 @@
     padding:0;
 }
 
+.options-grid-containerinput[type="checkbox"]::before ,
 .options input[type="checkbox"]::before {
     content: '✔';
     font-size: 28px;
@@ -249,6 +274,7 @@
     align-items: center;
 }
 
+.options-grid-container input[type="checkbox"]:checked::before ,
 .options input[type="checkbox"]:checked::before {
     content: '✔';
     font-size: 28px;
@@ -256,6 +282,17 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.ad-btn{
+    padding: 12px 24px 12px 24px;
+    border-radius: 5px;
+    background-color: #2E4F76;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 22px;
+    color: #FFFFFF;
+    margin: 10px 0 70px 0;
 }
 
 .agreement{
@@ -304,21 +341,11 @@
     justify-content: center;
     align-items: center;
 }
-.ad-btn{
-    padding: 12px 24px 12px 24px;
-    border-radius: 5px;
-    background-color: #2E4F76;
-    font-size: 18px;
-    font-weight: 600;
-    line-height: 22px;
-    color: #FFFFFF;
-    margin: 10px 0 70px 0;
-}
 
 
-.ad-form-container select {
-    appearance: none;
-    background: url('/images/triangle.png') no-repeat right 10px center;
-    background-size: 21px 13px;
-    padding-right: 30px;
+
+@media (max-width: 1500px) {
+    .ad-grid-container{
+        grid-template-columns: 520px;
+    }
 }
