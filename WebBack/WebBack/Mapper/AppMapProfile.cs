@@ -1,4 +1,4 @@
-using AutoMapper;
+﻿using AutoMapper;
 using WebBack.Data.Entities;
 using WebBack.Data.Entities.Identity;
 using WebBack.ViewModels.Account;
@@ -63,7 +63,7 @@ public class AppMapProfile : Profile
 
 
 
-        CreateMap<CarCreateVm, CarEntity>()
+        CreateMap<CarEntity, CarCreateVm>()
             .ForMember(c => c.Photos, opt => opt.Ignore());
 
         CreateMap<CarEditVm, CarEntity>()

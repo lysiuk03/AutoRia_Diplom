@@ -29,9 +29,10 @@ namespace WebBack.Services.ControllerServices
             _imageService = imageService ?? throw new ArgumentNullException(nameof(imageService));
         }
 
-        public async Task CreateAsync(CarCreateVm vm, int? UserID)
+        public async Task CreateAsync(CarCreateVm vm)
         {
-            var car = _mapper.Map<CarEntity>(vm);
+            var car = new CarEntity();
+
             car.DateCreated = DateTime.UtcNow;
 
             int priorityIndex = 1;
@@ -50,20 +51,25 @@ namespace WebBack.Services.ControllerServices
                     priorityIndex++;
                 }
             }
+            car.BodyType = await _carContext.BodyTypes.Where(bt => bt.Name == vm.BodyType).FirstOrDefaultAsync();
+            car.CarModel = await _carContext.Models.Where(m => m.Name == vm.CarModel).FirstOrDefaultAsync();
+            car.CarBrand = await _carContext.Brands.Where(b => b.Name == vm.CarBrand).FirstOrDefaultAsync();
             
-            car.CarModel = await _carContext.Models.Where(m => m.Id == vm.CarModelId).FirstOrDefaultAsync();
-            car.CarBrand = await _carContext.Brands.Where(b => b.Id == vm.CarBrandId).FirstOrDefaultAsync();
-            
-            car.City = await _carContext.Cities.Where(c => c.Id == vm.CityId).FirstOrDefaultAsync();
-            
-            car.TransportType = await _carContext.TransportTypes.Where(tt => tt.Id == vm.TransportTypeId).FirstOrDefaultAsync();
-            car.BodyType = await _carContext.BodyTypes.Where(bt => bt.Id == vm.BodyTypeId).FirstOrDefaultAsync();
-            car.TransmissionType = await _carContext.TransmissionTypes.Where(tt => tt.Id == vm.TransmissionTypeId).FirstOrDefaultAsync();
-            car.NumberOfSeats = await _carContext.numbersOfSeats.Where(ns => ns.Id == vm.NumberOfSeatsId).FirstOrDefaultAsync();
-            car.FuelTypes = await _carContext.FuelTypes.Where(ft => ft.Id == vm.FuelTypesId).FirstOrDefaultAsync();
-            car.EngineVolume = await _carContext.EngineVolumes.Where(ev => ev.Id == vm.EngineVolumeId).FirstOrDefaultAsync();
-            car.Color = await _carContext.Colors.Where(cl => cl.Id == vm.ColorId).FirstOrDefaultAsync();
+            car.City = await _carContext.Cities.Where(c => c.Name == vm.City).FirstOrDefaultAsync();
+            car.Color = await _carContext.Colors.Where(cl => cl.Color == vm.Color).FirstOrDefaultAsync();
 
+            car.Description = vm.Description;
+            car.EngineVolume = await _carContext.EngineVolumes.Where(ev => ev.Volume == float.Parse(vm.EngineVolume)).FirstOrDefaultAsync();
+            car.FuelTypes = await _carContext.FuelTypes.Where(ft => ft.Name == vm.FuelTypes).FirstOrDefaultAsync();
+            car.NumberOfSeats = await _carContext.numbersOfSeats.Where(ns => ns.Number == int.Parse(vm.NumberOfSeats)).FirstOrDefaultAsync();
+            car.Stage = vm.Stage;
+            car.TransportType = await _carContext.TransportTypes.Where(tt => tt.Name == vm.TransportType).FirstOrDefaultAsync();
+            car.VIN = vm.Vin;
+            car.TransmissionType = await _carContext.TransmissionTypes.Where(tt => tt.Name == vm.TransmissionType).FirstOrDefaultAsync();
+            
+            
+           
+            
 
 
             try
@@ -74,7 +80,9 @@ namespace WebBack.Services.ControllerServices
                 // Створюємо запис для таблиці UserCars
                 var userCar = new UserCarEntity
                 {
-                    UserId = UserID, // Id користувача
+                    User = await _carContext.Users.Where(u => u.Id == int.Parse(vm.UserId)).FirstOrDefaultAsync() ,
+                    UserId = int.Parse(vm.UserId), // Id користувача
+                    Car = car,
                     CarId = car.Id // Використовуємо згенерований Id автомобіля
                 };
                 // Додаємо запис в таблицю UserCars

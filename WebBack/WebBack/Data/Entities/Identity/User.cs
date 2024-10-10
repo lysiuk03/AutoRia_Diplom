@@ -13,7 +13,7 @@ public class UserEntity : IdentityUser<int>
     
     public string? Rating { get; set; } = null!;
     
-    public string? PhoneNumber { get; set; } = null!;
+    public string PhoneNumber { get; set; } = null!;
     
     
    

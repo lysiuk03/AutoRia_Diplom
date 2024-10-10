@@ -103,24 +103,25 @@ namespace WebBack.Controllers
         }
 
         // POST: api/Car
-        [HttpPost]
-        public async Task<IActionResult> Create([FromForm] CarCreateVm vm, int UserID)
+        [HttpPost("add")]
+        public async Task<IActionResult> Create([FromForm] CarCreateVm vm)
         {
-            // var validationResult = await _createValidator.ValidateAsync(vm);
-            //
-            // if (!validationResult.IsValid)
-            //     return BadRequest(validationResult.Errors);
 
             try
             {
-                await _service.CreateAsync(vm,UserID);
-                return Ok();
+                // Call the service to create the car
+                await _service.CreateAsync(vm);
+                return Ok(new { message = "Car created successfully." }); // Return a success message
             }
             catch (Exception ex)
             {
-                return StatusCode(500, ex.Message);
+                // Log the exception (optional)
+                // _logger.LogError(ex, "An error occurred while creating the car.");
+
+                return StatusCode(500, new { error = "An error occurred while creating the car.", details = ex.Message });
             }
         }
+
 
         // PUT: api/Car/5
         [HttpPut("{id}")]
