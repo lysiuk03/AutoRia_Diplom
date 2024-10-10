@@ -92,5 +92,6 @@
 }
 .nameheader
 {
-    background-color: #6c7a91;
+    
+    background: linear-gradient(0deg, #F0F2F5 0%, #8C9BA9 100%);
 }

@@ -1,10 +1,8 @@
 .account-layout {
     width: 100%;
-
-    height: auto;
+    height: 100vh;
     margin: 0 auto;
     position: relative;
-    background-color: #f1f2f6;
 }
 
 .footer{
@@ -18,5 +16,5 @@
     height: 450px;
     padding: 0;
     display: contents;
-    background: linear-gradient(0deg, #F0F2F5 0%, #8C9BA9 100%);
+    background: transparent;
 }
