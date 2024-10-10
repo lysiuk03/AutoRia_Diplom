@@ -21,7 +21,6 @@
 
 .content-title, .carousel-container, .logo-container, .digest-container, .solid-container {
     position: relative;
-
     z-index: 1; 
 }
 
@@ -55,21 +54,21 @@
 .carousel-container
 {
     display: flex;
-
     margin: 0 auto;
-    width: 90%; /* Адаптивна ширина */
+    width: 90%; 
     max-width: 1225px;
 }
 
 .logo-container {
     margin: 0 auto;
-    width: 90%; /* Адаптивна ширина */
+    width: 90%; 
     max-width: 1225px;
+    padding-top: 50px;
 }
 
 .digest-container {
 
-    width: 90%; /* Адаптивна ширина */
+    width: 90%;
     max-width: 1310px;
     margin-top: 80px;
     margin-bottom: 80px;
