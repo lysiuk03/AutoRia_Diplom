@@ -7,10 +7,10 @@
 .bg-img {
     position: absolute;
     top: 0;
-    left: 50%;
-    width: 50%; /* Налаштуй розмір за потреби */
-    height: 100%;
-
+   right: 0;
+    width: 56%;
+    height: 50%;
+    object-fit: cover;
 }
 
 .bg-img img {
@@ -22,7 +22,7 @@
 .content-title, .carousel-container, .logo-container, .digest-container, .solid-container {
     position: relative;
 
-    z-index: 1; /* Ensure these elements are above the background image */
+    z-index: 1; 
 }
 
 
