@@ -11,7 +11,7 @@
 
 .cars-container {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     flex-grow: 1;
 }
 
@@ -19,4 +19,12 @@
     background: none;
     border:none;
     padding: 0;
+}
+.btn-none-styles:focus,
+.btn-none-styles:focus-visible,
+.btn-none-styles:active {
+    outline: none; 
+    box-shadow: none; 
+    background-color: transparent; 
+    box-shadow: none; 
 }

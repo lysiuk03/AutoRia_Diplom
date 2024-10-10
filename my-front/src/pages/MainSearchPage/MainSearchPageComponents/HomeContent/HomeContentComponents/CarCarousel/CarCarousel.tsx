@@ -60,7 +60,7 @@ const CarCarousel: React.FC<CarCarouselProps> = ({ cars }) => {
 
     return (
         <>
-            <button onClick={handlePrev} className="arrow btn-none-styles" disabled={currentIndex === 0}>
+            <button onClick={handlePrev} className="btn-none-styles" disabled={currentIndex === 0}>
                 <img src="/images/left.png" alt="Left" />
             </button>
             <div className="cars-container">
@@ -70,7 +70,7 @@ const CarCarousel: React.FC<CarCarouselProps> = ({ cars }) => {
             </div>
             <button
                 onClick={handleNext}
-                className="arrow btn-none-styles"
+                className="btn-none-styles"
                 disabled={currentIndex >= cars.length - 4}>
                 <img src={imageSrc} alt="Left" style={{ transform: rotation }}/>
 
