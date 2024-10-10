@@ -18,7 +18,7 @@ const UploadPhoto = () => {
 
         try {
             //форм дата тут щоб не виконувалась при рендері
-               const formData = new FormData();
+            const formData = new FormData();
             //це чисто шоб зробити лог і побачит шо працює
             fileList.forEach(file => {
                 console.log('Файл для завантаження:', file);
@@ -27,6 +27,7 @@ const UploadPhoto = () => {
 
             //тут буде запит куда там треба
             console.log('FormData:', formData);
+
             message.success('Фото успішно завантажене');
         } catch (error) {
             message.error('Помилка завантаження');
