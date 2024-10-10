@@ -39,7 +39,7 @@ const CompanyInfo: React.FC<ProductInfoProps> = ({ car }) => {
             <div>
                 <div className="row-info">
                     <img src="/images/geo.png" alt="Geo" />
-                    <p>{city.name}</p>
+                    <p>{city ? city.name : "Невідоме місто"}</p>
                 </div>
                 <h4 className="h4-style">Працює з WheelDeal</h4>
             </div>

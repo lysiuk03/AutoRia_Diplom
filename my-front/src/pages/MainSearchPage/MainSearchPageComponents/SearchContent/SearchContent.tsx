@@ -57,6 +57,7 @@ const SearchContent: React.FC = () => {
     }, [initialSearchRequest, initialSearchParams]);
 
     const handlePageChange = (page: number) => {
+
         setCurrentPage(page);
     };
 
@@ -132,6 +133,7 @@ const SearchContent: React.FC = () => {
             </div>
             <div className="car-cards-container">
                 {currentCars.map((car) => (
+
                     <SearchCarCard key={car.vin} {...car} />
                 ))}
             </div>

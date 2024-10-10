@@ -29,6 +29,7 @@ const SearchCarCard: React.FC<Car> = ({
             return `${kilometers.toFixed(0)} тис. км`;
         }
         return `${mileage} км`;
+
     }
     // function formatPrice(price: number | undefined): string {
     //     if (price == undefined) {
@@ -45,7 +46,7 @@ const SearchCarCard: React.FC<Car> = ({
         <div className="search-car-card" onClick={handleClick}>
 
             <div className="search-car-card-img-container">
-                <img className="car-card-img" src={`http://localhost:5174/images/1200_${photos[0].name}`}  alt={`${carBrand.name} ${carModel.name} ${year}`}/>
+                <img className="car-card-img" src={`http://localhost:5174/images/1200_${photos[0].name} `}  alt={`${carBrand.name} ${carModel.name} ${year}`}/>
             </div>
             <div className="search-car-details">
                 <h3>{carBrand.name} {carModel.name} {year}</h3>
@@ -56,7 +57,7 @@ const SearchCarCard: React.FC<Car> = ({
                 </div>
                 <hr/>
                 <div className="geo-fuel-mileage-container">
-                    <p> <img src="/images/geo.png" alt="Geo" />{city.name}</p>
+                    <p> <img src="/images/geo.png" alt="Geo" />{city ? city.name : "Інше місто"}</p>
                     <p> <img src="/images/fuel.png" alt="Fuel"/>{fuelTypes.name}</p>
                     <p> <img src="/images/mileage.png" alt="Mileage"/>{formatMileage(mileage)}</p>
                 </div>

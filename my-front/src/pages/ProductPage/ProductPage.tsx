@@ -74,7 +74,7 @@ const ProductPage: React.FC = () => {
         { label: "Тип палива", value: car?.fuelTypes.name },
         { label: "Об'єм двигуна", value: `${car?.engineVolume.volume}L` },
         { label: "Тип транспорту", value: car?.transportType.name },
-        { label: "Місто", value: car?.city.name },
+        { label: "Місто", value: car?.city ? car?.city.name : "Невідоме місто" },
         { label: "Колір", value: `${car?.color.color} ${car?.metallic ? "(Металік)" : ""}` },
         { label: "Ціна", value: car?.price || "Не вказано" },
         { label: "Участь в ДТП", value: car?.accidentParticipation ? "Так" : "Ні" },
