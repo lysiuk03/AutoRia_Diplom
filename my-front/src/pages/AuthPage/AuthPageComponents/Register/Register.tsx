@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import '../AuthPageComponents.css';
 import { useDispatch } from 'react-redux';
-import {register} from "../../authSlice.ts";
+import { register } from "../../authSlice.ts";
+import axios from 'axios';
+
 
 const Register: React.FC = () => {
     const [fullName, setFullName] = useState<string>('');
@@ -10,10 +12,11 @@ const Register: React.FC = () => {
     const [password, setPassword] = useState<string>('');
     const [showPassword, setShowPassword] = useState<boolean>(false);
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
+    const [phone, setPhone] = useState<string>('');
     const [username, setUsername] = useState<string>('');
-    const [image, setImage] = useState<string>('');
+    const [image, setImage] = useState<File | null>(null);
     const navigate = useNavigate();
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
 
     const validateForm = (): boolean => {
         const newErrors: { [key: string]: string } = {};
@@ -31,8 +34,6 @@ const Register: React.FC = () => {
             newErrors.email = 'Будь ласка, введіть дійсну електронну адресу.';
             setEmail('');
         }
-
-
 
         // Username validation
         if (!username.trim()) {
@@ -56,115 +57,133 @@ const Register: React.FC = () => {
             return;
         }
 
-        const [firstName, lastName] = fullName.split(' ');
+        const [lastName, firstName, middleName] = fullName.split(' ');
 
         const formData = new FormData();
         formData.append("FirstName", firstName);
-        formData.append("MiddleName", lastName);
+        formData.append("MiddleName", middleName);
         formData.append("LastName", lastName);
         formData.append("Email", email);
         formData.append("UserName", username);
         formData.append("Password", password);
+        formData.append("PhoneNumber", phone);
         if (image) {
             formData.append("Image", image); // Include the image file if present
         }
-        console.log(FormData.toString());
+        console.log([...formData]);
         try {
-            const response = await fetch('http://localhost:5174/api/Accounts/Registration', {
-                method: 'POST',
-                body: formData,
-
+            const response = await axios.post('http://localhost:5174/api/Accounts/Registration', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
             });
 
-            if (response.ok) {
-                const data = await response.json();
-                localStorage.setItem('token', data.token);  // Зберігаємо токен
-                dispatch(register(data.token));  // Оновлюємо стан авторизації в Redux
-                navigate('/account');  // Перенаправляємо на сторінку профілю
-            }
-            else {
-                throw new Error('Network response was not ok');
-            }
+            // Handle the response
+            const data = response.data;
+            localStorage.setItem('token', data.token);  // Store the token
+            dispatch(register(data.token));  // Update the auth state in Redux
+            navigate('/account');  // Redirect to the profile page
         } catch (error) {
-            console.error('Error during registration:', error);
+            if (axios.isAxiosError(error) && error.response) {
+                console.error('Error during registration:', error.response.data);
+                const newErrors: { [key: string]: string } = {};
+                // Optionally, set the error messages to your state
+                const validationErrors = error.response.data.errors;
+
+                for (const key in validationErrors) {
+                    newErrors[key] = validationErrors[key].join(', '); // Join error messages for each field
+                }
+                setErrors(newErrors); // Update errors state to show to the user
+            } else {
+                console.error('Unexpected error during registration:', error);
+            }
         }
-    };
+    }
 
-    const togglePasswordVisibility = () => {
-        setShowPassword(!showPassword);
-    };
+        const togglePasswordVisibility = () => {
+            setShowPassword(!showPassword);
+        };
 
-    return (
-        <form className="auth-form" onSubmit={handleRegister}>
-            <img src="/images/register-car.png" alt="Car" className="auth-car" />
-            <div className="auth-container">
-                <div className="auth-social-container">
-                    <img src="/images/apple.png" alt="Apple"/>
-                    <img src="/images/google.png" alt="Google"/>
-                    <img src="/images/fbook.png" alt="Facebook"/>
-                </div>
-                <h3>або</h3>
+        return (
+            <form className="auth-form" onSubmit={handleRegister}>
+                <img src="/images/register-car.png" alt="Car" className="auth-car"/>
+                <div className="auth-container">
+                    <div className="auth-social-container">
+                        <img src="/images/apple.png" alt="Apple"/>
+                        <img src="/images/google.png" alt="Google"/>
+                        <img src="/images/fbook.png" alt="Facebook"/>
+                    </div>
+                    <h3>або</h3>
 
-                <input
-                    type="text"
-                    placeholder="Повне ім`я"
-                    value={fullName}
-                    onChange={(e) => setFullName(e.target.value)}
-                    className={errors.fullName ? 'input-error' : ''}
-                />
-                {errors.fullName && <p className="error-message">{errors.fullName}</p>}
-                <input
-                    type="email"
-                    placeholder="Електронна адреса"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className={errors.email ? 'input-error' : ''}
-                />
-                {errors.email && <p className="error-message">{errors.email}</p>}
-
-                <input
-                    type="text"
-                    placeholder="Username"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    className={errors.username ? 'input-error' : ''}
-                />
-                {errors.username && <p className="error-message">{errors.username}</p>}
-
-                <div className="password-container">
                     <input
-                        type={showPassword ? 'text' : 'password'}
-                        placeholder="Пароль"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        className={`password-input ${errors.password ? 'input-error' : ''}`}
+                        type="text"
+                        placeholder="Повне ім`я"
+                        value={fullName}
+                        onChange={(e) => setFullName(e.target.value)}
+                        className={errors.fullName ? 'input-error' : ''}
                     />
-                    <img
-                        src="/images/open-eye.png"
-                        alt="Toggle Password Visibility"
-                        onClick={togglePasswordVisibility}
-                        className="password-toggle-icon"
+                    {errors.fullName && <p className="error-message">{errors.fullName}</p>}
+                    <input
+                        type="email"
+                        placeholder="Електронна адреса"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        className={errors.email ? 'input-error' : ''}
                     />
+                    {errors.email && <p className="error-message">{errors.email}</p>}
+
+
+                    <input
+                        type="text"
+                        placeholder="Назва користувача"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        className={errors.username ? 'input-error' : ''}
+                    />
+                    {errors.username && <p className="error-message">{errors.username}</p>}
+
+                    <input
+                        type="text"
+                        placeholder="Номер телефону"
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                        className={errors.email ? 'input-error' : ''}
+                    />
+                    {errors.phone && <p className="error-message">{errors.phone}</p>}
+
+                    <div className="password-container">
+                        <input
+                            type={showPassword ? 'text' : 'password'}
+                            placeholder="Пароль"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            className={`password-input ${errors.password ? 'input-error' : ''}`}
+                        />
+                        <img
+                            src="/images/open-eye.png"
+                            alt="Toggle Password Visibility"
+                            onClick={togglePasswordVisibility}
+                            className="password-toggle-icon"
+                        />
+                    </div>
+                    {errors.password && <p className="error-message">{errors.password}</p>}
+
+                    <input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => setImage(e.target.files ? e.target.files[0] : null)}
+                        className="file-input"
+                    />
+
+                    <button type="submit" className="auth-button">
+                        Зареєструватися
+                    </button>
+                    <div>
+                        <span>Вже маєте акаунт?</span>
+                        <Link to='/auth/login'>Увійти</Link>
+                    </div>
                 </div>
-                {errors.password && <p className="error-message">{errors.password}</p>}
-
-                <input
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => setImage(e.target.files ? e.target.files[0] : null)}
-                    className="file-input"
-                />
-
-                <button type="submit" className="auth-button">
-                    Зареєструватися
-                </button>
-                <div>
-                    <span>Вже маєте акаунт?</span>
-                    <Link to='/auth/login'>Увійти</Link>
-                </div>
-            </div>
-        </form>
-    );
-};
-
+            </form>
+        );
+    };
 export default Register;

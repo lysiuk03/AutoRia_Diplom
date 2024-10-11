@@ -1,8 +1,9 @@
 // React library
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 
 // Styles
 import './ProfileCard.css';
+import axios from "axios";
 
 
 type ProfileCardProps = {
@@ -11,17 +12,43 @@ type ProfileCardProps = {
     imageUrl: string[];
 };
 
+type Profile = {
+    firstName: string;
+    lastName: string;
+    region: string;
+    city: string;
+    rating: number;
+    phoneNumber: string;
+    photo: string;
+};
+
 const ProfileCard: React.FC<ProfileCardProps> = ({ name, id,  imageUrl }) => {
 
+    const [userData, setUserData] = useState<Profile>();
+
+    useEffect(() => {
+        const fetchUserData = async () => {
+            try {
+                const response = await axios.get(`http://localhost:5174/api/Accounts/GetUserById/${id}`);
+                setUserData(response.data);
+            } catch (error) {
+                console.error("Error fetching user data:", error);
+            }
+        };
+
+        fetchUserData();
+    }, []);
 
     return (
         <div className="profile-card">
-            <img src={`.\\WebBack\\WebBack\\Images\\${imageUrl[0]}`} alt={name} className="profile-image" />
+            <img src={imageUrl[0]} alt={name} className="profile-image"/>
             <div className="profile-details">
                 <h2>{name}</h2>
-                <p>ID: {id}</p>
-                <div className="rating">
-                </div>
+                <p>{`${userData ? userData.city : ""}, ${userData ? userData.region : ""}`}</p> {/* Display city and region */}
+
+                {/*<p>Рейтинг: {userData ? userData.rating : 0}</p> /!* Display rating *!/*/}
+
+                <p>Телефон: {userData ? userData.phoneNumber : "None"}</p> {/* Display phone number */}
             </div>
         </div>
     );

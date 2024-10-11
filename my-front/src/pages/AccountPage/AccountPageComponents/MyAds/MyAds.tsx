@@ -58,8 +58,8 @@ const MyAds: React.FC = () => {
                     },
                 });
 
-                console.log("Response status:", response.status);
-                console.log("Response body:", response.data);
+                //console.log("Response status:", response.status);
+                //console.log("Response body:", response.data);
 
                 if (response.status !== 200) {
                     throw new Error(`Error fetching cars: ${response.status}`);

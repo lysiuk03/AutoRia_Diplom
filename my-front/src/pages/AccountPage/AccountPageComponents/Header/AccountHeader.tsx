@@ -42,9 +42,9 @@ const AccountHeader: React.FC = () => {
         profileData = {
             name: decodedToken?.firstName ? `${decodedToken.firstName} ${decodedToken.lastName}` : 'Невідомий користувач',
             id: decodedToken?.id || '0', // Використання id як рядка
-            imageUrl: decodedToken?.photo ? [decodedToken.photo] : ['/images/default.png'],
+            imageUrl: decodedToken?.photo ? [`http://localhost:5174/images/800_${decodedToken.photo}`] : ['http://localhost:5174/images/'],
         };
-        console.log(profileData);
+        //console.log(profileData);
     }
 
     const location = useLocation();
