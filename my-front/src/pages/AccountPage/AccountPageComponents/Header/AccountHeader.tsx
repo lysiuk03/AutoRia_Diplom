@@ -49,7 +49,7 @@ const AccountHeader: React.FC = () => {
             rating: decodedToken?.rating || 0,
             imageUrl: decodedToken?.photo ? [`http://localhost:5174/images/800_${decodedToken.photo}`] : ['http://localhost:5174/images/'],
         };
-        console.log(profileData)
+        console.log(profileData);
     }
 
     //const location = useLocation();
