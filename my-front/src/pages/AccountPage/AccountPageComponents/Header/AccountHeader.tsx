@@ -52,7 +52,6 @@ const AccountHeader: React.FC = () => {
 
     const menuItems = [
         { key: '1', label: 'Мої оголошення', path: '/account/ads' },
-        { key: '2', label: 'Обране', path: '/account/favorites' },
     ];
 
 

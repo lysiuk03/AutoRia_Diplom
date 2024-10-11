@@ -55,10 +55,7 @@ const App: React.FC = () => {
                     <Route index element={<ProfileEditing/>} />
                     <Route path="profile" element={<ProfileEditing/>} />
                     <Route path="password" element={<EditPassword />}>
-                        <Route index element={<PasswordChange/>} />
-                        <Route path="change" element={<PasswordChange/>} />
                         <Route path="forgot" element={<PasswordForgot/>} />
-                        <Route path="recovery" element={<PasswordRecovery/>} />
                     </Route>
                 </Route>
                 <Route path="/post" element={<PostAdPage />}>

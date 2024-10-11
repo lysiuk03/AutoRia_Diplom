@@ -102,43 +102,44 @@ namespace WebBack.Controllers
             return Ok(user);
         }
 
-
-        [HttpPut("update-profile")]
-        public async Task<IActionResult> UpdateProfile([FromBody] UpdateUserProfileModel model)
+        [HttpGet("{email}")]
+        public async Task<IActionResult> GetUserByEmail(string email)
         {
-            // Отримання поточного користувача
-            var user = await userManager.GetUserAsync(User);
+            var user = await userManager.FindByEmailAsync(email);
+            if (user == null)
+                return NotFound(new { Message = "User not found." });
+
+            return Ok(user);
+            
+        }
+
+
+        [HttpPut("update-password/{id}")]
+        public async Task<IActionResult> UpdatePassword(string id, [FromBody] UpdatePasswordModel model)
+        {
+            // Отримання користувача за ID
+            var user = await userManager.FindByIdAsync(id);
             if (user == null)
             {
-                return NotFound("Користувач не знайдений");
+                return NotFound("Користувача не знайдено");
             }
 
-            // Оновлення полів користувача
-            user.FirstName = model.FirstName;
-            user.MiddleName = model.MiddleName;
-            user.LastName = model.LastName;
-            user.City = model.City;
-            user.Region = model.Region;
-            user.Photo = model.Photo;
-            user.Email = model.Email;
-            user.PhoneNumber = model.PhoneNumber;
-            user.UserName = model.UserName;
-            // Оновлення рейтингу, якщо необхідно
-            //user.Rating = model.Rating;
-
-            // Спроба збереження змін
-            var result = await userManager.UpdateAsync(user);
-
-            if (!result.Succeeded)
+            // Спроба зміни пароля
+            var token = await userManager.GeneratePasswordResetTokenAsync(user);
+            var resetPasswordResult = await userManager.ResetPasswordAsync(user, token, model.NewPassword);
+    
+            if (!resetPasswordResult.Succeeded)
             {
                 // Якщо щось пішло не так, повертаємо помилки
-                return BadRequest(result.Errors);
+                return BadRequest(resetPasswordResult.Errors);
             }
 
-            // Якщо зміни успішно застосовані, оновлюємо сесію користувача (якщо необхідно)
-            await signInManager.RefreshSignInAsync(user);
-
-            return Ok("Профіль успішно оновлено");
+            // Якщо зміни успішно застосовані
+            return Ok("Пароль успішно оновлено");
         }
+
+        
+
+
     }
 }
