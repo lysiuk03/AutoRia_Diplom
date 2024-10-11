@@ -54,7 +54,7 @@ namespace WebBack.Services.ControllerServices
             car.BodyType = await _carContext.BodyTypes.Where(bt => bt.Name == vm.BodyType).FirstOrDefaultAsync();
             car.CarModel = await _carContext.Models.Where(m => m.Name == vm.CarModel).FirstOrDefaultAsync();
             car.CarBrand = await _carContext.Brands.Where(b => b.Name == vm.CarBrand).FirstOrDefaultAsync();
-            
+
             car.City = await _carContext.Cities.Where(c => c.Name == vm.City).FirstOrDefaultAsync();
             car.Color = await _carContext.Colors.Where(cl => cl.Color == vm.Color).FirstOrDefaultAsync();
 
@@ -66,10 +66,10 @@ namespace WebBack.Services.ControllerServices
             car.TransportType = await _carContext.TransportTypes.Where(tt => tt.Name == vm.TransportType).FirstOrDefaultAsync();
             car.VIN = vm.Vin;
             car.TransmissionType = await _carContext.TransmissionTypes.Where(tt => tt.Name == vm.TransmissionType).FirstOrDefaultAsync();
-            
-            
-           
-            
+
+
+
+
 
 
             try
@@ -80,7 +80,7 @@ namespace WebBack.Services.ControllerServices
                 // Створюємо запис для таблиці UserCars
                 var userCar = new UserCarEntity
                 {
-                    User = await _carContext.Users.Where(u => u.Id == int.Parse(vm.UserId)).FirstOrDefaultAsync() ,
+                    User = await _carContext.Users.Where(u => u.Id == int.Parse(vm.UserId)).FirstOrDefaultAsync(),
                     UserId = int.Parse(vm.UserId), // Id користувача
                     Car = car,
                     CarId = car.Id // Використовуємо згенерований Id автомобіля
@@ -196,6 +196,7 @@ namespace WebBack.Services.ControllerServices
         //     _carContext.Cars.Remove(car);
         //     await _carContext.SaveChangesAsync();
         // }
+
 
 
     }

@@ -1,6 +1,6 @@
 import './AccountHeader.css';
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import {Link, useLocation, useNavigate} from 'react-router-dom';
 import Navbar from '../../../../components/navbar/Navbar';
 import ProfileCard from "./HeaderComponents/ProfileCard";
 import { useSelector } from 'react-redux';
@@ -22,7 +22,6 @@ interface DecodedToken {
 interface ProfileCardProps {
     name: string;
     id: string; // Змінено на string для id
-    imageUrl: string[];
 }
 
 const AccountHeader: React.FC = () => {
@@ -32,7 +31,6 @@ const AccountHeader: React.FC = () => {
     let profileData: ProfileCardProps = {
         name: 'Невідомий користувач',
         id: '0',
-        imageUrl: ['/images/default.png'],
     };
 
     if (token) {
@@ -42,9 +40,8 @@ const AccountHeader: React.FC = () => {
         profileData = {
             name: decodedToken?.firstName ? `${decodedToken.firstName} ${decodedToken.lastName}` : 'Невідомий користувач',
             id: decodedToken?.id || '0', // Використання id як рядка
-            imageUrl: decodedToken?.photo ? [`http://localhost:5174/images/800_${decodedToken.photo}`] : ['http://localhost:5174/images/'],
         };
-        //console.log(profileData);
+        console.log(profileData);
     }
 
     const location = useLocation();
@@ -54,6 +51,11 @@ const AccountHeader: React.FC = () => {
         { key: '1', label: 'Мої оголошення', path: '/account/ads' },
     ];
 
+    const navigate = useNavigate();
+
+    const handleNavigate = () => {
+        navigate('/edit-account');
+    };
 
 
     return (
@@ -65,18 +67,26 @@ const AccountHeader: React.FC = () => {
             <div className="profile-overview-container">
                 <div className="user-info-actions">
                     <ProfileCard {...profileData} />
+                    <div className="btn-container">
+                        <button className="edit-profile-button" onClick={handleNavigate}>
+                            <img src="/images/edit.png" alt="Edit"/>
+                            Редагувати профіль
+                        </button>
+                    </div>
                 </div>
                 <div>
-                    <hr />
+                    <hr/>
                     <nav className="account-menu">
                         {menuItems.map(item => (
                             <div key={item.key} className={`menu-item ${isActive(item.path) ? 'active' : ''}`}>
-                                <Link to={item.path}>{item.label}</Link>
+                            <Link to={item.path}>{item.label}</Link>
                             </div>
                         ))}
                     </nav>
                 </div>
+
             </div>
+
         </div>
     );
 };

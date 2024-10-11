@@ -6,6 +6,9 @@ using WebBack.Services.ControllerServices.Interfaces;
 using WebBack.Services.Interfaces;
 using WebBack.ViewModels.Account;
 using WebBack.SearchReauestClasses;
+using Microsoft.EntityFrameworkCore;
+using WebBack.Data;
+using WebBack.Services;
 namespace WebBack.Controllers
 {
     [Route("api/[controller]/[action]")]
@@ -16,15 +19,23 @@ namespace WebBack.Controllers
         private readonly IAccountsControllerService service;
         private readonly UserManager<UserEntity> userManager;
         private readonly SignInManager<UserEntity> signInManager;
+        private readonly CarDbContext context;
+        private readonly IImageService imageService;
 
         public AccountsController(
             IJwtTokenService jwtTokenService,
             IAccountsControllerService service,
+            CarDbContext context,
+            SignInManager<UserEntity> signInManager,
+            IImageService imageService,
             UserManager<UserEntity> userManager)
         {
             this.jwtTokenService = jwtTokenService;
             this.service = service;
             this.userManager = userManager;
+            this.context = context;
+            this.imageService = imageService;
+            this.signInManager = signInManager;
         }
 
         [HttpPost("logout")]
@@ -114,42 +125,60 @@ namespace WebBack.Controllers
         }
 
 
-        [HttpPut("update-profile")]
-        public async Task<IActionResult> UpdateProfile([FromBody] UpdateUserProfileModel model)
+        [HttpPost("update-profile/{userId}")]
+        public async Task<IActionResult> UpdateProfile(string userId, [FromForm] UpdateUserProfileModel model)
         {
-            // Отримання поточного користувача
-            var user = await userManager.GetUserAsync(User);
+            if (model == null)
+            {
+                return BadRequest("Дані профілю не можуть бути порожніми");
+            }
+
+            var user = await userManager.FindByIdAsync(userId);
             if (user == null)
             {
                 return NotFound("Користувач не знайдений");
             }
 
-            // Оновлення полів користувача
-            user.FirstName = model.FirstName;
-            user.MiddleName = model.MiddleName;
-            user.LastName = model.LastName;
-            user.City = model.City;
-            user.Region = model.Region;
-            user.Photo = model.Photo;
-            user.Email = model.Email;
-            user.PhoneNumber = model.PhoneNumber;
-            user.UserName = model.UserName;
-            // Оновлення рейтингу, якщо необхідно
-            //user.Rating = model.Rating;
+            user.FirstName = model.FirstName ?? user.FirstName;
+            user.MiddleName = model.MiddleName ?? user.MiddleName;
+            user.LastName = model.LastName ?? user.LastName;
+            
 
-            // Спроба збереження змін
+
+            // Find the city that matches the provided city name
+            var cityEntity = await context.Cities
+                .Include(c => c.Region) // Ensure the region is included
+                .FirstOrDefaultAsync(c => c.Name == model.City);
+
+            if (cityEntity != null)
+            {
+                user.City = cityEntity.Name; // Assign the city entity
+                user.Region = cityEntity.Region.Name; // Assign the region associated with the city
+            }
+            else { user.City = "Вказано не вірно"; user.Region = "Вказано не вірно"; }
+
+            if (model.Photo != null)
+            {
+                user.Photo = await imageService.SaveImageAsync(model.Photo);
+            }
+                user.Email = model.Email ?? user.Email;
+            user.PhoneNumber = model.PhoneNumber ?? user.PhoneNumber;
+            user.UserName = model.UserName ?? user.UserName;
+
             var result = await userManager.UpdateAsync(user);
-
             if (!result.Succeeded)
             {
-                // Якщо щось пішло не так, повертаємо помилки
                 return BadRequest(result.Errors);
             }
 
-            // Якщо зміни успішно застосовані, оновлюємо сесію користувача (якщо необхідно)
-            await signInManager.RefreshSignInAsync(user);
+            if (signInManager != null)
+            {
+                await signInManager.RefreshSignInAsync(user);
+            }
 
             return Ok("Профіль успішно оновлено");
+
+
         }
         
         [HttpPut("update-password/{id}")]

@@ -13,6 +13,6 @@ namespace WebBack.SearchReauestClasses
         public string? City { get; set; } = null!;
         public string? Region { get; set; }
         //public string Rating { get; set; } = null!;
-        public string? Photo { get; set; }
+        public IFormFile? Photo { get; set; }
     }
 }
