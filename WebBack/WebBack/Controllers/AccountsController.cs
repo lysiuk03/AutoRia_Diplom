@@ -65,7 +65,6 @@ namespace WebBack.Controllers
                 var token = await jwtTokenService.CreateTokenAsync(user);
 
                 // Зберігаємо токен у таблиці AspNetUserTokens
-                
                 await userManager.SetAuthenticationTokenAsync(user, "JWT", "AccessToken", token);
 
                 return Ok(new JwtTokenResponse
@@ -115,6 +114,44 @@ namespace WebBack.Controllers
         }
 
 
+        [HttpPut("update-profile")]
+        public async Task<IActionResult> UpdateProfile([FromBody] UpdateUserProfileModel model)
+        {
+            // Отримання поточного користувача
+            var user = await userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound("Користувач не знайдений");
+            }
+
+            // Оновлення полів користувача
+            user.FirstName = model.FirstName;
+            user.MiddleName = model.MiddleName;
+            user.LastName = model.LastName;
+            user.City = model.City;
+            user.Region = model.Region;
+            user.Photo = model.Photo;
+            user.Email = model.Email;
+            user.PhoneNumber = model.PhoneNumber;
+            user.UserName = model.UserName;
+            // Оновлення рейтингу, якщо необхідно
+            //user.Rating = model.Rating;
+
+            // Спроба збереження змін
+            var result = await userManager.UpdateAsync(user);
+
+            if (!result.Succeeded)
+            {
+                // Якщо щось пішло не так, повертаємо помилки
+                return BadRequest(result.Errors);
+            }
+
+            // Якщо зміни успішно застосовані, оновлюємо сесію користувача (якщо необхідно)
+            await signInManager.RefreshSignInAsync(user);
+
+            return Ok("Профіль успішно оновлено");
+        }
+        
         [HttpPut("update-password/{id}")]
         public async Task<IActionResult> UpdatePassword(string id, [FromBody] UpdatePasswordModel model)
         {
@@ -138,7 +175,6 @@ namespace WebBack.Controllers
             // Якщо зміни успішно застосовані
             return Ok("Пароль успішно оновлено");
         }
-
         
 
 
