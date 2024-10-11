@@ -15,6 +15,7 @@ const Register: React.FC = () => {
     const [phone, setPhone] = useState<string>('');
     const [username, setUsername] = useState<string>('');
     const [image, setImage] = useState<File | null>(null);
+    const [city, setCity] = useState<string>('');
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -67,6 +68,7 @@ const Register: React.FC = () => {
         formData.append("UserName", username);
         formData.append("Password", password);
         formData.append("PhoneNumber", phone);
+        formData.append("City", city);
         if (image) {
             formData.append("Image", image); // Include the image file if present
         }
@@ -147,6 +149,15 @@ const Register: React.FC = () => {
                         placeholder="Номер телефону"
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
+                        className={errors.email ? 'input-error' : ''}
+                    />
+                    {errors.phone && <p className="error-message">{errors.phone}</p>}
+
+                    <input
+                        type="text"
+                        placeholder="Місто"
+                        value={city}
+                        onChange={(e) => setCity(e.target.value)}
                         className={errors.email ? 'input-error' : ''}
                     />
                     {errors.phone && <p className="error-message">{errors.phone}</p>}

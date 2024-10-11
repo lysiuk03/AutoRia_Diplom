@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using WebBack.Constants;
 using WebBack.Data;
@@ -42,6 +43,23 @@ public class AccountsControllerService : IAccountsControllerService
     {
         UserEntity user = mapper.Map<RegisterVm, UserEntity>(vm);
 
+        // Find the city that matches the provided city name
+        var cityEntity = await context.Cities
+            .Include(c => c.Region) // Ensure the region is included
+            .FirstOrDefaultAsync(c => c.Name == vm.City);
+
+        if (cityEntity != null)
+        {
+            user.City = cityEntity.Name; // Assign the city entity
+            user.Region = cityEntity.Region.Name; // Assign the region associated with the city
+        }
+        else { user.City = "Вказано не вірно"; user.Region = "Вказано не вірно"; }
+
+
+
+
+
+
         try
         {
             // Check if an image was provided before trying to save it
@@ -52,6 +70,7 @@ public class AccountsControllerService : IAccountsControllerService
 
             await CreateUserAsync(user, vm.Password);
         }
+
         catch (Exception ex)
         {
             logger.LogError(ex, "Error occurred during user registration.");

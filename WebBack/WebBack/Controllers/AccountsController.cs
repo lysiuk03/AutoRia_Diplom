@@ -65,6 +65,7 @@ namespace WebBack.Controllers
                 var token = await jwtTokenService.CreateTokenAsync(user);
 
                 // Зберігаємо токен у таблиці AspNetUserTokens
+                
                 await userManager.SetAuthenticationTokenAsync(user, "JWT", "AccessToken", token);
 
                 return Ok(new JwtTokenResponse
