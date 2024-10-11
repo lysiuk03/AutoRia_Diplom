@@ -53,11 +53,12 @@ const CarSalonDescription: React.FC<ProductInfoProps> = ({ car }) => {
 
         <div className="description-container">
             <h4>КОМЕНТАР:</h4>
-            <ul>
-                {Object.values(descriptions).map((item, index) => (
-                    <li key={index}>{getDescriptionText(item.value, item.trueText, item.falseText)}</li>
-                ))}
-            </ul>
+            <p>{car.description}</p>
+            {/*<ul>*/}
+            {/*    {Object.values(descriptions).map((item, index) => (*/}
+            {/*        <li key={index}>{getDescriptionText(item.value, item.trueText, item.falseText)}</li>*/}
+            {/*    ))}*/}
+            {/*</ul>*/}
         </div>
     );
 };

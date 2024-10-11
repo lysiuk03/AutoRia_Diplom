@@ -44,7 +44,7 @@ const SearchContent: React.FC = () => {
     const [cars, setCars] = useState<Car[]>(initialSearchRequest);
     const [currentPage, setCurrentPage] = useState(1);
     const [sortCriteria, setSortCriteria] = useState<string>('manufacturer');
-    const itemsPerPage = 4;
+    const [itemsPerPage,setItemsPerPage] = useState(4);
 
     // Update cars and searchParams from location state whenever component mounts or state changes
     useEffect(() => {
@@ -57,7 +57,7 @@ const SearchContent: React.FC = () => {
     }, [initialSearchRequest, initialSearchParams]);
 
     const handlePageChange = (page: number) => {
-
+        window.scrollTo(0, 1080);
         setCurrentPage(page);
     };
 
@@ -67,9 +67,15 @@ const SearchContent: React.FC = () => {
 
     const sortedCars = [...cars].sort((a, b) => {
         if (sortCriteria === 'model') {
-            return a.carModel.name.localeCompare(b.carModel.name);
+            // Check if carModel exists before trying to access its name
+            const modelA = a.carModel?.name || "";
+            const modelB = b.carModel?.name || "";
+            return modelA.localeCompare(modelB);
         } else if (sortCriteria === 'manufacturer') {
-            return a.carBrand.name.localeCompare(b.carBrand.name);
+            // Check if carBrand exists before trying to access its name
+            const brandA = a.carBrand?.name || "Невідомий бренд";
+            const brandB = b.carBrand?.name || "Невідомий бренд";
+            return brandA.localeCompare(brandB);
         }
         return 0;
     });
@@ -132,9 +138,8 @@ const SearchContent: React.FC = () => {
                 <h5>{cars.length} авто</h5>
             </div>
             <div className="car-cards-container">
-                {currentCars.map((car) => (
-
-                    <SearchCarCard key={car.vin} {...car} />
+                {currentCars.map((car, index) => (
+                    <SearchCarCard key={`${car.vin}-${index}`} {...car} />
                 ))}
             </div>
             <Pagination
@@ -142,8 +147,14 @@ const SearchContent: React.FC = () => {
                 total={cars.length}
                 pageSize={itemsPerPage}
                 onChange={handlePageChange}
+                onShowSizeChange={(current, size) => {
+                    setCurrentPage(current); // Reset to the first page when page size changes
+                    setItemsPerPage(size); // Update the items per page
+                }}
                 align="center"
                 className="custom-pagination"
+                showSizeChanger={true} // Show size changer
+                pageSizeOptions={['4', '10', '20']} // Options for page size
             />
         </div>
     );

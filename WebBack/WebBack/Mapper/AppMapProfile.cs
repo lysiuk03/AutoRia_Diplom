@@ -21,6 +21,7 @@ public class AppMapProfile : Profile
     {
         // User
         CreateMap<RegisterVm, UserEntity>();
+            //.ForMember(rv=>rv.City, opt => opt.MapFrom(src=>src.City));
 
         CreateMap<CarEntity, CarVm>()
     .ForMember(dest => dest.CarModel, opt => opt.MapFrom(src => src.CarModel))
