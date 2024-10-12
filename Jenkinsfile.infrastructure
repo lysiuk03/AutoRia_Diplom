@@ -113,7 +113,7 @@ pipeline {
         stage('Deploying Grafana Application') {
             steps{
                 script{
-                    sh "aws configure"
+                    
                     sh "aws eks update-kubeconfig --name WheelDeal-Industries-cluster --region ${AWS_DEFAULT_REGION}"
                     sh "helm repo add stable https://charts.helm.sh/stable"
                     sh "helm repo add prometheus-community https://prometheus-community.github.io/helm-charts"
