@@ -1,0 +1,11 @@
+*.tfvars
+#**/*.tfvars
+**/*.pem
+*.pem
+*.csv
+.terraform/
+.tf*
+**/*.tfstate
+#**/*.sh
+*.tfvars
+!terraform.tfvars

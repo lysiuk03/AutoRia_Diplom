@@ -1,0 +1,129 @@
+pipeline {
+    agent any
+    environment {
+        AWS_ACCESS_KEY_FILE = '/aws/aws_access_key.txt'
+        AWS_SECRET_KEY_FILE = '/aws/aws_secret_key.txt'
+        AWS_DEFAULT_REGION = "eu-central-1"
+    }
+    stages {
+        stage('Check AWS Access Keys') {
+            steps {
+                script {
+                    // Перевіряємо, чи існують файли ключів
+                    def accessKeyExists = fileExists(env.AWS_ACCESS_KEY_FILE)
+                    def secretKeyExists = fileExists(env.AWS_SECRET_KEY_FILE)
+
+                    if (accessKeyExists && secretKeyExists) {
+                        // Читання ключів з файлів
+                        AWS_ACCESS_KEY_ID = readFile(env.AWS_ACCESS_KEY_FILE).trim()
+                        AWS_SECRET_ACCESS_KEY = readFile(env.AWS_SECRET_KEY_FILE).trim()
+
+                        // Перевіряємо чи ключі не пусті
+                        if (AWS_ACCESS_KEY_ID && AWS_SECRET_ACCESS_KEY) {
+                            echo "Using existing AWS Access Keys from files"
+                        } else {
+                            error "AWS Access Key or Secret Key in files is empty"
+                        }
+                    } else {
+                        error "AWS Access Key or Secret Key file is missing"
+                    }
+
+
+                }
+            }
+        }
+        stage('Update terraform.tfvars with AWS Keys') {
+            steps {
+                script {
+                    // Перевірка наявності файлу terraform.tfvars
+                    if (!fileExists("terraform.tfvars")) {
+                        error "File terraform.tfvars not found"
+                    }
+
+                    def tfvarsContent = readFile(env.TFVARS_FILE)
+                    tfvarsContent += """
+                    aws_access_key = "${AWS_ACCESS_KEY_ID}"
+                    aws_secret_key = "${AWS_SECRET_ACCESS_KEY}"
+                    """
+
+                    // Записуємо оновлений контент назад у файл
+                    writeFile file: env.terraform.tfvars, text: tfvarsContent
+
+                    echo "AWS Access Keys added to terraform.tfvars"
+                }
+            }
+        }
+    stages {
+        stage('Initializing Terraform'){
+            steps{
+                script{
+                    
+                        sh 'terraform init'
+                    
+                }
+            }
+        }
+        stage('Formatting Terraform'){
+            steps{
+                script{
+                    
+                        sh 'terraform fmt'
+                    
+                }
+            }
+        }
+        stage('Validating Terraform'){
+            steps{
+                script{
+                    
+                        sh 'terraform validate'
+                    
+                }
+            }
+        }
+        stage('Previewing the Infra using Terraform'){
+            steps{
+                script{
+                    
+                        sh 'terraform plan'
+                    
+                    input(message: "Are you sure to proceed?", ok: "Proceed")
+                }
+            }
+        }
+        stage('Creating/Destroying an EKS Cluster'){
+            steps{
+                script{
+                    
+                        sh 'terraform $action --auto-approve'
+                    
+                }
+            }
+        }
+        stage('Configuring AWS CLI') {
+            steps {
+                script {
+                    sh '''
+                    aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+                    aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+                    aws configure set region $AWS_DEFAULT_REGION
+                    '''
+                }
+            }
+        }
+        stage('Deploying Grafana Application') {
+            steps{
+                script{
+                    sh "aws configure"
+                    sh "aws eks update-kubeconfig --name WheelDeal-Industries-cluster --region ${AWS_DEFAULT_REGION}"
+                    sh "helm repo add stable https://charts.helm.sh/stable"
+                    sh "helm repo add prometheus-community https://prometheus-community.github.io/helm-charts"
+                    sh "kubectl create namespace prometheus"
+                    sh "helm install stable prometheus-community/kube-prometheus-stack -n prometheus"
+                    sh "kubectl edit svc stable-kube-prometheus-sta-prometheus -n prometheus"
+                    println("infrastructure is done! for public access grafana  change manualy from cluster-ip to load-balancer in this files 'kubectl edit svc stable-grafana -n prometheus' and 'kubectl edit svc stable-kube-prometheus-sta-prometheus -n prometheus'")
+                }
+            }
+        }
+    }
+}
