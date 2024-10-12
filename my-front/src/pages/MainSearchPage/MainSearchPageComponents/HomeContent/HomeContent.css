@@ -7,10 +7,10 @@
 .bg-img {
     position: absolute;
     top: 0;
-    left: 50%;
-    width: 50%; /* Налаштуй розмір за потреби */
-    height: 100%;
-
+    right: 0;
+    width: 56%;
+    height: 50%;
+    object-fit: cover;
 }
 
 .bg-img img {
@@ -21,8 +21,7 @@
 
 .content-title, .carousel-container, .logo-container, .digest-container, .solid-container {
     position: relative;
-
-    z-index: 1; /* Ensure these elements are above the background image */
+    z-index: 1;
 }
 
 
@@ -32,7 +31,6 @@
     position: relative;
     margin: 40px auto;
     max-width: 1225px;
-    width: 90%;
 }
 
 .center-width {
@@ -55,21 +53,18 @@
 .carousel-container
 {
     display: flex;
-
     margin: 0 auto;
-    width: 90%; /* Адаптивна ширина */
-    max-width: 1225px;
+    max-width: 1400px;
 }
 
 .logo-container {
     margin: 0 auto;
-    width: 90%; /* Адаптивна ширина */
     max-width: 1225px;
+    padding-top: 50px;
 }
 
 .digest-container {
 
-    width: 90%; /* Адаптивна ширина */
     max-width: 1310px;
     margin-top: 80px;
     margin-bottom: 80px;

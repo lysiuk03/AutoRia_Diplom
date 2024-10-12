@@ -128,8 +128,8 @@
     padding-left: 20px;
 }
 
-.ad-form-container select,
-.dropdown-container input {
+.ad-form-container select
+ {
     appearance: none;
     background: url('/images/triangle.png') no-repeat right 10px center;
     background-size: 21px 13px;

@@ -86,8 +86,8 @@ namespace WebBack.Services.ControllerServices
             car.IsNotCustomsCleared = vm.IsNotCustomsCleared;
             car.Metallic = vm.Metallic;
             car.Price = vm.Price; // Assigning price
-
-
+            car.Year = vm.Year;
+            car.Mileage = vm.Mileage;
 
             try
             {
@@ -159,8 +159,9 @@ namespace WebBack.Services.ControllerServices
             // Фільтрація за типом кузова (BodyType)
             if (searchRequest.CarType != "Будь-який")
             {
-                query = query.Where(c => c.BodyType.Name == searchRequest.CarType);
+                query = query.Where(c => c.TransportType.Name == searchRequest.CarType);
             }
+            
 
             // Фільтрація за роком
             if (searchRequest.Year != "Будь-який")

@@ -4,6 +4,7 @@ import './AdForm.css';
 import {useSelector} from "react-redux";
 import {RootState} from "../../../../redux/store.ts";
 import {decodeJwt} from "jose";
+import {useNavigate} from "react-router-dom";
 
 interface DecodedToken {
     firstName?: string;
@@ -78,7 +79,7 @@ const defaultOptions: OptionData = {
     models: [],
     mileages: ["Оберіть", "0-50,000 км", "50,000-100,000 км", "100,000+ км"],
     regions: [],
-    years: ["Оберіть", "2024", "2023", "2022"],
+    years: [],
     cities: ["Оберіть"],
     paintTypes: ["Оберіть", "Металіз", "Перламутр", "Мат"],
     colors: ["Оберіть", "Червоний", "Синій", "Чорний"],
@@ -94,7 +95,7 @@ const CarCreateForm = () => {
         stage: '',
         mileage: 0,
         vin: '',
-        year: 2024,
+        year: '2024',
         price: 0,
         metallic: false,
         accidentParticipation: false,
@@ -125,7 +126,7 @@ const CarCreateForm = () => {
         color: "",
         photos: []
     });
-
+    const navigate = useNavigate();
     const [optionsData, setOptionsData] = useState<OptionData>(defaultOptions);
     const [isLoading, setIsLoading] = useState(false);
     const token = useSelector((state: RootState) => state.auth.token);
@@ -239,6 +240,7 @@ const CarCreateForm = () => {
                     })),
                     transportTypes : ['Оберіть', ...transportTypesResponse.data.map((bt: { name: string }) => bt.name)],
                     regions: regionsResponse.data
+
                 }));
 
                 // Встановлення першого бренду та його першої моделі
@@ -250,6 +252,13 @@ const CarCreateForm = () => {
                         setFilteredModels(firstBrand.models.map(model => model.name));
                     }
                 }
+                if(optionsData.years.length < 1)
+                {
+                    for (let year = 2024; year >= 1991; year--) {
+                        optionsData.years.push(year.toString()); // Add each year to the array
+                    }
+                }
+
             } catch (err) {
                 return <div>Не вдалося завантажити дані</div>
             } finally {
@@ -386,7 +395,7 @@ const CarCreateForm = () => {
         formData.transportType = selectedTransportType;
         formData.color = selectedColor;
         formData.stage = selectedModification;
-
+        formData.mileage = Number(selectedMileage);
 
         for (const key in formData) {
             if (key !== 'photos') {
@@ -397,7 +406,10 @@ const CarCreateForm = () => {
 
         try {
             const response = await axios.post('http://localhost:5174/api/Car/add', form);
-            console.log(response.status);
+            if(response.status === 200)
+            {
+                navigate("/account");
+            }
             // Можна додати логіку для скидання форми або переходу на іншу сторінку
         } catch (error) {
             // Обробка помилок
@@ -455,7 +467,23 @@ const CarCreateForm = () => {
                     {renderSelect("Марка", optionsData.brands[1] ? optionsData.brands.map(b => b.name) : ['Оберіть'], selectedBrand, (e) => handleBrandChange(e))}
                     {/* Render model select based on filteredModels */}
                     {renderSelect("Модель авто", filteredModels, selectedModel, (e) => handleModelChange(e))}
-                    {renderSelect("Пробіг", optionsData.mileages, selectedMileage, (e) => setSelectedMileage(e.target.value))}
+
+
+                    <div className="dropdown-container">
+                        <label>Пробіг (км)</label>
+                        <input
+                            type="number"
+                            value={selectedMileage}
+                            onChange={(e) => setSelectedMileage(e.target.value)}
+
+                            placeholder="Пробіг"
+                            className="price-inp"
+                            name="mileage"
+
+                            min="0" // Optional: restrict to non-negative numbers
+                        />
+                    </div>
+
                     {renderSelect("Регіон", ["Оберіть", ...optionsData.regions.map(region => region.name)], selectedRegion, handleRegionChange)}
                     {renderSelect("Місто", filteredCities, selectedCity, (e) => handleCityChange(e.target.value))}
                     {renderSelect("Рік випуску", optionsData.years, selectedYear, (e) => setSelectedYear(e.target.value))}
