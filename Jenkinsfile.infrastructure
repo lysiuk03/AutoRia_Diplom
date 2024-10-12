@@ -119,7 +119,6 @@ pipeline {
                     sh "helm repo add prometheus-community https://prometheus-community.github.io/helm-charts"
                     sh "kubectl create namespace prometheus"
                     sh "helm install stable prometheus-community/kube-prometheus-stack -n prometheus"
-                    sh "kubectl edit svc stable-kube-prometheus-sta-prometheus -n prometheus"
                     println("infrastructure is done! for public access grafana  change manualy from cluster-ip to load-balancer in this files 'kubectl edit svc stable-grafana -n prometheus' and 'kubectl edit svc stable-kube-prometheus-sta-prometheus -n prometheus'")
                 }
             }
