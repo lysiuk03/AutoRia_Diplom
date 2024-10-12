@@ -40,19 +40,31 @@ pipeline {
         stage('Prepare Settings Release') {
             steps {
                 script {
-                        def settingsTemplate = readFile './docker-compose.release.stack.yaml.j2'
+                        def settingsTemplate = readFile './wheel.deal.yaml.j2'
                         settingsTemplate = settingsTemplate.replaceAll('\\{\\{ POSTGRES_IMAGE_LATEST \\}\\}', env.POSTGRES_IMAGE_LATEST)
                         settingsTemplate = settingsTemplate.replaceAll('\\{\\{ BACKEND_IMAGE_LATEST \\}\\}', env.BACKEND_IMAGE_LATEST)
                         settingsTemplate = settingsTemplate.replaceAll('\\{\\{ FRONTEND_IMAGE_LATEST \\}\\}', env.FRONTEND_IMAGE_LATEST)
-                        writeFile file: './docker-compose.release.stack.yaml', text: settingsTemplate
+                        writeFile file: './wheel.deal.yaml', text: settingsTemplate
 
+                }
+            }
+        }
+        stage('Create Namespace and Credentials') {
+            steps {
+                script {
+                    sh '''
+                        kubectl create namespace wheeldeal-namespace || echo "Namespace already exists"
+                        kubectl create secret docker-registry regcred \
+                          --docker-username=$DOCKER_USER \
+                          --docker-password=$DOCKER_PASS || echo "Secret already exists"
+                    '''
                 }
             }
         }
         stage('Start Release') {
             steps {
                 script {
-                    sh "docker-compose -f ./docker-compose.release.stack.yaml up -d"
+                    sh "kubectl apply -f ./wheel.deal.yaml"
                 }
             }
         }
