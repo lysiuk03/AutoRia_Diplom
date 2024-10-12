@@ -133,7 +133,7 @@ const SearchContent: React.FC = () => {
                         <option value="model">Моделлю</option>
                         <option value="manufacturer">Виробник</option>
                     </select>
-                    <button className="sort-filtr-button">Фільтр</button>
+                    
                 </div>
                 <h5>{cars.length} авто</h5>
             </div>
