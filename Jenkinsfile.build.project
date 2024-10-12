@@ -107,7 +107,7 @@ pipeline {
         stage('Check Health Backend') {
             steps {
                 script {
-                    sleep(10) 
+                    sleep(250) 
                     def backendStatus = sh(script: 'docker inspect -f \'{{.State.Status}}\' wheeldeal_backend_b', returnStdout: true).trim()
                     def backendLogs = sh(script: 'docker logs wheeldeal_backend_b', returnStdout: true).trim()
 
