@@ -115,10 +115,18 @@ pipeline {
                 script{
                     
                     sh "aws eks update-kubeconfig --name WheelDeal-Industries-cluster --region ${AWS_DEFAULT_REGION}"
-                    sh "helm repo add stable https://charts.helm.sh/stable"
-                    sh "helm repo add prometheus-community https://prometheus-community.github.io/helm-charts"
-                    sh "kubectl create namespace prometheus"
-                    sh "helm install stable prometheus-community/kube-prometheus-stack -n prometheus"
+                    //sh "helm repo add stable https://charts.helm.sh/stable"
+                    sh "helm repo add stable https://charts.helm.sh/stable || echo 'Helm repo stable already exists'"
+                    //sh "helm repo add prometheus-community https://prometheus-community.github.io/helm-charts"
+                    sh "helm repo add prometheus-community https://prometheus-community.github.io/helm-charts || echo 'Helm repo prometheus-community already exists'"
+                    sh "kubectl create namespace prometheus || echo 'Namespace prometheus already exists'"
+                    //sh "kubectl create namespace prometheus"
+                    //sh "helm install stable prometheus-community/kube-prometheus-stack -n prometheus"
+                    sh "helm install stable prometheus-community/kube-prometheus-stack -n prometheus || echo 'Helm release for prometheus already exists'"
+
+                // Створення неймспейсу (ігнорування помилки, якщо неймспейс вже існує)
+
+                // Встановлення Grafana
                     println("infrastructure is done! for public access grafana  change manualy from cluster-ip to load-balancer in this files 'kubectl edit svc stable-grafana -n prometheus' and 'kubectl edit svc stable-kube-prometheus-sta-prometheus -n prometheus'")
                 }
             }
