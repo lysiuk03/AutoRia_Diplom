@@ -111,7 +111,7 @@ const ProfileEditing: React.FC = () => {
                         'Content-Type': 'multipart/form-data',
                     },
                 });
-                navigate('/');
+                navigate('/account');
             }
         } catch (error) {
             console.error('Error updating profile:', error);

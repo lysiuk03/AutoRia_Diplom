@@ -301,7 +301,7 @@ const CarCreateForm = () => {
 
     const handleModelChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setSelectedModel(e.target.value);
-        setFilteredModels([...e.target.value]);
+        
     };
 
 
