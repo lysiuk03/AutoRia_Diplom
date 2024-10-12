@@ -238,7 +238,7 @@ const CarSearchForm: React.FC = () => {
                         {renderSelect(optionsData.brands.map(b => b.name), selectedBrand, handleBrandChange)}
                         {renderSelect(filteredModels, selectedModel, handleModelChange)}
                     </div>
-                    <div>
+                    <div >
                         <select value={region} onChange={(e) => setRegion(e.target.value)}>
                             {optionsData.regions.map(option => (
                                 <option key={option.id} value={option.name}>{option.name}</option>
@@ -251,8 +251,8 @@ const CarSearchForm: React.FC = () => {
                                 <option key={option} value={option}>{option}</option>
                             ))}
                         </select>
-                        <select value={price} onChange={(e) => setPrice(e.target.value)}>
-                            <option value="">Ціна, $</option>
+                        <select className="none">
+
                         </select>
                     </div>
                 </div>
