@@ -43,3 +43,24 @@ resource "aws_dynamodb_table_item" "docker_credentials_password" {
 }
 ITEM
 }
+resource "aws_dynamodb_table_item" "aws_access_key" {
+  table_name = aws_dynamodb_table.metadata.name
+  hash_key   = "id"
+
+  item = jsonencode({
+    "id"              = { "S" = "AWS_ACCESS_KEY" },
+    "credential_type" = { "S" = "AccessKey" },
+    "value"           = { "S" = aws_iam_access_key.master_cluster_access_key.id }
+  })
+}
+
+resource "aws_dynamodb_table_item" "aws_secret_key" {
+  table_name = aws_dynamodb_table.metadata.name
+  hash_key   = "id"
+
+  item = jsonencode({
+    "id"              = { "S" = "AWS_SECRET_KEY" },
+    "credential_type" = { "S" = "SecretKey" },
+    "value"           = { "S" = aws_iam_access_key.master_cluster_access_key.secret }
+  })
+}

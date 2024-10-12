@@ -56,7 +56,9 @@ variable "ingress_rules" {
 variable "user_arn" {
   default = "jaws"
 }
-
+variable "user_arn_terraform" {
+  default = "jaws"
+}
 variable "user_arn_root" {
   default = "root"
 }
