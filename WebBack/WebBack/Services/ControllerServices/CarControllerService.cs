@@ -68,7 +68,24 @@ namespace WebBack.Services.ControllerServices
             car.TransmissionType = await _carContext.TransmissionTypes.Where(tt => tt.Name == vm.TransmissionType).FirstOrDefaultAsync();
 
 
-
+            // Assigning boolean properties and price
+            car.HasAirConditioning = vm.HasAirConditioning;
+            car.HasHeadlights = vm.HasHeadlights;
+            car.HasHeatedSeats = vm.HasHeatedSeats;
+            car.HasHeightAdjustableSeats = vm.HasHeightAdjustableSeats;
+            car.HasLeatherInterior = vm.HasLeatherInterior;
+            car.HasPowerSteering = vm.HasPowerSteering;
+            car.HasPowerWindows = vm.HasPowerWindows;
+            car.HasPremiumInteriorColor = vm.HasPremiumInteriorColor;
+            car.HasSeatMemory = vm.HasSeatMemory;
+            car.HasSeatVentilation = vm.HasSeatVentilation;
+            car.HasSpareWheel = vm.HasSpareWheel;
+            car.IsBargainAvailable = vm.IsBargainAvailable;
+            car.IsExchangeAvailable = vm.IsExchangeAvailable;
+            car.IsInstallmentAvailable = vm.IsInstallmentAvailable;
+            car.IsNotCustomsCleared = vm.IsNotCustomsCleared;
+            car.Metallic = vm.Metallic;
+            car.Price = vm.Price; // Assigning price
 
 
 

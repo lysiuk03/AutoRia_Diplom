@@ -5,7 +5,7 @@ import { PlusOutlined } from '@ant-design/icons';
 const UploadPhoto = () => {
     const [fileList, setFileList] = useState([]);
 
-    const handleChange = ({ fileList: newFileList }) => {
+    const handleChangeList = ({ fileList: newFileList }) => {
         setFileList(newFileList);
     };
 

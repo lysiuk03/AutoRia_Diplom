@@ -4,8 +4,6 @@ import './AdForm.css';
 import {useSelector} from "react-redux";
 import {RootState} from "../../../../redux/store.ts";
 import {decodeJwt} from "jose";
-import UploadPhoto from "../addphoto.tsx";
-import { useNavigate } from 'react-router-dom';
 
 interface DecodedToken {
     firstName?: string;
@@ -96,7 +94,7 @@ const CarCreateForm = () => {
         stage: '',
         mileage: 0,
         vin: '',
-        year: new Date().getFullYear(),
+        year: 2024,
         price: 0,
         metallic: false,
         accidentParticipation: false,
@@ -151,15 +149,31 @@ const CarCreateForm = () => {
     const [selectedYear, setSelectedYear] = useState<string>("");
 
 
-     const [selectedColor, setSelectedColor] = useState<string>("");
+    const [selectedColor, setSelectedColor] = useState<string>("");
 
 
     const [filteredModels, setFilteredModels] = useState<string[]>(['Оберіть']);
     const [filteredCities, setFilteredCities] = useState<string[]>(['Оберіть']);
-    const navigate = useNavigate();
-    const handleClick = () => {
-        navigate('/');
+
+    // Декодуємо токен
+    let profileData: ProfileCardProps = {
+        name: 'Невідомий користувач',
+        id: '0',
+        imageUrl: ['/images/default.png'],
     };
+
+    if (token) {
+        const decodedToken = decodeJwt(token) as DecodedToken; // Вказуємо тип для decodedToken
+
+        // Використовуємо властивості з декодованого токена
+        profileData = {
+            name: decodedToken?.firstName ? `${decodedToken.firstName} ${decodedToken.lastName}` : 'Невідомий користувач',
+            id: decodedToken?.id || '0', // Використання id як рядка
+            imageUrl: decodedToken?.photo ? [decodedToken.photo] : ['/images/default.png'],
+        };
+        //console.log(profileData);
+    }
+
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -171,45 +185,19 @@ const CarCreateForm = () => {
 
 
 
-    const handleSubmit = async (e: { preventDefault: () => void; }) => {
-        e.preventDefault();
-        const form = new FormData();
-        //formData.photos = fileList.map(file => file);
+    const [fileList, setFileList] = useState([]);
 
-        for (const key in formData) {
-            if (key === 'photos') {
-                formData.photos.forEach((file) => {
-                    form.append('photos', file);
-                });
-            } else {
-                form.append(key, formData[key]);
-            }
-        }
-        formData.userid = profileData.id;
-        formData.carBrand = selectedBrand;
-        formData.carModel = selectedModel;
-        formData.city = selectedCity;
-        formData.engineVolume = selectedEngineVolume;
-        formData.bodyType = selectedBodyType;
-        formData.fuelTypes = selectedFuelType;
-        formData.transmissionType = selectedTransmissionType;
-        formData.numberOfSeats = selectedNumberOfSeats;
-        formData.fuelTypes = selectedFuelType;
-        formData.transportType = selectedTransportType;
-        formData.color = selectedColor;
-        formData.stage = selectedModification;
-
-        try {
-            const response = await axios.post('http://localhost:5174/api/Car/add', form);
-            console.log(form);
-            console.log(response.status);
-            // Можна додати логіку для скидання форми або переходу на іншу сторінку
-        } catch (error) {
-            // Обробка помилок
-            // console.error('Error adding car:', error.response?.data || error.message);
-            // alert('Помилка при додаванні автомобіля: ' + (error.response?.data || error.message));
-        }
+    const handleFileChange = (event) => {
+        setFormData({
+            ...formData,
+            photos: Array.from(event.target.files)
+        });
+        const files = Array.from(event.target.files);
+        const images = files.map(file => URL.createObjectURL(file)); // Створення URL для попереднього перегляду
+        setFileList(prevList => [...prevList, ...images]); // Додавання нових зображень до стану
     };
+
+
 
 
 
@@ -321,37 +309,104 @@ const CarCreateForm = () => {
         selectedRegion ? setSelectedCity(selectedRegion?.cities[0].name) : setSelectedCity("Невідоме місто");
     };
     const handleCityChange = (e: string) => {
-      const cityName = e;
-      setSelectedCity(cityName);
+        const cityName = e;
+        setSelectedCity(cityName);
     };
 
-    // Add other change handlers for the remaining selects...
-
-    // function handleOnSubmit() {
-    //     console.log("Submit");
-    // }
 
 
-    // Отримуємо токен з Redux
 
-    // Декодуємо токен
-    let profileData: ProfileCardProps = {
-        name: 'Невідомий користувач',
-        id: '0',
-        imageUrl: ['/images/default.png'],
+    const handleSubmit = async (e: { preventDefault: () => void; }) => {
+        e.preventDefault();
+
+        const validationErrors = [];
+
+        // Check required fields
+        if (!formData.vin) {
+            validationErrors.push("VIN-код є обов'язковим.");
+        } else if (formData.vin.length > 17) {
+            validationErrors.push("VIN-код не може перевищувати 17 символів.");
+        }
+
+        // Check required fields
+        if (!formData.vin) validationErrors.push("VIN-код є обов'язковим.");
+        if (!formData.description) validationErrors.push("Опис авто є обов'язковим.");
+        if (!formData.price) validationErrors.push("Ціна є обов'язковою.");
+        if (!selectedBodyType) validationErrors.push("Тип кузова є обов'язковим.");
+        if (!selectedFuelType) validationErrors.push("Тип пального є обов'язковим.");
+        if (!selectedEngineVolume) validationErrors.push("Об'єм двигуна є обов'язковим.");
+        if (!selectedNumberOfSeats) validationErrors.push("Кількість місць є обов'язковою.");
+        if (!selectedTransmissionType) validationErrors.push("Тип трансмісії є обов'язковим.");
+        if (!selectedTransportType) validationErrors.push("Тип транспорту є обов'язковим.");
+        if (!selectedBrand) validationErrors.push("Марка автомобіля є обов'язковою.");
+        if (!selectedModel) validationErrors.push("Модель автомобіля є обов'язковою.");
+        if (!selectedCity) validationErrors.push("Місто є обов'язковим.");
+        if (!selectedRegion) validationErrors.push("Регіон є обов'язковим.");
+        if (!selectedColor) validationErrors.push("Колір є обов'язковим.");
+
+        // Check if user has agreed to terms
+        const termsCheckbox = document.getElementById("termsCheckbox");
+
+        if (!termsCheckbox.checked) {
+            validationErrors.push("Вам потрібно погодитися з умовами.");
+        }
+
+        // If there are validation errors, display them and exit
+        if (validationErrors.length > 0) {
+            alert(validationErrors.join("\n"));
+            return;
+        }
+
+
+
+        const form = new FormData();
+        //formData.photos = fileList.map(file => file);
+
+        for (const key in formData) {
+            if (key === 'photos') {
+                formData.photos.forEach((file) => {
+                    form.append('photos', file);
+                });
+            } else {
+                form.append(key, formData[key]);
+            }
+        }
+        console.log(formData);
+        formData.year = selectedYear;
+        formData.userid = profileData.id;
+        formData.carBrand = selectedBrand;
+        formData.carModel = selectedModel;
+        formData.city = selectedCity;
+        formData.engineVolume = selectedEngineVolume;
+        formData.bodyType = selectedBodyType;
+        formData.fuelTypes = selectedFuelType;
+        formData.transmissionType = selectedTransmissionType;
+        formData.numberOfSeats = selectedNumberOfSeats;
+        formData.fuelTypes = selectedFuelType;
+        formData.transportType = selectedTransportType;
+        formData.color = selectedColor;
+        formData.stage = selectedModification;
+
+
+        for (const key in formData) {
+            if (key !== 'photos') {
+                form.append(key, formData[key]);
+            }
+        }
+
+
+        try {
+            const response = await axios.post('http://localhost:5174/api/Car/add', form);
+            console.log(response.status);
+            // Можна додати логіку для скидання форми або переходу на іншу сторінку
+        } catch (error) {
+            // Обробка помилок
+            console.error('Error adding car:', error.response?.data || error.message);
+            alert('Помилка при додаванні автомобіля: ' + (error.response?.data || error.message));
+        }
     };
 
-    if (token) {
-        const decodedToken = decodeJwt(token) as DecodedToken; // Вказуємо тип для decodedToken
 
-        // Використовуємо властивості з декодованого токена
-        profileData = {
-            name: decodedToken?.firstName ? `${decodedToken.firstName} ${decodedToken.lastName}` : 'Невідомий користувач',
-            id: decodedToken?.id || '0', // Використання id як рядка
-            imageUrl: decodedToken?.photo ? [decodedToken.photo] : ['/images/default.png'],
-        };
-        //console.log(profileData);
-    }
 
     return (
         <form className="ad-form-container" onSubmit={handleSubmit}>
@@ -366,12 +421,20 @@ const CarCreateForm = () => {
                         </div>
                     </div>
                     <div className="ad-row">
-                        <UploadPhoto/>
+                        <input type="file" name="photos" multiple onChange={handleFileChange} id="upload" hidden/>
+                        <label htmlFor="upload" className="upload-button">+</label>
+                        <label htmlFor="upload" className="add-img-label"> Додати фото</label>
                     </div>
                 </div>
                 <div className="info-box">
                     <img src="/images/info.png" alt="Info"/>
-                    <a>Як правильно сфотографувати авто ?</a>
+                    <a>Як правильно сфотографувати авто?</a>
+                </div>
+                <div className="preview-images">
+                    {fileList.map((image, index) => (
+                        <img key={index} src={image} alt={`Uploaded preview ${index + 1}`}
+                             style={{width: '100px', height: 'auto', margin: '5px'}}/>
+                    ))}
                 </div>
             </section>
             <section className="num-2">
@@ -389,7 +452,7 @@ const CarCreateForm = () => {
                     {renderSelect("Модифікація", optionsData.modifications, selectedModification, (e) => setSelectedModification(e.target.value))}
                     {renderSelect("Країна виробник", optionsData.countries, selectedCountry, (e) => setSelectedCountry(e.target.value))}
                     {/* Render brand select */}
-                    {renderSelect("Марка", optionsData.brands[1] ? optionsData.brands.map(b => b.name) : ['Оберіть'], selectedBrand, (e) =>handleBrandChange(e))}
+                    {renderSelect("Марка", optionsData.brands[1] ? optionsData.brands.map(b => b.name) : ['Оберіть'], selectedBrand, (e) => handleBrandChange(e))}
                     {/* Render model select based on filteredModels */}
                     {renderSelect("Модель авто", filteredModels, selectedModel, (e) => handleModelChange(e))}
                     {renderSelect("Пробіг", optionsData.mileages, selectedMileage, (e) => setSelectedMileage(e.target.value))}
@@ -443,13 +506,17 @@ const CarCreateForm = () => {
                     <h3>Характерисика</h3>
                 </div>
                 <div className="ad-column characteristic-container">
-                <div className="dropdown-container">
+                    <div className="dropdown-container">
                         <label>Колір </label>
-                    {renderSelect("Колір", optionsData.colors, selectedColor, (e) => setSelectedColor(e.target.value))}
+                        {renderSelect("Колір", optionsData.colors, selectedColor, (e) => setSelectedColor(e.target.value))}
                     </div>
                     <div className="options options-retreat">
-                        <label><input type="checkbox" name="hasPremiumInteriorColor" checked={formData.hasPremiumInteriorColor} onChange={handleChange} />Лакофарбоване покриття</label>
-                        <label><input type="checkbox" name="accidentParticipation" checked={formData.accidentParticipation} onChange={handleChange} />Участь в ДТП</label>
+                        <label><input type="checkbox" name="hasPremiumInteriorColor"
+                                      checked={formData.hasPremiumInteriorColor} onChange={handleChange}/>Лакофарбоване
+                            покриття</label>
+                        <label><input type="checkbox" name="accidentParticipation"
+                                      checked={formData.accidentParticipation} onChange={handleChange}/>Участь в
+                            ДТП</label>
                     </div>
                 </div>
             </section>
@@ -460,43 +527,53 @@ const CarCreateForm = () => {
                 </div>
                 <div className="options-grid-container options-retreat">
                     <label>
-                        <input type="checkbox" name="hasPowerWindows" checked={formData.hasPowerWindows} onChange={handleChange} />
+                        <input type="checkbox" name="hasPowerWindows" checked={formData.hasPowerWindows}
+                               onChange={handleChange}/>
                         Електроскло- підйомники
                     </label>
                     <label>
-                        <input type="checkbox" name="hasHeightAdjustableSeats" checked={formData.hasHeightAdjustableSeats} onChange={handleChange} />
+                        <input type="checkbox" name="hasHeightAdjustableSeats"
+                               checked={formData.hasHeightAdjustableSeats} onChange={handleChange}/>
                         Регулювання сидінь салону по висоті
                     </label>
                     <label>
-                        <input type="checkbox" name="hasAirConditioning" checked={formData.hasAirConditioning} onChange={handleChange} />
+                        <input type="checkbox" name="hasAirConditioning" checked={formData.hasAirConditioning}
+                               onChange={handleChange}/>
                         Кондиціонер
                     </label>
                     <label>
-                        <input type="checkbox" name="hasLeatherInterior" checked={formData.hasLeatherInterior} onChange={handleChange} />
+                        <input type="checkbox" name="hasLeatherInterior" checked={formData.hasLeatherInterior}
+                               onChange={handleChange}/>
                         Шкіряний салон
                     </label>
                     <label>
-                        <input type="checkbox" name="hasSpareWheel" checked={formData.hasSpareWheel} onChange={handleChange} />
+                        <input type="checkbox" name="hasSpareWheel" checked={formData.hasSpareWheel}
+                               onChange={handleChange}/>
                         Запасне колесо
                     </label>
                     <label>
-                        <input type="checkbox" name="hasSeatVentilation" checked={formData.hasSeatVentilation} onChange={handleChange} />
+                        <input type="checkbox" name="hasSeatVentilation" checked={formData.hasSeatVentilation}
+                               onChange={handleChange}/>
                         Вентиляція сидінь
                     </label>
                     <label>
-                        <input type="checkbox" name="hasSeatMemory" checked={formData.hasSeatMemory} onChange={handleChange} />
+                        <input type="checkbox" name="hasSeatMemory" checked={formData.hasSeatMemory}
+                               onChange={handleChange}/>
                         Пам'ять положення сидіння
                     </label>
                     <label>
-                        <input type="checkbox" name="hasPowerSteering" checked={formData.hasPowerSteering} onChange={handleChange} />
+                        <input type="checkbox" name="hasPowerSteering" checked={formData.hasPowerSteering}
+                               onChange={handleChange}/>
                         Підсилювач керма
                     </label>
                     <label>
-                        <input type="checkbox" name="hasHeatedSeats" checked={formData.hasHeatedSeats} onChange={handleChange} />
+                        <input type="checkbox" name="hasHeatedSeats" checked={formData.hasHeatedSeats}
+                               onChange={handleChange}/>
                         Підігрів сидінь
                     </label>
                     <label>
-                        <input type="checkbox" name="hasHeadlights" checked={formData.hasHeadlights} onChange={handleChange} />
+                        <input type="checkbox" name="hasHeadlights" checked={formData.hasHeadlights}
+                               onChange={handleChange}/>
                         Є фари
                     </label>
                 </div>
@@ -511,32 +588,38 @@ const CarCreateForm = () => {
                 </div>
                 <div className="ad-row price-retreat">
                     <label>Ціна</label>
-                    <input type="number" placeholder="Ціна" className="price-inp" name="price" value={formData.price} onChange={handleChange} required />
+                    <input type="number" placeholder="Ціна" className="price-inp" name="price" value={formData.price}
+                           onChange={handleChange} required/>
                     <label>$</label>
                 </div>
                 <div className="options">
                     <label>
-                        <input type="checkbox" name="isNotCustomsCleared" checked={formData.isNotCustomsCleared} onChange={handleChange} /> Нерозмитнений</label>
-                    <label> <input type="checkbox" name="isBargainAvailable" checked={formData.isBargainAvailable} onChange={handleChange} /> Можливий торг</label>
+                        <input type="checkbox" name="isNotCustomsCleared" checked={formData.isNotCustomsCleared}
+                               onChange={handleChange}/> Нерозмитнений</label>
+                    <label> <input type="checkbox" name="isBargainAvailable" checked={formData.isBargainAvailable}
+                                   onChange={handleChange}/> Можливий торг</label>
                     <label>
-                        <input type="checkbox" name="isExchangeAvailable" checked={formData.isExchangeAvailable} onChange={handleChange} /> Можливий обмін на авто</label>
-                    <label> <input type="checkbox" name="isInstallmentAvailable" checked={formData.isInstallmentAvailable} onChange={handleChange} /> Оплата частинами</label>
+                        <input type="checkbox" name="isExchangeAvailable" checked={formData.isExchangeAvailable}
+                               onChange={handleChange}/> Можливий обмін на авто</label>
+                    <label> <input type="checkbox" name="isInstallmentAvailable"
+                                   checked={formData.isInstallmentAvailable} onChange={handleChange}/> Оплата частинами</label>
                 </div>
 
                 <div className="agreement-container">
-                    <div  className="agreement">
+                    <div className="agreement">
                         <div>
-                            <input type="checkbox" id="termsCheckbox" />
+                            <input type="checkbox" id="termsCheckbox"/>
                             <label htmlFor="termsCheckbox">Я згоден(згодна) з умовами</label>
                             <a href="#"> Угода про надання послуг</a>
                         </div>
                         <div>
-                            <label htmlFor="termsCheckbox">Ваші персональні дані будуть оброблені та захищені згідно з</label>
+                            <label htmlFor="termsCheckbox">Ваші персональні дані будуть оброблені та захищені згідно
+                                з</label>
                             <a href="#"> Політикою приватності</a>
                         </div>
                     </div>
                 </div>
-                <button className="ad-btn" type="submit" onClick={handleClick}>Розмістити оголошення</button>
+                <button className="ad-btn" type="submit">Розмістити оголошення</button>
             </section>
 
         </form>
