@@ -40,14 +40,14 @@ pipeline {
                         error "File terraform.tfvars not found"
                     }
 
-                    def tfvarsContent = readFile(env.TFVARS_FILE)
+                    def tfvarsContent = readFile("terraform.tfvars")
                     tfvarsContent += """
                     aws_access_key = "${AWS_ACCESS_KEY_ID}"
                     aws_secret_key = "${AWS_SECRET_ACCESS_KEY}"
                     """
 
                     // Записуємо оновлений контент назад у файл
-                    writeFile file: env.terraform.tfvars, text: tfvarsContent
+                    writeFile file: "terraform.tfvars", text: tfvarsContent
 
                     echo "AWS Access Keys added to terraform.tfvars"
                 }
