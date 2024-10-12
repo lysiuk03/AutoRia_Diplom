@@ -52,12 +52,10 @@ pipeline {
         stage('Create Namespace and Credentials') {
             steps {
                 script {
-                    sh '''
-                        kubectl create namespace wheeldeal-namespace || echo "Namespace already exists"
-                        kubectl create secret docker-registry regcred \
-                          --docker-username=$DOCKER_USER \
-                          --docker-password=$DOCKER_PASS || echo "Secret already exists"
-                    '''
+                    
+                    sh "kubectl create namespace wheeldeal-namespace || echo 'Namespace already exists'"
+                    sh "kubectl create secret docker-registry regcred  --docker-username=${DOCKER_USER}  --docker-password=${DOCKER_PASS} || echo 'Secret already exists'"
+                    
                 }
             }
         }
