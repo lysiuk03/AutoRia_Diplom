@@ -4,6 +4,8 @@ import './AdForm.css';
 import {useSelector} from "react-redux";
 import {RootState} from "../../../../redux/store.ts";
 import {decodeJwt} from "jose";
+import UploadPhoto from "../addphoto.tsx";
+import { useNavigate } from 'react-router-dom';
 
 interface DecodedToken {
     firstName?: string;
@@ -154,8 +156,10 @@ const CarCreateForm = () => {
 
     const [filteredModels, setFilteredModels] = useState<string[]>(['Оберіть']);
     const [filteredCities, setFilteredCities] = useState<string[]>(['Оберіть']);
-
-
+    const navigate = useNavigate();
+    const handleClick = () => {
+        navigate('/');
+    };
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -165,12 +169,7 @@ const CarCreateForm = () => {
         });
     };
 
-    const handleFileChange = (e) => {
-        setFormData({
-            ...formData,
-            photos: Array.from(e.target.files)
-        });
-    };
+
 
     const handleSubmit = async (e: { preventDefault: () => void; }) => {
         e.preventDefault();
@@ -207,8 +206,8 @@ const CarCreateForm = () => {
             // Можна додати логіку для скидання форми або переходу на іншу сторінку
         } catch (error) {
             // Обробка помилок
-            console.error('Error adding car:', error.response?.data || error.message);
-            alert('Помилка при додаванні автомобіля: ' + (error.response?.data || error.message));
+            // console.error('Error adding car:', error.response?.data || error.message);
+            // alert('Помилка при додаванні автомобіля: ' + (error.response?.data || error.message));
         }
     };
 
@@ -367,13 +366,11 @@ const CarCreateForm = () => {
                         </div>
                     </div>
                     <div className="ad-row">
-                        <input type="file" name="photos" multiple onChange={handleFileChange} id="upload" hidden/>
-                        <label htmlFor="upload" className="upload-button">+</label>
-                        <label htmlFor="upload" className="add-img-label"> Додати фото</label>
+                        <UploadPhoto/>
                     </div>
                 </div>
                 <div className="info-box">
-                    <img src="/images/info.png" alt="Info" />
+                    <img src="/images/info.png" alt="Info"/>
                     <a>Як правильно сфотографувати авто ?</a>
                 </div>
             </section>
@@ -539,7 +536,7 @@ const CarCreateForm = () => {
                         </div>
                     </div>
                 </div>
-                <button className="ad-btn" type="submit">Розмістити оголошення</button>
+                <button className="ad-btn" type="submit" onClick={handleClick}>Розмістити оголошення</button>
             </section>
 
         </form>

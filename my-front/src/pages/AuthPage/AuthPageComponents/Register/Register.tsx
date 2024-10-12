@@ -110,12 +110,6 @@ const Register: React.FC = () => {
             <form className="auth-form" onSubmit={handleRegister}>
                 <img src="/images/register-car.png" alt="Car" className="auth-car"/>
                 <div className="auth-container">
-                    <div className="auth-social-container">
-                        <img src="/images/apple.png" alt="Apple"/>
-                        <img src="/images/google.png" alt="Google"/>
-                        <img src="/images/fbook.png" alt="Facebook"/>
-                    </div>
-                    <h3>або</h3>
 
                     <input
                         type="text"
